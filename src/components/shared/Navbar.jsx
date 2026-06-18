@@ -31,7 +31,7 @@ export function Navbar({ isLoggedIn = false, onLogout }) {
                             Home
                         </Link>
                         <Link
-                            href="/prompts"
+                            href="/allprompts"
                             className="text-gray-400 hover:text-white transition-colors pb-5 pt-5"
                         >
                             All Prompts
