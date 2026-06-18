@@ -45,9 +45,9 @@ export default function SignUpPage() {
 
         const signupData = Object.fromEntries(formData.entries());
 
-        console.log("role.......",signupData);
+        console.log("role.......", signupData);
 
-        const { name, userImage, email, password,role } = signupData
+        const { name, userImage, email, password, role } = signupData
 
 
         const { data, error } = await authClient.signUp.email({
@@ -69,6 +69,13 @@ export default function SignUpPage() {
             toast.error(error.message);
         }
 
+    };
+
+    // google signin
+    const signIn = async () => {
+        const data = await authClient.signIn.social({
+            provider: "google",
+        });
     };
 
     return (
@@ -107,8 +114,8 @@ export default function SignUpPage() {
 
                 {/* Synapse Theme Aligned Google Authentication Trigger */}
                 <button
+                    onClick={signIn}
                     type="button"
-                    onClick={() => alert("Google Auth integration placeholder")}
                     className="w-full flex items-center justify-center gap-2 border border-[#1e293b]/80 text-gray-300 bg-[#111827]/30 hover:bg-[#111827]/80 font-semibold px-4 h-11 rounded-xl transition-all text-xs cursor-pointer mb-5 active:scale-[0.99]"
                 >
                     <svg className="w-4 h-4" viewBox="0 0 24 24">

@@ -31,7 +31,7 @@ export function PromptCard({ prompt,author }) {
                 <div className="flex items-center justify-between w-full">
                     {/* Left Side: Avatar and Usage Info */}
                     <div className="flex items-center gap-2">
-                        <Avatar aria-label={`${author.name}'s profile picture`} className="w-5 h-5 border border-gray-800">
+                        <Avatar aria-label={`${author?.name}'s profile picture`} className="w-5 h-5 border border-gray-800">
                             <Avatar.Image
                                 alt={author?.name}
                                 src={author?.avatarUrl}

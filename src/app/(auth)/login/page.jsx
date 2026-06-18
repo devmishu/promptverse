@@ -34,6 +34,13 @@ export default function SignInPage() {
         }
     };
 
+    // google signin
+    const signIn = async () => {
+        const data = await authClient.signIn.social({
+            provider: "google",
+        });
+    };
+
     return (
         <div className="bg-[linear-gradient(to_bottom,#f8fafc,#f1f5f9)] dark:bg-[radial-gradient(120%_120%_at_50%_10%,#000000_40%,#1e1b4b_75%,#4c1d95_100%)] text-slate-900 dark:text-neutral-50 min-h-screen w-full transition-colors duration-500 flex items-center justify-center p-4 sm:p-6 lg:p-8">
 
@@ -67,7 +74,7 @@ export default function SignInPage() {
                 {/* Social Authentication Access */}
                 <button
                     type="button"
-                    onClick={() => alert("Google Auth integration placeholder")}
+                    onClick={signIn}
                     className="w-full flex items-center justify-center gap-2 border border-slate-300 dark:border-neutral-700 text-slate-700 dark:text-neutral-300 bg-transparent hover:bg-slate-50 dark:hover:bg-neutral-800/50 font-medium px-4 h-11 rounded-xl transition-all text-sm cursor-pointer mb-5 active:scale-[0.99]"
                 >
                     <svg className="w-5 h-5" viewBox="0 0 24 24">
