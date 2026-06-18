@@ -6,8 +6,8 @@ import Link from "next/link";
 export async function DashboardSideBar() {
 
     const navItems = [
-        { icon: House, label: "Add Prompt", link: "/dashboard" },
-        { icon: Bell, label: "My Prompts", link: "/dashboard" },
+        { icon: House, label: "Add Prompt", link: "/dashboard/user/prompt/new" },
+        { icon: Bell, label: "My Prompts", link: "/dashboard/user/myprompt" },
         { icon: Envelope, label: "Saved Prompts", link: "/dashboard" },
         { icon: Person, label: "Profile ", link: "/dashboard" },
         { icon: Gear, label: "My Reviews", link: "/dashboard" },
@@ -70,3 +70,4 @@ export async function DashboardSideBar() {
         </div>
     );
 }
+

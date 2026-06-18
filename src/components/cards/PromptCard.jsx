@@ -2,8 +2,10 @@ import { Avatar, Card, Button } from "@heroui/react";
 import { Star, Eye } from "lucide-react";
 
 // 1. Updated PromptCard with a modern 'View Details' Action Button
-export function PromptCard({ prompt }) {
-    const { title, copies, rating, iconUrl, author } = prompt;
+export function PromptCard({ prompt,author }) {
+    const { title, copies, rating, thumbnail:iconUrl,  } = prompt;
+
+    console.log("prompt.....",prompt);
 
     return (
         <Card className="w-full bg-[#111827]/40 border border-[#1e293b]/40 hover:border-cyan-500/30 transition-all p-5 rounded-2xl flex flex-col gap-4 backdrop-blur-sm group cursor-pointer">
@@ -31,11 +33,11 @@ export function PromptCard({ prompt }) {
                     <div className="flex items-center gap-2">
                         <Avatar aria-label={`${author.name}'s profile picture`} className="w-5 h-5 border border-gray-800">
                             <Avatar.Image
-                                alt={author.name}
-                                src={author.avatarUrl}
+                                alt={author?.name}
+                                src={author?.avatarUrl}
                             />
                             <Avatar.Fallback className="text-[10px] bg-purple-500 text-white font-bold">
-                                {author.name.charAt(0)}
+                                {author?.name?.charAt(0)}
                             </Avatar.Fallback>
                         </Avatar>
                         <span className="text-xs text-gray-400 font-medium tracking-tight">
@@ -50,8 +52,8 @@ export function PromptCard({ prompt }) {
                                 key={index}
                                 size={12}
                                 className={`${index < rating
-                                        ? "fill-amber-400 text-amber-400"
-                                        : "fill-gray-700 text-gray-700"
+                                    ? "fill-amber-400 text-amber-400"
+                                    : "fill-gray-700 text-gray-700"
                                     }`}
                             />
                         ))}
