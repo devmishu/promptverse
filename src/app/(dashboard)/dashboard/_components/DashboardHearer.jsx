@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import { Avatar } from "@heroui/react";
+import { getUser } from '@/lib/core/session';
 
-const DashboardHearer = () => {
+const DashboardHearer = async () => {
+
+    const user = await getUser();
+
     return (
         <header className="w-full border-b border-divider bg-background/60 backdrop-blur-md sticky top-0 z-50">
             <div className="flex h-16 items-center justify-between px-6 max-w-[1440px] mx-auto">
@@ -27,8 +31,9 @@ const DashboardHearer = () => {
                             Leaderboard
                         </Link>
                     </nav>
+                    <h2>{user?.name}</h2>
                     <Avatar
-                        src="https://img.magnific.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                        src={user?.image}
                         size="sm"
                         className="cursor-pointer border-2 border-primary"
                     />

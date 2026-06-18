@@ -1,7 +1,13 @@
+"use client"
 import Link from "next/link";
 import { Button } from "@heroui/react";
+import { signOut, useSession } from "@/lib/auth-client";
 
-export function Navbar({ isLoggedIn = false, onLogout }) {
+export function Navbar() {
+
+    const session = useSession();
+    const user = session?.data?.user
+
     return (
         <header className="w-full border-b border-[#1e293b]/40 bg-[#030712] text-white sticky top-0 z-50">
             <div className="flex h-16 items-center justify-between px-6 max-w-[1440px] mx-auto">
@@ -36,7 +42,7 @@ export function Navbar({ isLoggedIn = false, onLogout }) {
                         >
                             All Prompts
                         </Link>
-                        {isLoggedIn && (
+                        {user && (
                             <Link
                                 href="/dashboard"
                                 className="text-gray-400 hover:text-white transition-colors pb-5 pt-5"
@@ -48,25 +54,27 @@ export function Navbar({ isLoggedIn = false, onLogout }) {
 
                     {/* Action Buttons */}
                     <div className="flex items-center gap-3">
-                        {!isLoggedIn ? (
+                        {!user ? (
                             <>
-                                <Button
-                                    variant="light"
-                                    className="bg-[#111827] hover:bg-[#1f2937] text-gray-200 font-medium px-4 h-9 rounded-lg border border-gray-800 text-sm min-w-0"
-                                >
-                                    Login
-                                </Button>
+                                <Link href={'/login'}>
+                                    <Button
+                                        variant="light"
+                                        className="bg-[#111827] hover:bg-[#1f2937] text-gray-200 font-medium px-4 h-9 rounded-lg border border-gray-800 text-sm min-w-0"
+                                    >Login</Button>
+                                </Link>
 
-                                <Button
-                                    variant="bordered"
-                                    className="border-gray-800 hover:border-purple-500/50 text-gray-200 font-medium px-4 h-9 rounded-lg text-sm min-w-0 bg-transparent"
-                                >
-                                    Register
-                                </Button>
+                                <Link href={'/register'}>
+                                    <Button
+                                        variant="bordered"
+                                        className="border-gray-800 hover:border-purple-500/50 text-gray-200 font-medium px-4 h-9 rounded-lg text-sm min-w-0 bg-transparent"
+                                    >
+                                        Register
+                                    </Button>
+                                </Link>
                             </>
                         ) : (
                             <Button
-                                onClick={onLogout}
+                                onClick={() => signOut()}
                                 className="bg-gradient-to-r from-red-500 to-pink-600 hover:opacity-90 text-white font-medium px-4 h-9 rounded-lg text-sm min-w-0"
                             >
                                 Logout
