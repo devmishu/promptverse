@@ -1,12 +1,14 @@
 "use client";
 
+import { useSession } from "@/lib/auth-client";
 import { Button, AlertDialog } from "@heroui/react";
 import { Edit3, Trash2, BarChart3, Terminal, Layers, Eye } from "lucide-react";
 import Link from "next/link";
 
 export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPrompt, onViewAnalytics }) {
 
-
+    const session = useSession();
+    const user = session?.data?.user
 
     // AI Engine গুলোর জন্য ডাইনামিক কালার ম্যাপিং
     const getEngineStyle = (engine) => {
@@ -59,7 +61,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
 
                     <tbody>
                         {prompts.map((prompt) => (
-                            <tr key={prompt.id} className="border-b border-[#1e293b]/20 hover:bg-[#111827]/30 transition-colors group">
+                            <tr key={prompt._id} className="border-b border-[#1e293b]/20 hover:bg-[#111827]/30 transition-colors group">
 
                                 {/* Column 1: Title & Category */}
                                 <td className="py-4 px-4">
@@ -118,7 +120,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                         </Button>
 
                                         {/* Update / Edit Button */}
-                                        <Link href={`/dashboard/user/myprompt/edit/${prompt._id}`}>
+                                        <Link href={`/dashboard/${user?.role}/myprompt/edit/${prompt._id}`}>
                                             <Button
                                                 isIconOnly
                                                 size="sm"

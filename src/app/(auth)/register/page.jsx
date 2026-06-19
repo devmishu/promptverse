@@ -22,7 +22,7 @@ export default function SignUpPage() {
 
         console.log("role.......", signupData);
 
-        const { name, email, userImage, password, role } = signupData
+        const { name, email, userImage, password } = signupData
 
 
         const { data, error } = await authClient.signUp.email({
@@ -30,7 +30,6 @@ export default function SignUpPage() {
             email,
             userImage,
             password,
-            role
         });
 
         console.log({ data, error });

@@ -19,9 +19,9 @@ export async function DashboardSideBar() {
     ];
 
     const creatorNavLinks = [
-        { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/user" },
+        { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/creator" },
         { icon: House, label: "Add Prompt", link: "/dashboard/prompt/new" },
-        { icon: Bell, label: "My Prompts", link: "/dashboard/user/myprompt" },
+        { icon: Bell, label: "My Prompts", link: "/dashboard/creator/myprompt" },
     ];
 
     const adminNavLinks = [

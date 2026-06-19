@@ -19,12 +19,16 @@ import {
 import toast from "react-hot-toast";
 import { editPrompt } from "@/lib/actions/prompt";
 import { redirect } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
 
 
 
 export default function EditPrompt({ submitBtn, promptId }) {
     const [isUploading, setIsUploading] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
+
+    const session = useSession();
+    const user = session?.data?.user
 
     // Handle ImgBB Direct Upload with Robust Error Boundary
     const handleImageUpload = async (e) => {
@@ -76,13 +80,15 @@ export default function EditPrompt({ submitBtn, promptId }) {
 
 
         try {
-            const data = await editPrompt(promptId, updatedData,);
-            toast.success(`${data.message}`);
+            const data = await editPrompt(promptId, updatedData);
 
-            redirect('/dashboard/user/myprompt');
+            toast.success(data.message);
+
+            redirect(`/dashboard/${user?.role}/myprompt`);
         } catch (error) {
             console.error(error);
-            toast.error(`${data.message}`);
+
+            toast.error(error?.response?.data?.message || error.message || "Update failed!");
         }
     };
 
