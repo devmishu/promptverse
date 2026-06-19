@@ -9,12 +9,12 @@ const MyPromptPage = async () => {
     const user = await getUser();
     const prompts = await getPromptsByUser(user?.id);
 
-    console.log("myprompts..........", prompts,user);
+    console.log("myprompts..........", prompts, user);
 
-    
+
 
     return (
-        <div className="w-full min-h-screen bg-[#030712] text-white py-12 px-6">
+        <div className="w-full  bg-[#030712] text-white sm:py-12 px-6">
             <div className="max-w-[1440px] mx-auto flex flex-col gap-8">
 
                 {/* Header Information */}
@@ -27,15 +27,9 @@ const MyPromptPage = async () => {
                     </p>
                 </div>
 
-                {/* Grid Layout Layout: 
-                    - Mobile / Small Devices: 1 Column
-                    - Tablet Devices (sm): 2 Columns
-                    - Standard Screens (md): 3 Columns
-                    - Large/Desktop Screens (lg): 4 Columns 
-                */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {prompts.map((prompt) => (
-                        <PromptCard key={prompt.id} prompt={prompt} author={user} />
+                    {prompts.map((prompt, index) => (
+                        <PromptCard key={index} prompt={prompt} author={user} />
                     ))}
                 </div>
 

@@ -1,5 +1,4 @@
-import React from 'react';
-import AddPrompt from '../../components/AddPrompt';
+import AddPrompt from '../../_components/AddPrompt';
 
 const AddPromptPage = () => {
     return <AddPrompt />

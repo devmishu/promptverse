@@ -9,32 +9,7 @@ import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
 
-    // const handleRegister = async (e) => {
-    //     e.preventDefault();
-    //     const formData = new FormData(e.target);
-    //     const signupData = Object.fromEntries(formData.entries());
-    //     console.log("signupData:", signupData);
-    //     const { name, email, password, userImage, role } = signupData;
 
-    //     const { data, error } = await authClient.signUp.email({
-    //         name,
-    //         email,
-    //         password,
-    //         userImage,
-    //         role
-
-    //     });
-    //     // authClient Integration (Placeholder Logic)
-    //     if (data) {
-    //         toast.success('Account created successfully');
-    //         redirect('/');
-    //     } else {
-    //         toast.error(error.message);
-
-    //     }
-
-    //     console.log({ data, error });
-    // };
 
 
     const handleRegister = async (e) => {
@@ -47,13 +22,13 @@ export default function SignUpPage() {
 
         console.log("role.......", signupData);
 
-        const { name, userImage, email, password, role } = signupData
+        const { name, email, userImage, password, role } = signupData
 
 
         const { data, error } = await authClient.signUp.email({
             name,
-            userImage,
             email,
+            userImage,
             password,
             role
         });
@@ -63,6 +38,7 @@ export default function SignUpPage() {
         if (data) {
             toast.success('Account created successfully');
             // router.push('/login');
+            redirect('/login')
 
         }
         if (error) {

@@ -5,11 +5,11 @@ import { getUser } from '@/lib/core/session';
 const DashboardHeader = async () => {
     const user = await getUser();
 
-    console.log("dashboard user......", user);
+    console.log("dashboard user header......", user);
 
     return (
         <header className="w-full border-b border-[#1e293b]/40 bg-[#030712]/60 backdrop-blur-md sticky top-0 z-50">
-            <div className="flex h-16 items-center justify-between px-4 sm:px-6 max-w-[1440px] mx-auto">
+            <div className="flex h-16 items-center justify-between px-4 sm:px-6 ">
 
                 {/* Left: Logo & Brand */}
                 <div className="flex items-center gap-2.5">
@@ -18,9 +18,9 @@ const DashboardHeader = async () => {
                         <path d="M12 6a6 6 0 0 1 6 6c0 1.5-.5 3-1.5 4.5L12 21l-4.5-4.5C6.5 15 6 13.5 6 12a6 6 0 0 1 6-6z" />
                         <circle cx="12" cy="11" r="2" fill="currentColor" />
                     </svg>
-                    <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                        Synapse
-                    </span>
+                    <Link href={'/'} className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                        PromptVerse
+                    </Link>
                 </div>
 
                 {/* Right: Navigation Links & Profile */}
@@ -41,11 +41,9 @@ const DashboardHeader = async () => {
                         </h2>
 
                         {/* Fallback Option 1: HeroUI Avatar Components with explicit dynamic name fallback */}
-                        {user?.image ? (
+                        {user ? (
                             <Avatar
-                                isBordered
-                                color="cyan"
-                                src={user.image}
+                                src={user.userImage}
                                 name={user?.name || "U"}
                                 size="sm"
                                 className="cursor-pointer text-xs w-8 h-8 min-w-8 min-h-8"
@@ -56,6 +54,9 @@ const DashboardHeader = async () => {
                                 {user?.name ? user.name.charAt(0) : "U"}
                             </div>
                         )}
+
+                        {/* <img src={user?.userImage} alt="netework" width={"30px"} /> */}
+
                     </div>
 
                 </div>
