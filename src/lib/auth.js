@@ -4,7 +4,7 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-// import { admin } from "better-auth/plugins";
+import { admin } from "better-auth/plugins";
 
 const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db("PromptVerse");
@@ -38,5 +38,8 @@ export const auth = betterAuth({
                 default: "free",
             }
         }
-    }
+    },
+    plugins: [
+        admin()
+    ]
 }); 

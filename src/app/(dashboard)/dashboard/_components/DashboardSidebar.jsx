@@ -26,8 +26,8 @@ export async function DashboardSideBar() {
 
     const adminNavLinks = [
         { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/admin" },
-        { icon: Users, label: "All Users", link: "/dashboard/admin/users" },
-        { icon: Building2, label: "All Prompts", link: "/dashboard/admin/companies" },
+        { icon: Users, label: "All Users", link: "/dashboard/admin/allusers" },
+        { icon: Building2, label: "All Prompts", link: "/dashboard/admin/allprompts" },
         { icon: Banknote, label: "All Payments", link: "/dashboard/admin/jobs" },
         { icon: Banknote, label: "Reported Prompts", link: "/dashboard/admin/payments" },
         { icon: Settings, label: "Analytics ", link: "/dashboard/admin/settings" },
