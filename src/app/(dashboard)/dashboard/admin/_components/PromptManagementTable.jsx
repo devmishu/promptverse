@@ -5,33 +5,9 @@ import { Eye, CheckCircle2, XCircle, Trash2, Terminal, Layers } from "lucide-rea
 
 export default function PromptManagementTable({ prompts = [], onApprove, onReject, onDelete, onView }) {
 
-    // ডামি ডাটা (যদি প্রপস থেকে কোনো ডাটা না আসে)
-    const displayPrompts = prompts.length > 0 ? prompts : [
-        {
-            id: "1",
-            title: "Voluptatem exercita",
-            category: "Idea Generation",
-            creatorName: "Creator",
-            creatorEmail: "creator@aiverse.com",
-            aiEngine: "STABLE DIFFUSION",
-            visibility: "Public",
-            isFeatured: false,
-            status: "PENDING"
-        },
-        {
-            id: "2",
-            title: "Optimized React Tailwind Code Builder",
-            category: "Coding",
-            creatorName: "Prompt Engineer",
-            creatorEmail: "creator@aiverse.com",
-            aiEngine: "CHATGPT",
-            visibility: "Public",
-            isFeatured: true,
-            status: "APPROVED"
-        }
-    ];
+   
 
-    // AI Engine গুলোর জন্য ডাইনামিক কালার ম্যাপিং
+    
     const getEngineStyle = (engine) => {
         const eng = engine?.toUpperCase();
         if (eng?.includes("CHATGPT") || eng?.includes("GPT")) return "bg-emerald-500/10 border-emerald-500/20 text-emerald-400";
@@ -40,7 +16,7 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
         return "bg-cyan-500/10 border-cyan-500/20 text-cyan-400";
     };
 
-    // Status গুলোর জন্য ডাইনামিক কালার ম্যাপিং
+   
     const getStatusStyle = (status) => {
         switch (status?.toUpperCase()) {
             case "APPROVED":
@@ -53,45 +29,45 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
     };
 
     return (
-        <div className="w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-6 shadow-2xl relative overflow-hidden">
+        <div className="w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-4 sm:p-6 shadow-2xl relative overflow-hidden">
 
             {/* Table Header */}
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h2 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-                        <Terminal className="text-cyan-400 size-5" />
+                    <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                        <Terminal className="text-cyan-400 size-4 sm:size-5" />
                         Prompt Template Submissions Moderation
                     </h2>
-                    <p className="text-xs text-gray-400 mt-0.5">Approve templates, reject with feedback, or tag featured highlights.</p>
+                    <p className="text-[11px] sm:text-xs text-gray-400 mt-0.5">Approve templates, reject with feedback, or tag featured highlights.</p>
                 </div>
             </div>
 
-            {/* Clean Scrollable Wrapper */}
-            <div className="w-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                <table className="w-full min-w-[1000px] border-collapse text-left">
+            {/* Clean Scrollable Wrapper with Custom CSS Touch */}
+            <div className="w-full overflow-x-auto touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                <table className="w-full min-w-[1000px] border-collapse text-left table-auto">
                     <thead>
                         <tr className="bg-[#030712]/80 border-b border-[#1e293b]/40">
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Template Title</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Creator</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">AI Engine</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Visibility</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Featured</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Status</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 text-center">Actions</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Template Title</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Creator</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">AI Engine</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Visibility</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Featured</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Status</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 text-center whitespace-nowrap">Actions</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {displayPrompts.map((prompt) => (
+                        {prompts.map((prompt) => (
                             <tr key={prompt.id} className="border-b border-[#1e293b]/20 hover:bg-[#111827]/30 transition-colors group">
 
                                 {/* Column 1: Title & Category */}
                                 <td className="py-4 px-4">
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-sm text-gray-200 tracking-wide group-hover:text-cyan-400 transition-colors">
+                                    <div className="flex flex-col max-w-[280px]">
+                                        <span className="font-semibold text-sm text-gray-200 tracking-wide group-hover:text-cyan-400 transition-colors truncate">
                                             {prompt.title}
                                         </span>
-                                        <span className="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
+                                        <span className="text-xs text-gray-500 mt-0.5 flex items-center gap-1 whitespace-nowrap">
                                             <Layers className="size-3 text-gray-600" />
                                             Category: {prompt.category}
                                         </span>
@@ -100,26 +76,26 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
 
                                 {/* Column 2: Creator Details */}
                                 <td className="py-4 px-4">
-                                    <div className="flex flex-col">
+                                    <div className="flex flex-col whitespace-nowrap">
                                         <span className="text-sm font-medium text-gray-300">{prompt.creatorName}</span>
                                         <span className="text-xs text-gray-500">{prompt.creatorEmail}</span>
                                     </div>
                                 </td>
 
                                 {/* Column 3: AI Engine Badge */}
-                                <td className="py-4 px-4">
+                                <td className="py-4 px-4 whitespace-nowrap">
                                     <span className={`inline-flex items-center justify-center px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md border ${getEngineStyle(prompt.aiEngine)}`}>
                                         {prompt.aiEngine}
                                     </span>
                                 </td>
 
                                 {/* Column 4: Visibility */}
-                                <td className="py-4 px-4">
+                                <td className="py-4 px-4 whitespace-nowrap">
                                     <span className="text-sm text-gray-400 font-medium">{prompt.visibility}</span>
                                 </td>
 
                                 {/* Column 5: Featured Tag */}
-                                <td className="py-4 px-4">
+                                <td className="py-4 px-4 whitespace-nowrap">
                                     {prompt.isFeatured ? (
                                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-500/10 border border-amber-500/30 text-amber-500">
                                             ★ Featured
@@ -132,14 +108,14 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
                                 </td>
 
                                 {/* Column 6: Status */}
-                                <td className="py-4 px-4">
+                                <td className="py-4 px-4 whitespace-nowrap">
                                     <span className={`inline-flex items-center justify-center px-3 py-1 text-[10px] font-bold tracking-widest rounded-full border shadow-sm ${getStatusStyle(prompt.status)}`}>
                                         {prompt.status}
                                     </span>
                                 </td>
 
                                 {/* Column 7: Action Buttons Group */}
-                                <td className="py-4 px-4">
+                                <td className="py-4 px-4 whitespace-nowrap">
                                     <div className="flex items-center justify-center gap-1.5">
                                         {/* View Button */}
                                         <Button
