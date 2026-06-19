@@ -17,17 +17,14 @@ import {
     RadioGroup,
 } from "@heroui/react";
 import toast from "react-hot-toast";
-import { useSession } from "@/lib/auth-client";
-import { createprompt } from "@/lib/actions/prompt";
+import { editPrompt } from "@/lib/actions/prompt";
+import { redirect } from "next/navigation";
 
 
 
-export default function AddPrompt({ submitBtn }) {
+export default function EditPrompt({ submitBtn, promptId }) {
     const [isUploading, setIsUploading] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
-
-    const session = useSession();
-    const user = session?.data?.user
 
     // Handle ImgBB Direct Upload with Robust Error Boundary
     const handleImageUpload = async (e) => {
@@ -65,7 +62,8 @@ export default function AddPrompt({ submitBtn }) {
         }
     };
 
-    const handleAddPrompt = async (e) => {
+
+    const handleEditPrompt = async (e) => {
         e.preventDefault();
 
         if (!imageUrl) {
@@ -74,44 +72,21 @@ export default function AddPrompt({ submitBtn }) {
         }
 
         const formData = new FormData(e.target);
-        const promptData = Object.fromEntries(formData.entries());
+        const updatedData = Object.fromEntries(formData.entries());
 
-        const { title, description, content, category, aiTool, difficulty, visibility } = promptData;
-
-        // Appending requirements parameters
-        const promptPayload = {
-            userId: user?.id,
-            title,
-            description,
-            content,
-            category,
-            aiTool,
-            tags: promptData.tags ? promptData.tags.split(",").map(tag => tag.trim()) : [],
-            difficulty,
-            visibility,
-            thumbnail: imageUrl,
-            copyCount: 0,
-            status: "pending",
-        };
-
-        console.log("Final Prompt Payload Architecture:", promptPayload);
 
         try {
+            const data = await editPrompt(promptId, updatedData,);
+            toast.success(`${data.message}`);
 
-
-            const data = await createprompt(promptPayload);
-
-
-            console.log(data);
-
-            alert(`${data.message}`);
-
+            redirect('/dashboard/user/myprompt');
         } catch (error) {
-            console.error("create prompt failed:", error);
+            console.error(error);
+            toast.error(`${data.message}`);
         }
     };
 
-    
+
 
     return (
         <div className="bg-[#030712] text-white min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
@@ -122,7 +97,7 @@ export default function AddPrompt({ submitBtn }) {
 
             <Form
                 className="w-full max-w-2xl bg-[#111827]/40 border border-[#1e293b]/60 shadow-2xl rounded-3xl p-6 sm:p-8 backdrop-blur-md z-10"
-                onSubmit={handleAddPrompt}
+                onSubmit={handleEditPrompt}
             >
                 <Fieldset>
                     <Fieldset.Legend className="text-xl md:text-2xl font-bold tracking-tight text-white select-none">

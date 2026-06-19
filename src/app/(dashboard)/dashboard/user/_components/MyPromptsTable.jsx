@@ -2,6 +2,7 @@
 
 import { Button, AlertDialog } from "@heroui/react";
 import { Edit3, Trash2, BarChart3, Terminal, Layers, Eye } from "lucide-react";
+import Link from "next/link";
 
 export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPrompt, onViewAnalytics }) {
 
@@ -117,29 +118,19 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                         </Button>
 
                                         {/* Update / Edit Button */}
-                                        <Button
-                                            isIconOnly
-                                            size="sm"
-                                            variant="light"
-                                            className="text-gray-500 hover:text-amber-400 hover:bg-amber-500/10 rounded-xl transition-colors"
-                                            aria-label="Update Prompt"
-                                            onClick={() => onUpdate && onUpdate(prompt.id)}
-                                        >
-                                            <Edit3 className="size-4" />
-                                        </Button>
+                                        <Link href={`/dashboard/user/myprompt/edit/${prompt._id}`}>
+                                            <Button
+                                                isIconOnly
+                                                size="sm"
+                                                variant="light"
+                                                className="text-gray-500 hover:text-amber-400 hover:bg-amber-500/10 rounded-xl transition-colors"
+                                                aria-label="Update Prompt"
+                                                onClick={() => onUpdate && onUpdate(prompt.id)}
+                                            >
+                                                <Edit3 className="size-4" />
+                                            </Button>
+                                        </Link>
 
-                                        {/* Delete Button */}
-                                        <Button
-
-                                            isIconOnly
-                                            size="sm"
-                                            variant="light"
-                                            className="text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
-                                            aria-label="Delete Prompt"
-                                            onClick={() => noHandleDeletPrompt(prompt._id)}
-                                        >
-                                            <Trash2 className="size-4" />
-                                        </Button>
 
                                         <AlertDialog>
                                             {/* Delete Button */}
