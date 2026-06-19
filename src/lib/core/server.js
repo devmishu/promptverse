@@ -33,3 +33,23 @@ export const serverMutation = async (path, apiData, method = "POST") => {
 
     return res.json();
 }
+
+// export const serverDelete = async (path, method = "DELETE") => {
+//     const res = await fetch(`${baseurl}${path}`, {
+//         method: method
+//     });
+
+//     return res.json();
+// }
+
+
+export const serverDelete = async (path) => {
+    const res = await fetch(`${baseurl}${path}`, {
+        method: 'DELETE',
+    });
+    const data = await res.json();
+    if (!res.ok) {
+        throw new Error(data.message || 'Something went wrong');
+    }
+    return data;
+}
