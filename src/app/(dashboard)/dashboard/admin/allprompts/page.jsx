@@ -1,11 +1,11 @@
 
-import { getAllPrompts } from '@/lib/api/prompt';
+import { getAllPromptsByAdmin } from '@/lib/api/prompt';
 import PromptManagementTable from '../_components/PromptManagementTable';
 
 
 const AllPromptsPage = async () => {
 
-    const allPrompts = await getAllPrompts();
+    const allPrompts = await getAllPromptsByAdmin();
     console.log("allPrompts............................", allPrompts);
     return (
         <div>

@@ -111,7 +111,7 @@ export default function AddPrompt({ submitBtn }) {
         }
     };
 
-    
+
 
     return (
         <div className="bg-[#030712] text-white min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
@@ -269,16 +269,16 @@ export default function AddPrompt({ submitBtn }) {
                         <RadioGroup defaultValue="public" name="visibility" className="mt-1 flex flex-col gap-1.5">
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide">Visibility Scope</Label>
                             <div className="flex gap-6 items-center w-full mt-1">
-                                <Radio value="public" className="text-xs text-gray-300 font-medium">
+                                <Radio value="free" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
                                         <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
-                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Public Marketplace</Label></Radio.Content>
+                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Free</Label></Radio.Content>
                                     </div>
                                 </Radio>
-                                <Radio value="private" className="text-xs text-gray-300 font-medium">
+                                <Radio value="premium" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
                                         <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
-                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Private Vault Lock</Label></Radio.Content>
+                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Premium</Label></Radio.Content>
                                     </div>
                                 </Radio>
                             </div>

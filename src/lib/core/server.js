@@ -2,6 +2,25 @@
 
 const baseurl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:5000'
 
+export const serverFetch = async (path) => {
+    try {
+        const res = await fetch(`${baseurl}${path}`);
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data?.message || "Something went wrong");
+        }
+
+        return data?.data;
+    } catch (error) {
+        console.error("Protected Fetch Error:", error.message);
+        throw new Error(error.message);
+    }
+};
+
+
+
 export const protectedFetch = async (path) => {
     try {
         const res = await fetch(`${baseurl}${path}`);
@@ -18,6 +37,7 @@ export const protectedFetch = async (path) => {
         throw new Error(error.message);
     }
 };
+
 
 
 
