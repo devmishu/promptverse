@@ -2,8 +2,9 @@
 
 import { Avatar, Card, CardHeader, CardFooter, Button, Chip } from "@heroui/react";
 import { Star, Eye, Layers, User } from "lucide-react";
+import Link from "next/link";
 
-export function PromptCard({ prompt, author }) {
+export function PromptCard({ prompt, author, promptId }) {
 
 
 
@@ -129,13 +130,15 @@ export function PromptCard({ prompt, author }) {
                     </div>
 
                     {/* ৭. অ্যাকশন বাটন */}
-                    <Button
-                        size="sm"
-                        className="w-full h-9 rounded-xl bg-[#111827] hover:bg-[#1f2937] text-gray-300 font-semibold text-xs border border-gray-800 hover:border-cyan-500/30 transition-all flex items-center justify-center gap-2 mt-1"
-                    >
-                        <Eye size={14} className="text-gray-400 group-hover:text-cyan-400 transition-colors" />
-                        View Details
-                    </Button>
+                    <Link href={`/allprompts/${prompt._id}`}>
+                        <Button
+                            size="sm"
+                            className="w-full h-9 rounded-xl bg-[#111827] hover:bg-[#1f2937] text-gray-300 font-semibold text-xs border border-gray-800 hover:border-cyan-500/30 transition-all flex items-center justify-center gap-2 mt-1"
+                        >
+                            <Eye size={14} className="text-gray-400 group-hover:text-cyan-400 transition-colors" />
+                            View Details
+                        </Button>
+                    </Link>
                 </CardFooter>
 
             </div>

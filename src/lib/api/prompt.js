@@ -13,3 +13,7 @@ export const getAllPrompts = async () => {
     return serverFetch(`/api/prompts`);
 }
 
+export const getPromptById = async (id) => {
+    return protectedFetch(`/api/prompts/${id}`);
+}
+
