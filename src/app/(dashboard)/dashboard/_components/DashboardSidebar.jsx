@@ -29,8 +29,8 @@ export async function DashboardSideBar() {
         { icon: Users, label: "All Users", link: "/dashboard/admin/allusers" },
         { icon: Building2, label: "All Prompts", link: "/dashboard/admin/allprompts" },
         { icon: Banknote, label: "All Payments", link: "/dashboard/admin/jobs" },
-        { icon: Banknote, label: "Reported Prompts", link: "/dashboard/admin/payments" },
-        { icon: Settings, label: "Analytics ", link: "/dashboard/admin/settings" },
+        { icon: Banknote, label: "Reported Prompts", link: "/dashboard/admin/reported-prompts" },
+        { icon: Settings, label: "Analytics ", link: "/dashboard/admin/payments" },
     ];
 
     const navLinksMaping = {

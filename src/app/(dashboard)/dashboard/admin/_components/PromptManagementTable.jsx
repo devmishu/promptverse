@@ -2,12 +2,13 @@
 
 import { Avatar, Button } from "@heroui/react";
 import { Eye, CheckCircle2, XCircle, Trash2, Terminal, Layers } from "lucide-react";
+import Link from "next/link";
 
 export default function PromptManagementTable({ prompts = [], onApprove, onReject, onDelete, onView }) {
 
-   
 
-    
+
+
     const getEngineStyle = (engine) => {
         const eng = engine?.toUpperCase();
         if (eng?.includes("CHATGPT") || eng?.includes("GPT")) return "bg-emerald-500/10 border-emerald-500/20 text-emerald-400";
@@ -16,7 +17,7 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
         return "bg-cyan-500/10 border-cyan-500/20 text-cyan-400";
     };
 
-   
+
     const getStatusStyle = (status) => {
         switch (status?.toUpperCase()) {
             case "APPROVED":
@@ -118,16 +119,18 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
                                 <td className="py-4 px-4 whitespace-nowrap">
                                     <div className="flex items-center justify-center gap-1.5">
                                         {/* View Button */}
-                                        <Button
-                                            isIconOnly
-                                            size="sm"
-                                            variant="light"
-                                            className="text-gray-400 hover:text-white hover:bg-gray-500/10 rounded-xl transition-colors"
-                                            aria-label="View Details"
-                                            onClick={() => onView && onView(prompt.id)}
-                                        >
-                                            <Eye className="size-4" />
-                                        </Button>
+                                        <Link href={`/allprompts/${prompt?._id}`}>
+                                            <Button
+                                                isIconOnly
+                                                size="sm"
+                                                variant="light"
+                                                className="text-gray-400 hover:text-white hover:bg-gray-500/10 rounded-xl transition-colors"
+                                                aria-label="View Details"
+                                                onClick={() => onView && onView(prompt.id)}
+                                            >
+                                                <Eye className="size-4" />
+                                            </Button>
+                                        </Link>
 
                                         {/* Approve Button */}
                                         <Button

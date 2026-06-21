@@ -5,10 +5,12 @@ import React from 'react';
 const SavedPromptsPage = async () => {
     const user = await getUser();
     const bookmarks = await getBookmarksByUser(user?.id);
-    console.log("bookmarks data ", bookmarks);
+    console.log("bookmarks data.... ", bookmarks);
+
     return (
         <div>
-            SavedPromptsPage
+            SavedPromptsPage 
+            {bookmarks.length}
         </div>
     );
 };

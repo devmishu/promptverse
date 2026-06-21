@@ -9,7 +9,7 @@ const AllPromptsPage = async () => {
     console.log("allPrompts............................", allPrompts);
     return (
         <div>
-            <PromptManagementTable
+            <PromptManagementTable 
                 prompts={allPrompts}
             />
         </div>
