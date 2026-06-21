@@ -305,10 +305,10 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                 </Button>
 
 
-                                {/* <ReportModal
+                                <ReportModal
                                     promptData={promptData}
                                     author={author}
-                                /> */}
+                                />
 
                                 <Button
                                     size="md"
