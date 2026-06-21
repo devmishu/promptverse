@@ -13,9 +13,9 @@ export async function DashboardSideBar() {
         { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/user" },
         { icon: House, label: "Add Prompt", link: "/dashboard/prompt/new" },
         { icon: Bell, label: "My Prompts", link: "/dashboard/user/myprompt" },
-        { icon: Bookmark, label: "Saved Prompts", link: "/dashboard" },
-        { icon: Person, label: "Profile ", link: "/dashboard" },
-        { icon: Gear, label: "My Reviews", link: "/dashboard" },
+        { icon: Bookmark, label: "Saved Prompts", link: "/dashboard/user/savedprompt" },
+        { icon: Person, label: "Profile ", link: "/dashboard/user/profile" },
+        { icon: Gear, label: "My Reviews", link: "/dashboard/user/reviews" },
     ];
 
     const creatorNavLinks = [

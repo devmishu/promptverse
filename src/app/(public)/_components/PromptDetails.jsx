@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { createBookmark } from "@/lib/actions/bookmark";
 import { toast, Toaster } from "react-hot-toast";
+import { createReview } from "@/lib/actions/review";
+import { ReportModal } from "./ReportModal";
 
 export default function PromptDetails({ promptData: initialPromptData, promptId, author }) {
 
@@ -20,6 +22,9 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const [hasReviewed, setHasReviewed] = useState(false);
+    const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
 
 
     const handleCopy = () => {
@@ -36,8 +41,36 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
     };
 
 
-    const handleBookmark = async () => {
+    // const handleBookmark = async () => {
 
+    //     if (isBookmarked) {
+    //         toast.error("Already bookmarked!");
+    //         return;
+    //     }
+
+    //     try {
+    //         setIsSubmitting(true);
+
+    //         const bookMarkData = {
+    //             userName: author?.name,
+    //             userImail: author?.id,
+    //             userId: author?.id,
+    //             ...promptData
+    //         };
+
+    //         await createBookmark(bookMarkData);
+
+
+    //         setIsBookmarked(true);
+    //         toast.success("Added to bookmarks!");
+
+    //     } catch (error) {
+    //         toast.error("Failed to bookmark. Try again!");
+    //     }
+    // };
+
+    const handleBookmark = async () => {
+        // ফ্রন্টেন্ডে প্রথম লেয়ারের ভ্যালিডেশন
         if (isBookmarked) {
             toast.error("Already bookmarked!");
             return;
@@ -48,19 +81,40 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
             const bookMarkData = {
                 userName: author?.name,
-                userImail: author?.id,
+                userImail: author?.id, // আপনার প্রজেক্টের এক্সিস্টিং প্রোপার্টি স্ট্রাকচার রাখা হলো
                 userId: author?.id,
-                ...promptData
+                ...promptData // এর ভেতরেই প্রম্পটের আইডি বা _id প্রোপার্টিটি ব্যাকএন্ডে চলে যাবে
             };
 
-            await createBookmark(bookMarkData);
+            // ব্যাকএন্ডে ডাটা পাঠানো হচ্ছে
+            const res = await createBookmark(bookMarkData);
 
-
-            setIsBookmarked(true);
-            toast.success("Added to bookmarks!");
+            // সার্ভার অ্যাকশনের রেসপন্স চেক করা হচ্ছে
+            if (res?.success) {
+                setIsBookmarked(true);
+                toast.success("Added to bookmarks!");
+            } else {
+                // যদি ব্যাকএন্ড অলরেডি বুকমার্কড পায়
+                if (res?.alreadyBookmarked) {
+                    setIsBookmarked(true);
+                }
+                toast.error(res?.message || "Failed to bookmark.");
+            }
 
         } catch (error) {
-            toast.error("Failed to bookmark. Try again!");
+            console.error("Bookmark error:", error);
+
+            // ব্যাকএন্ডের ৪০০ বা ৪_ ডুপ্লিকেট এরর মেসেজ ক্যাচ করার জন্য
+            const errorMessage = error?.response?.data?.message || error?.message || "";
+
+            if (errorMessage.includes("already bookmarked") || error?.response?.data?.alreadyBookmarked) {
+                setIsBookmarked(true);
+                toast.error("Already bookmarked!");
+            } else {
+                toast.error("Failed to bookmark. Try again!");
+            }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -69,9 +123,71 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
         setUserReview(review);
     };
 
-    
 
+    const handleUserReview = async (rating, reviewText) => {
+        // রেটিং ভ্যালিডেশন
+        if (rating === 0) {
+            toast.error("Please select a rating star!");
+            return;
+        }
 
+        // টেক্সট ভ্যালিডেশন
+        if (!reviewText.trim()) {
+            toast.error("Please write some thoughts before publishing!");
+            return;
+        }
+
+        // ইউজার একবার রিভিউ দিয়ে দিলে ২য় বার আটকে দিবে
+        if (hasReviewed) {
+            toast.error("You have already reviewed this prompt!");
+            return;
+        }
+
+        try {
+            setIsReviewSubmitting(true);
+
+            const reviewData = {
+                userName: author?.name,
+                userImail: author?.email, // আপনার দেওয়া স্পেলিং
+                userId: author?.id,
+                promptId: promptData._id,
+                rating,
+                reviewText,
+            };
+
+            // ব্যাকএন্ড সার্ভার অ্যাকশন বা এপিআই কল
+            const res = await createReview(reviewData);
+
+            // যদি আপনার সার্ভার অ্যাকশন সরাসরি অবজেক্ট রিটার্ন করে (যেমন: { success: true })
+            if (res?.success) {
+                setHasReviewed(true);
+                toast.success("Review published successfully!");
+                setUserReview("");
+                setUserRating(0);
+            } else {
+                // যদি ব্যাকএন্ড থেকে সাকসেস না আসে
+                if (res?.alreadyReviewed) {
+                    setHasReviewed(true);
+                }
+                toast.error(res?.message || "Failed to publish review.");
+            }
+
+        } catch (error) {
+            console.error("Review submit error:", error);
+
+            // 💡 ব্যাকএন্ডের ৪০০ এরর বা ডুপ্লিকেট চেকের মেসেজ এখানে হ্যান্ডেল করা হচ্ছে
+            const errorMessage = error?.response?.data?.message || error?.message || "";
+
+            if (errorMessage.includes("already reviewed") || error?.response?.data?.alreadyReviewed) {
+                setHasReviewed(true);
+                toast.error("You have already reviewed this prompt!");
+            } else {
+                toast.error("Failed to publish review. Try again!");
+            }
+        } finally {
+            setIsReviewSubmitting(false);
+        }
+    };
 
 
     return (
@@ -188,9 +304,11 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                     <Bookmark size={16} className={isBookmarked ? "fill-purple-500" : ""} />
                                 </Button>
 
-                                <Button isIconOnly size="md" variant="light" className="text-slate-400 hover:text-white rounded-xl">
-                                    <ShieldCheck size={16} />
-                                </Button>
+
+                                {/* <ReportModal
+                                    promptData={promptData}
+                                    author={author}
+                                /> */}
 
                                 <Button
                                     size="md"
@@ -222,37 +340,51 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                         </h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-                            <div className="md:col-span-2 bg-[#0f172a]/20 border border-slate-900 rounded-2xl p-6 flex flex-col gap-4">
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Rating</span>
-                                    <div className="flex items-center gap-1">
-                                        {[1, 2, 3, 4, 5].map((star) => (
-                                            <button key={star} onClick={() => setUserRating(star)} className="focus:outline-none transition-transform active:scale-90">
-                                                <Star size={15} className={`${star <= userRating ? "fill-amber-400 text-amber-400" : "fill-slate-800 text-slate-700"}`} />
-                                            </button>
-                                        ))}
+                            {hasReviewed ? (
+                                <div className="md:col-span-2 bg-[#0f172a]/10 border border-slate-900/50 rounded-2xl p-6 flex flex-col items-center justify-center text-center border-dashed min-h-[220px]">
+                                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3">
+                                        <ShieldCheck size={20} />
                                     </div>
+                                    <p className="text-sm font-bold text-slate-300 uppercase tracking-wider">Already Reviewed</p>
+                                    <p className="text-xs text-slate-500 mt-1 max-w-[200px]">You have already shared your feedback for this prompt.</p>
                                 </div>
+                            ) : (
+                                <div className="md:col-span-2 bg-[#0f172a]/20 border border-slate-900 rounded-2xl p-6 flex flex-col gap-4">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Rating</span>
+                                        <div className="flex items-center gap-1">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <button key={star} onClick={() => setUserRating(star)} className="focus:outline-none transition-transform active:scale-90">
+                                                    <Star size={15} className={`${star <= userRating ? "fill-amber-400 text-amber-400" : "fill-slate-800 text-slate-700"}`} />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
 
+                                    {/* HeroUI v3 কনভেনশন অনুযায়ী সঠিক ছোট হাতের TextArea */}
+                                    <TextArea
+                                        value={userReview}
+                                        onChange={handleReviewData}
+                                        placeholder="Share your thoughts..."
+                                        variant="flat"
+                                        rows={3}
+                                        classNames={{
+                                            inputWrapper: "bg-[#020617]/60 border border-slate-900 rounded-xl p-3.5",
+                                            input: "text-sm text-slate-300 placeholder:text-slate-700",
+                                        }}
+                                    />
 
-                                <TextArea
-                                    value={userReview}
-                                    onChange={handleReviewData}
-                                    placeholder="Share your thoughts..."
-                                    variant="flat"
-                                    rows={3}
-                                    classNames={{
-                                        inputWrapper: "bg-[#020617]/60 border border-slate-900 rounded-xl p-3.5",
-                                        input: "text-sm text-slate-300 placeholder:text-slate-700",
-                                    }}
-                                />
+                                    <Button
+                                        onClick={() => handleUserReview(userRating, userReview)}
+                                        isLoading={isReviewSubmitting}
+                                        size="md"
+                                        className="w-full h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition-all"
+                                    >
+                                        Publish Review
+                                    </Button>
+                                </div>
+                            )}
 
-                                <Button
-                                    onClick={() => handleRating(userRating, userReview)}
-                                    size="md" className="w-full h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition-all">
-                                    Publish Review
-                                </Button>
-                            </div>
 
                             <div className="md:col-span-3 bg-[#0b0f19]/40 border border-slate-900/60 rounded-2xl p-6 flex flex-col items-center justify-center text-center p-8">
                                 <p className="text-sm text-slate-500 max-w-[240px] leading-relaxed">
