@@ -81,9 +81,22 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
             const bookMarkData = {
                 userName: author?.name,
-                userImail: author?.id, // আপনার প্রজেক্টের এক্সিস্টিং প্রোপার্টি স্ট্রাকচার রাখা হলো
+                userImail: author?.id,
                 userId: author?.id,
-                ...promptData // এর ভেতরেই প্রম্পটের আইডি বা _id প্রোপার্টিটি ব্যাকএন্ডে চলে যাবে
+                promptId: promptData._id, // প্রম্পট আইডি এখানে আলাদা থাকবে
+
+                // প্রম্পটের বাকি ডাটাগুলো আলাদা ফিল্ডে পাঠানো হলো
+                title: promptData.title,
+                description: promptData.description,
+                content: promptData.content,
+                category: promptData.category,
+                aiTool: promptData.aiTool,
+                thumbnail: promptData.thumbnail,
+                difficulty: promptData.difficulty,
+                visibility: promptData.visibility,
+                copyCount: promptData.copyCount,
+                status: promptData.status,
+                tags: promptData.tags || []
             };
 
             // ব্যাকএন্ডে ডাটা পাঠানো হচ্ছে

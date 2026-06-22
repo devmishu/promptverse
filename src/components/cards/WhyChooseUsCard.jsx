@@ -17,7 +17,7 @@ export function WhyChooseUsCard({ benefit }) {
                 <Card.Title className="text-base font-semibold text-white tracking-tight group-hover:text-cyan-400 transition-colors">
                     {title}
                 </Card.Title>
-            </Card.Header>
+            </Card.Header> 
 
             {/* Footer Section holding the feature description */}
             <Card.Footer className="p-0 flex flex-col items-start">
