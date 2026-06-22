@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import { Avatar, Button, Chip, TextArea } from "@heroui/react";
 import {
     Copy, Bookmark, ArrowLeft, Star, Code,
-    Terminal, ShieldCheck, MessageSquare, Activity
+    Terminal, ShieldCheck, MessageSquare, Activity,
+    Lock,
+    CreditCard
 } from "lucide-react";
 import { createBookmark } from "@/lib/actions/bookmark";
 import { toast, Toaster } from "react-hot-toast";
@@ -30,6 +32,10 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
     const handleCopy = () => {
         navigator.clipboard.writeText(promptData.content);
         setCopied(true);
+        if (promptData?.locked) {
+            toast.error("Unlock lifetime access to copy premium prompts.");
+            return;
+        }
 
         setPromptData(prevData => ({
             ...prevData,
@@ -144,6 +150,8 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
             return;
         }
 
+
+
         // টেক্সট ভ্যালিডেশন
         if (!reviewText.trim()) {
             toast.error("Please write some thoughts before publishing!");
@@ -204,13 +212,10 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
 
     return (
-        <div className="min-h-screen bg-[#020617] text-slate-200 p-6 sm:p-10 md:p-16 font-sans selection:bg-purple-500/30">
-
-            {/* টোস্ট মেসেজ কন্টেইনার */}
+        <div className="min-h-screen bg-[#020617] text-slate-200 p-4 sm:p-8 md:p-12 lg:p-16 font-sans selection:bg-purple-500/30">
             <Toaster position="top-center" reverseOrder={false} />
 
-            {/* ১. টপ নেভিগেশন */}
-            <div className="max-w-7xl mx-auto flex items-center justify-between mb-12 border-b border-slate-900 pb-6">
+            <div className="max-w-7xl mx-auto flex items-center justify-between mb-8 md:mb-12 border-b border-slate-900 pb-6">
                 <Button
                     size="md"
                     variant="light"
@@ -221,22 +226,22 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                     Back
                 </Button>
 
-                <div className="flex items-center gap-5 text-sm text-slate-400 font-medium">
-                    <span className="flex items-center gap-1.5 uppercase tracking-wider text-xs font-bold">
+                <div className="flex items-center gap-4 sm:gap-5 text-xs sm:text-sm text-slate-400 font-medium">
+                    <span className="flex items-center gap-1.5 uppercase tracking-wider text-[11px] sm:text-xs font-bold">
                         <Activity size={14} className="text-emerald-500" />
-                        {promptData.visibility}
+                        {promptData?.visibility}
                     </span>
-                    <span className="hidden sm:inline text-slate-800">|</span>
-                    <span>{promptData.copyCount} Used</span>
+                    <span className="text-slate-800">|</span>
+                    <span>{promptData?.copyCount || 0} Used</span>
                 </div>
             </div>
 
-            {/* ২. ৩-কলাম লিকুইড গ্রিড স্ট্রাকচার */}
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {/* মেইন গ্রিড স্ট্রাকচার ফিক্স */}
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
 
-                {/* === কলাম ১: টাইটেল, থাম্বনেইল, ডেসক্রিপশন এবং ক্রিয়েটর === */}
+                {/* কলাম ১: মেটাডাটা ও থাম্বনেইল */}
                 <div className="flex flex-col gap-6 lg:col-span-1">
-                    {promptData.thumbnail && (
+                    {promptData?.thumbnail && (
                         <div className="w-full aspect-[1.8/1] rounded-2xl overflow-hidden border border-slate-800/80 bg-slate-950 shadow-xl group">
                             <img
                                 src={promptData.thumbnail}
@@ -249,26 +254,26 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                     <div className="space-y-4">
                         <div className="flex flex-wrap gap-2">
                             <Chip size="md" variant="flat" color="secondary" className="text-xs font-bold uppercase tracking-wider px-2.5 py-1">
-                                {promptData.aiTool}
+                                {promptData?.aiTool}
                             </Chip>
                             <Chip size="md" variant="flat" color="primary" className="text-xs font-bold uppercase tracking-wider px-2.5 py-1">
-                                {promptData.category}
+                                {promptData?.category}
                             </Chip>
                             <Chip size="md" variant="flat" className="text-xs font-bold bg-slate-900 border border-slate-800 text-slate-400 uppercase px-2.5 py-1">
-                                {promptData.difficulty}
+                                {promptData?.difficulty}
                             </Chip>
                         </div>
 
-                        <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-                            {promptData.title}
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight leading-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+                            {promptData?.title}
                         </h1>
 
-                        <p className="text-sm sm:text-base text-slate-400 font-normal leading-relaxed">
-                            {promptData.description}
+                        <p className="text-sm md:text-base text-slate-400 font-normal leading-relaxed">
+                            {promptData?.description}
                         </p>
 
                         <div className="flex flex-wrap gap-1.5 pt-2">
-                            {promptData.tags?.map((tag, idx) => (
+                            {promptData?.tags?.map((tag, idx) => (
                                 <span key={idx} className="text-[11px] font-medium text-cyan-400/80 bg-cyan-500/5 border border-cyan-500/10 px-2 py-0.5 rounded-md">
                                     #{tag}
                                 </span>
@@ -276,36 +281,34 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                         </div>
                     </div>
 
-                    {/* ক্রিয়েটর কার্ড */}
-                    <div className="bg-[#0b0f19]/60 border border-slate-900/50 p-5 rounded-2xl flex items-center justify-between shadow-xl mt-2">
-                        <div className="flex items-center gap-3.5">
+                    <div className="bg-[#0b0f19]/60 border border-slate-900/50 p-4 sm:p-5 rounded-2xl flex items-center justify-between shadow-xl mt-2">
+                        <div className="flex items-center gap-3.5 min-w-0">
                             <Avatar
-                                name={promptData.author?.name}
-                                src={promptData.author?.avatarUrl}
-                                className="w-10 h-10 bg-gradient-to-tr from-purple-600 to-cyan-500 text-white font-bold text-sm"
+                                name={promptData?.author?.name}
+                                src={promptData?.author?.avatarUrl}
+                                className="w-10 h-10 bg-gradient-to-tr from-purple-600 to-cyan-500 text-white font-bold text-sm flex-shrink-0"
                             />
                             <div className="flex flex-col min-w-0">
-                                <span className="text-sm font-bold text-slate-200 truncate">{promptData.author?.name}</span>
-                                <span className="text-xs text-slate-500 truncate mt-0.5">{promptData.author?.email}</span>
+                                <span className="text-sm font-bold text-slate-200 truncate">{promptData?.author?.name}</span>
+                                <span className="text-xs text-slate-500 truncate mt-0.5">{promptData?.author?.email}</span>
                             </div>
                         </div>
-                        <div className="flex items-center gap-1.5 bg-amber-500/10 px-3 py-1 rounded-xl border border-amber-500/20 text-amber-400 font-black text-xs">
+                        <div className="flex items-center gap-1.5 bg-amber-500/10 px-3 py-1 rounded-xl border border-amber-500/20 text-amber-400 font-black text-xs flex-shrink-0">
                             <Star size={12} className="fill-amber-400" />
-                            {promptData?.rating?.toFixed(1)}
+                            {promptData?.rating?.toFixed(1) || "0.0"}
                         </div>
                     </div>
                 </div>
 
-                {/* === কলাম ২: প্রম্পট ওয়ার্কস্পেস === */}
-                <div className="lg:col-span-2 flex flex-col gap-8">
-                    <div className="w-full bg-[#0f172a]/30 border border-slate-800/60 rounded-3xl p-7 sm:p-8 shadow-2xl relative">
-                        <div className="flex items-center justify-between mb-5">
+                {/* কলাম ২: প্রম্পট ওয়ার্কস্পেস */}
+                <div className="lg:col-span-2 flex flex-col gap-6 md:gap-8">
+                    <div className="w-full bg-[#0f172a]/30 border border-slate-800/60 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl relative">
+                        <div className="flex items-center justify-between gap-4 mb-5">
                             <span className="text-xs font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2.5">
                                 <Terminal size={16} className="text-purple-500" />
                                 Console Workspace
                             </span>
                             <div className="flex items-center gap-2">
-                                {/* বুকমার্ক বাটন (আইকন কন্ডিশনাল ফিল এবং লোডিং স্টেট সহ) */}
                                 <Button
                                     onClick={handleBookmark}
                                     isLoading={isSubmitting}
@@ -317,89 +320,140 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                     <Bookmark size={16} className={isBookmarked ? "fill-purple-500" : ""} />
                                 </Button>
 
-
-                                <ReportModal
-                                    promptData={promptData}
-                                    author={author}
-                                />
+                                {promptData?.locked ? <Button disabled={true} isIconOnly size="md" variant="light" className="text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all">
+                                        <ShieldCheck size={18} />
+                                    </Button> : <ReportModal promptData={promptData} author={author} /> 
+                                    
+                                }
 
                                 <Button
                                     size="md"
-                                    className="bg-white hover:bg-slate-200 text-black font-bold text-xs sm:text-sm rounded-xl h-9 px-4 transition-all ml-2 shadow-lg"
-                                    onClick={handleCopy}
+                                    disabled={promptData?.locked}
+                                    className={`font-bold text-xs sm:text-sm rounded-xl h-9 px-4 transition-all ml-2 shadow-lg ${promptData?.locked
+                                        ? "bg-slate-800 text-slate-500 cursor-not-allowed opacity-60 pointer-events-none"
+                                        : "bg-white hover:bg-slate-200 text-black"
+                                        }`}
+                                    onClick={() => !promptData?.locked && handleCopy()}
                                 >
                                     {copied ? "Copied!" : "Copy Prompt"}
                                 </Button>
                             </div>
                         </div>
 
-                        <div className="w-full bg-[#020617]/90 border border-slate-900 rounded-2xl p-6 sm:p-7 font-mono text-sm sm:text-base text-emerald-400 leading-relaxed shadow-2xl border-l-4 border-l-emerald-500/70">
-                            {promptData.content}
-                        </div>
+                        {promptData?.locked ? (
+                            <div className="w-full bg-[#020617]/90 border border-dashed border-amber-500/20 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center min-h-[240px] shadow-2xl border-l-4 border-l-amber-500/60 space-y-5">
+                                <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400 border border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+                                    <Lock size={20} className="animate-pulse" />
+                                </div>
+                                <div className="space-y-2">
+                                    <p className="text-sm font-bold text-amber-400 uppercase tracking-widest bg-amber-500/5 px-3 py-1 rounded-full border border-amber-500/10 inline-block">
+                                        Premium Content Locked
+                                    </p>
+                                    <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+                                        This is a private premium prompt template. Upgrade to get instant, unlimited access to this workspace.
+                                    </p>
+                                </div>
+                                <div className="pt-2 w-full max-w-xs relative">
+                                    <button
+                                        onClick={() => { }}
+                                        className="group relative w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-semibold text-sm py-3 px-6 rounded-xl transition-all duration-300 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] shadow-[0_4px_20px_rgba(245,158,11,0.2)]"
+                                    >
+                                        <CreditCard size={16} className="transition-transform group-hover:scale-110" />
+                                        <span>Unlock Lifetime Access — $5</span>
+                                        <span className="absolute -top-2 -right-2 bg-slate-900 text-amber-400 text-[9px] font-bold px-2 py-0.5 rounded-md border border-amber-500/30 tracking-wider uppercase shadow-md">
+                                            One-Time
+                                        </span>
+                                    </button>
+                                    <p className="text-[10px] text-slate-500 mt-2.5 flex items-center justify-center gap-1">
+                                        <span>⚡ Secure payment</span>
+                                        <span>•</span>
+                                        <span>Pay once, use forever</span>
+                                    </p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="w-full bg-[#020617]/90 border border-slate-900 rounded-2xl p-5 sm:p-6 md:p-7 font-mono text-sm sm:text-base text-emerald-400 leading-relaxed shadow-2xl border-l-4 border-l-emerald-500/70 overflow-x-auto">
+                                {promptData?.content}
+                            </div>
+                        )}
 
                         <div className="mt-6 pt-5 border-t border-slate-900/60 flex flex-wrap gap-x-6 gap-y-2 justify-between text-xs text-slate-500">
                             <div className="flex items-center gap-2">
                                 <Code size={15} className="text-slate-600" />
-                                <span>Status: <span className="text-emerald-500 font-semibold uppercase text-[11px]">{promptData.status}</span></span>
+                                <span>Status: <span className="text-emerald-500 font-semibold uppercase text-[11px]">{promptData?.status}</span></span>
                             </div>
-                            <span className="font-mono text-[11px]">ID: {promptData._id}</span>
+                            <span className="font-mono text-[11px] truncate max-w-full">ID: {promptData?._id}</span>
                         </div>
                     </div>
 
-                    {/* === রিভিউ সেকশন === */}
+                    {/* রিভিউ এবং ফিডব্যাক সেকশন */}
                     <div className="mt-2">
                         <h3 className="text-xs sm:text-sm font-bold text-slate-400 tracking-wider uppercase mb-5 flex items-center gap-2.5">
-                            <MessageSquare size={16} /> Community Feedback ({promptData.reviewCount})
+                            <MessageSquare size={16} /> Community Feedback ({promptData?.reviewCount || 0})
                         </h3>
 
-                        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-                            {hasReviewed ? (
-                                <div className="md:col-span-2 bg-[#0f172a]/10 border border-slate-900/50 rounded-2xl p-6 flex flex-col items-center justify-center text-center border-dashed min-h-[220px]">
-                                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3">
-                                        <ShieldCheck size={20} />
+                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                            {promptData?.locked ? (
+                                <div className="lg:col-span-2 bg-[#0f172a]/20 border border-dashed border-amber-500/25 rounded-2xl p-6 flex flex-col items-center justify-center text-center min-h-[220px] shadow-lg border-l-4 border-l-amber-500/60">
+                                    <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400 border border-amber-500/10 mb-3">
+                                        <Lock size={14} className="animate-pulse" />
                                     </div>
-                                    <p className="text-sm font-bold text-slate-300 uppercase tracking-wider">Already Reviewed</p>
-                                    <p className="text-xs text-slate-500 mt-1 max-w-[200px]">You have already shared your feedback for this prompt.</p>
+                                    <p className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">
+                                        Reviews Locked
+                                    </p>
+                                    <p className="text-[11px] text-slate-400 max-w-[220px] leading-relaxed">
+                                        Feedback and rating system is exclusive to premium members. Upgrade to unlock community insights.
+                                    </p>
                                 </div>
                             ) : (
-                                <div className="md:col-span-2 bg-[#0f172a]/20 border border-slate-900 rounded-2xl p-6 flex flex-col gap-4">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Rating</span>
-                                        <div className="flex items-center gap-1">
-                                            {[1, 2, 3, 4, 5].map((star) => (
-                                                <button key={star} onClick={() => setUserRating(star)} className="focus:outline-none transition-transform active:scale-90">
-                                                    <Star size={15} className={`${star <= userRating ? "fill-amber-400 text-amber-400" : "fill-slate-800 text-slate-700"}`} />
-                                                </button>
-                                            ))}
+                                <div className="lg:col-span-2 w-full">
+                                    {hasReviewed ? (
+                                        <div className="bg-[#0f172a]/10 border border-slate-900/50 rounded-2xl p-6 flex flex-col items-center justify-center text-center border-dashed min-h-[220px]">
+                                            <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3">
+                                                <ShieldCheck size={20} />
+                                            </div>
+                                            <p className="text-sm font-bold text-slate-300 uppercase tracking-wider">Already Reviewed</p>
+                                            <p className="text-xs text-slate-500 mt-1 max-w-[200px]">You have already shared your feedback for this prompt.</p>
                                         </div>
-                                    </div>
+                                    ) : (
+                                        <div className="bg-[#0f172a]/20 border border-slate-900 rounded-2xl p-5 sm:p-6 flex flex-col gap-4">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Rating</span>
+                                                <div className="flex items-center gap-1">
+                                                    {[1, 2, 3, 4, 5].map((star) => (
+                                                        <button key={star} onClick={() => setUserRating(star)} className="focus:outline-none transition-transform active:scale-90">
+                                                            <Star size={15} className={`${star <= userRating ? "fill-amber-400 text-amber-400" : "fill-slate-800 text-slate-700"}`} />
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
 
-                                    {/* HeroUI v3 কনভেনশন অনুযায়ী সঠিক ছোট হাতের TextArea */}
-                                    <TextArea
-                                        value={userReview}
-                                        onChange={handleReviewData}
-                                        placeholder="Share your thoughts..."
-                                        variant="flat"
-                                        rows={3}
-                                        classNames={{
-                                            inputWrapper: "bg-[#020617]/60 border border-slate-900 rounded-xl p-3.5",
-                                            input: "text-sm text-slate-300 placeholder:text-slate-700",
-                                        }}
-                                    />
+                                            <TextArea
+                                                value={userReview}
+                                                onChange={handleReviewData}
+                                                placeholder="Share your thoughts..."
+                                                variant="flat"
+                                                rows={3}
+                                                classNames={{
+                                                    inputWrapper: "bg-[#020617]/60 border border-slate-900 rounded-xl p-3.5",
+                                                    input: "text-sm text-slate-300 placeholder:text-slate-700",
+                                                }}
+                                            />
 
-                                    <Button
-                                        onClick={() => handleUserReview(userRating, userReview)}
-                                        isLoading={isReviewSubmitting}
-                                        size="md"
-                                        className="w-full h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition-all"
-                                    >
-                                        Publish Review
-                                    </Button>
+                                            <Button
+                                                onClick={() => handleUserReview(userRating, userReview)}
+                                                isLoading={isReviewSubmitting}
+                                                size="md"
+                                                className="w-full h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition-all"
+                                            >
+                                                Publish Review
+                                            </Button>
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
-
-                            <div className="md:col-span-3 bg-[#0b0f19]/40 border border-slate-900/60 rounded-2xl p-6 flex flex-col items-center justify-center text-center p-8">
+                            <div className="lg:col-span-3 bg-[#0b0f19]/40 border border-slate-900/60 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center">
                                 <p className="text-sm text-slate-500 max-w-[240px] leading-relaxed">
                                     No community comments yet. Be the first to start the discussion!
                                 </p>

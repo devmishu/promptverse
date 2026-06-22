@@ -9,7 +9,7 @@ const PromptDetailsPage = async ({ params }) => {
     const promptData = await getPromptById(id);
     console.log("fakePromptData", promptData);
 
-    return <PromptDetails 
+    return <PromptDetails
         promptId={id}
         author={user}
         promptData={promptData}

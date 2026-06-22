@@ -1,4 +1,4 @@
-import { protectedFetch, serverFetch } from "../core/server";
+import { protectedFetch, protectedFetch2, serverFetch } from "../core/server";
 
 
 export const getPromptsByUser = async (userId) => {
@@ -16,4 +16,5 @@ export const getAllPrompts = async () => {
 export const getPromptById = async (id) => {
     return protectedFetch(`/api/prompts/${id}`);
 }
+
 

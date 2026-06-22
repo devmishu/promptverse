@@ -207,11 +207,11 @@ export default function SignUpPage() {
                     </TextField>
 
                     {/* Custom Synapse Radio Selection Layer */}
-                    <RadioGroup defaultValue="user" name="role" className="mt-1 flex flex-col gap-1.5">
+                    {/* <RadioGroup defaultValue="user" name="role" className="mt-1 flex flex-col gap-1.5">
                         <Label className="text-gray-300 text-xs font-semibold tracking-wide">Select Profile Framework</Label>
                         <div className="flex gap-6 items-center w-full mt-1">
 
-                            {/* Standard User Radio */}
+                            
                             <Radio value="user" className="text-xs text-gray-300 font-medium">
                                 <div className="flex flex-row items-center gap-2 cursor-pointer">
                                     <Radio.Control>
@@ -223,7 +223,7 @@ export default function SignUpPage() {
                                 </div>
                             </Radio>
 
-                            {/* Platform Creator Radio */}
+                            
                             <Radio value="creator" className="text-xs text-gray-300 font-medium">
                                 <div className="flex flex-row items-center gap-2 cursor-pointer">
                                     <Radio.Control>
@@ -236,7 +236,7 @@ export default function SignUpPage() {
                             </Radio>
 
                         </div>
-                    </RadioGroup>
+                    </RadioGroup> */}
 
                     {/* Action Dynamic Control: Sign Up Activation Button */}
                     <div className="flex flex-col gap-3 mt-4">
