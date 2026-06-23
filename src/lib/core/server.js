@@ -14,9 +14,7 @@ const authHeader = async () => {
 
 export const serverFetch = async (path) => {
     try {
-        const res = await fetch(`${baseurl}${path}`, {
-            headers: await authHeader()
-        });
+        const res = await fetch(`${baseurl}${path}`);
 
         const data = await res.json();
 
@@ -35,13 +33,15 @@ export const serverFetch = async (path) => {
 
 export const protectedFetch = async (path) => {
     try {
-        const res = await fetch(`${baseurl}${path}`,{
+        const res = await fetch(`${baseurl}${path}`, {
+            method: 'GET',
+            cache: 'no-store',
             headers: await authHeader()
         });
 
         const data = await res.json();
 
-        
+
         return data?.data;
     } catch (error) {
         console.error("Protected Fetch Error:", error.message);

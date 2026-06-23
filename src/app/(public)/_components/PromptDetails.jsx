@@ -210,6 +210,23 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
         }
     };
 
+    const handlePayment = async () => {
+
+        const res = await fetch("/api/checkout_sessions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                currentPage: window.location.pathname,
+            }),
+        });
+
+        const data = await res.json();
+
+        window.location.href = data.url;
+    };
+
 
     return (
         <div className="min-h-screen bg-[#020617] text-slate-200 p-4 sm:p-8 md:p-12 lg:p-16 font-sans selection:bg-purple-500/30">
@@ -321,9 +338,9 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                 </Button>
 
                                 {promptData?.locked ? <Button disabled={true} isIconOnly size="md" variant="light" className="text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all">
-                                        <ShieldCheck size={18} />
-                                    </Button> : <ReportModal promptData={promptData} author={author} /> 
-                                    
+                                    <ShieldCheck size={18} />
+                                </Button> : <ReportModal promptData={promptData} author={author} />
+
                                 }
 
                                 <Button
@@ -354,16 +371,43 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                     </p>
                                 </div>
                                 <div className="pt-2 w-full max-w-xs relative">
-                                    <button
-                                        onClick={() => { }}
-                                        className="group relative w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-semibold text-sm py-3 px-6 rounded-xl transition-all duration-300 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] shadow-[0_4px_20px_rgba(245,158,11,0.2)]"
-                                    >
-                                        <CreditCard size={16} className="transition-transform group-hover:scale-110" />
-                                        <span>Unlock Lifetime Access — $5</span>
-                                        <span className="absolute -top-2 -right-2 bg-slate-900 text-amber-400 text-[9px] font-bold px-2 py-0.5 rounded-md border border-amber-500/30 tracking-wider uppercase shadow-md">
-                                            One-Time
-                                        </span>
-                                    </button>
+
+
+                                    <form action="/api/checkout_sessions" method="POST">
+                                        <section>
+                                            <input
+                                                type="hidden"
+                                                name="currentPage"
+                                                value={typeof window !== "undefined" ? window.location.pathname : ""}
+                                            />
+                                            <button
+                                                type="submit" role="link"
+                                                className="group relative w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-semibold text-sm py-3 px-6 rounded-xl transition-all duration-300 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] shadow-[0_4px_20px_rgba(245,158,11,0.2)]"
+                                            >
+                                                <CreditCard size={16} className="transition-transform group-hover:scale-110" />
+                                                <span>Unlock Lifetime Access — $10</span>
+                                                <span className="absolute -top-2 -right-2 bg-slate-900 text-amber-400 text-[9px] font-bold px-2 py-0.5 rounded-md border border-amber-500/30 tracking-wider uppercase shadow-md">
+                                                    One-Time
+                                                </span>
+                                            </button>
+
+                                            {/* <button
+                                                type="button"
+                                                onClick={handlePayment}
+                                                className="group relative w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-semibold text-sm py-3 px-6 rounded-xl"
+                                            >
+                                                <CreditCard size={16} />
+                                                <span>Unlock Lifetime Access — $10</span>
+                                            </button> */}
+
+                                        </section>
+                                    </form>
+
+
+
+
+
+
                                     <p className="text-[10px] text-slate-500 mt-2.5 flex items-center justify-center gap-1">
                                         <span>⚡ Secure payment</span>
                                         <span>•</span>

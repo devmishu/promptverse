@@ -24,12 +24,13 @@ export default function SignUpPage() {
 
         const { name, email, userImage, password } = signupData
 
-
+        const plan = "user"
         const { data, error } = await authClient.signUp.email({
             name,
             email,
             userImage,
             password,
+            plan,
         });
 
         console.log({ data, error });

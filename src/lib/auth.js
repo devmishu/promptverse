@@ -36,7 +36,7 @@ export const auth = betterAuth({
             },
             plan: {
                 default: "free",
-            }
+            } 
         }
     },
     plugins: [
