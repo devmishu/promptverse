@@ -28,7 +28,7 @@ export async function DashboardSideBar() {
         { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/admin" },
         { icon: Users, label: "All Users", link: "/dashboard/admin/allusers" },
         { icon: Building2, label: "All Prompts", link: "/dashboard/admin/allprompts" },
-        { icon: Banknote, label: "All Payments", link: "/dashboard/admin/jobs" },
+        { icon: Banknote, label: "All Payments", link: "/dashboard/admin/all_payments" },
         { icon: Banknote, label: "Reported Prompts", link: "/dashboard/admin/reported-prompts" },
         { icon: Settings, label: "Analytics ", link: "/dashboard/admin/payments" },
     ];
