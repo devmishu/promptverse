@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Label, ListBox, Select, TextArea, Modal, Surface } from "@heroui/react";
 import { ShieldCheck, AlertTriangle } from "lucide-react";
 import { toast } from "react-hot-toast";
@@ -9,6 +9,31 @@ import { createReport } from "@/lib/actions/report";
 export function ReportModal({ author, promptData }) {
     const [hasReported, setHasReported] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isChecking, setIsChecking] = useState(true); // 🛠️ ফিক্স: লোডিং স্টেট যোগ করা হয়েছে
+
+    useEffect(() => {
+        const checkReportStatus = async () => {
+            if (!author?.id || !promptData?._id) {
+                setIsChecking(false);
+                return;
+            }
+
+            try {
+                const res = await fetch(`http://localhost:5000/api/reports/check?userId=${author.id}&promptId=${promptData._id}`);
+                const data = await res.json();
+                if (data?.hasReported) {
+                    setHasReported(true); // 🛠️ ফিক্স: স্টেট ভ্যারিয়েবলের সঠিক নাম (setHasReported) দেওয়া হয়েছে
+                }
+            } catch (error) {
+                console.error("Error checking report status:", error);
+            } finally {
+                setIsChecking(false);
+            }
+        };
+
+        checkReportStatus();
+    }, [author?.id, promptData?._id]);
+
 
     const handleUserReport = async (e) => {
         e.preventDefault();
@@ -68,10 +93,22 @@ export function ReportModal({ author, promptData }) {
         }
     };
 
+    // এপিআই চেকিং চলাকালীন বাটনটি লোডিং মোডে থাকবে যেন ইউজার ইনস্ট্যান্ট ফ্লিকার না দেখে
+    if (isChecking) {
+        return (
+            <Button isIconOnly size="md" variant="light" className="text-slate-600 rounded-xl" isLoading />
+        );
+    }
+
     return (
         <Modal>
-            {/* মোডাল ওপেন বাটন */}
-            <Button isIconOnly size="md" variant="light" className="text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all">
+            {/* মোডাল ওপেন বাটন - অলরেডি রিপোর্টেড হলে ইন্ডিকেটর হিসেবে কালার চেইঞ্জ হবে */}
+            <Button
+                isIconOnly
+                size="md"
+                variant="light"
+                className={`rounded-xl transition-all ${hasReported ? "text-rose-500 bg-rose-500/10" : "text-slate-400 hover:text-rose-400 hover:bg-rose-500/10"}`}
+            >
                 <ShieldCheck size={18} />
             </Button>
 

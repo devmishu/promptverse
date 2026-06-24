@@ -12,6 +12,9 @@ export const getAllPromptsByAdmin = async () => {
 export const getAllPrompts = async (quaryString) => {
     return serverFetch(`/api/prompts?${quaryString}`);
 }
+export const getFeaturedPrompts = async () => {
+    return serverFetch(`/api/featured/prompts`);
+}
 
 export const getPromptById = async (id) => {
     return protectedFetch(`/api/prompts/${id}`);

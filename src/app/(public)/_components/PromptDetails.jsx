@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Avatar, Button, Chip, TextArea } from "@heroui/react";
 import {
     Copy, Bookmark, ArrowLeft, Star, Code,
@@ -29,23 +29,71 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
     const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
 
 
-    const handleCopy = () => {
+    // 🛠️ বুকমার্ক, রিভিউ এবং রিপোর্ট একসাথে চেক করার জন্য আপডেট করা ইফেক্ট
+    useEffect(() => {
+        const checkUserStatus = async () => {
+            if (!author?.id || !promptData?._id) return;
+
+            try {
+                // ১. বুকমার্ক স্ট্যাটাস চেক
+                const bookmarkRes = await fetch(`http://localhost:5000/api/bookmarks/check?userId=${author.id}&promptId=${promptData._id}`);
+                const bookmarkData = await bookmarkRes.json();
+                if (bookmarkData?.isBookmarked) {
+                    setIsBookmarked(true);
+                }
+
+                // ২. রিভিউ স্ট্যাটাস চেক
+                const reviewRes = await fetch(`http://localhost:5000/api/reviews/check?userId=${author.id}&promptId=${promptData._id}`);
+                const reviewData = await reviewRes.json();
+                if (reviewData?.hasReviewed) {
+                    setHasReviewed(true); // এর ফলে রিফ্রেশ দিলেও "Already Reviewed" দেখাবে
+                }
+
+                // ৩. রিপোর্ট স্ট্যাটাস চেক (যদি রিপোর্টেও স্টেট ধরে রাখতে চান)
+                const reportRes = await fetch(`http://localhost:5000/api/reports/check?userId=${author.id}&promptId=${promptData._id}`);
+                const reportData = await reportRes.json();
+                if (reportData?.hasReported) {
+                    setIsReported(true); // (আপনার কোডে রিপোর্ট স্টেট থাকলে এটা অন করতে পারেন)
+                }
+
+            } catch (error) {
+                console.error("Error checking user status:", error);
+            }
+        };
+
+        checkUserStatus();
+    }, [author?.id, promptData?._id]);
+
+    const handleCopy = async () => {
         navigator.clipboard.writeText(promptData.content);
         setCopied(true);
+
         if (promptData?.locked) {
             toast.error("Unlock lifetime access to copy premium prompts.");
             return;
         }
 
+        // ইনস্ট্যান্ট ইউজার এক্সপেরিয়েন্সের জন্য ফ্রন্টএন্ডে আগে ১ বাড়িয়ে নিচ্ছি
         setPromptData(prevData => ({
             ...prevData,
-            copyCount: prevData.copyCount + 1
+            copyCount: (prevData.copyCount || 0) + 1
         }));
 
         toast.success("Prompt copied to clipboard!");
         setTimeout(() => setCopied(false), 2000);
-    };
 
+        // 🚀 ব্যাকএন্ড ডাটাবেজে কপি কাউন্ট ১ বাড়ানোর জন্য এপিআই কল
+        try {
+            await fetch(`http://localhost:5000/api/prompts/${promptData._id}/copy`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        } catch (error) {
+            console.error("Failed to update copy count in database:", error);
+        }
+    };
 
     // const handleBookmark = async () => {
 
@@ -76,7 +124,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
     // };
 
     const handleBookmark = async () => {
-        // ফ্রন্টেন্ডে প্রথম লেয়ারের ভ্যালিডেশন
+        // ফ্রন্টেন্ডে প্রথম লেয়ারের ভ্যালিডেশন
         if (isBookmarked) {
             toast.error("Already bookmarked!");
             return;
@@ -113,7 +161,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                 setIsBookmarked(true);
                 toast.success("Added to bookmarks!");
             } else {
-                // যদি ব্যাকএন্ড অলরেডি বুকমার্কড পায়
+                // যদি ব্যাকএন্ড অলরেডি বুকমার্কড পায়
                 if (res?.alreadyBookmarked) {
                     setIsBookmarked(true);
                 }
@@ -169,7 +217,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
             const reviewData = {
                 userName: author?.name,
-                userImail: author?.email, // আপনার দেওয়া স্পেলিং
+                userImail: author?.email, // আপনার দেওয়া স্পেলিং
                 userId: author?.id,
                 promptId: promptData._id,
                 title: promptData.title,
@@ -304,7 +352,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                     </div>
                 </div>
 
-                {/* কলাম ২: প্রম্পট ওয়ার্কস্পেস */}
+                {/* কলাম ২: প্রম্পট ওয়ার্কস্পেস */}
                 <div className="lg:col-span-2 flex flex-col gap-6 md:gap-8">
                     <div className="w-full bg-[#0f172a]/30 border border-slate-800/60 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl relative">
                         <div className="flex items-center justify-between gap-4 mb-5">

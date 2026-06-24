@@ -3,22 +3,17 @@ import { getAllPrompts } from "@/lib/api/prompt";
 import { SlidersHorizontal } from "lucide-react";
 import PromptFilterBar from "../_components/PromptFilterBar";
 
-// Next.js সার্ভার কম্পোনেন্টে searchParams সরাসরি প্রপ্স হিসেবে রিসিভ হয়
+// Next.js সার্ভার কম্পোনেন্টে searchParams হ্যান্ডেল করার স্ট্যান্ডার্ড উপায়
 const AllPromptsPage = async ({ searchParams }) => {
-
-
-
+    // searchParams প্রপ্স অবজেক্টটি সরাসরি রিসিভ করা হলো
     const filters = await searchParams;
-    console.log('search quary....,', filters);
 
+    // URLSearchParams-এ অবজেক্ট পাস করে কুয়েরি স্ট্রিং জেনারেট করা হচ্ছে
     const quarySearch = new URLSearchParams(filters);
     const quaryString = quarySearch.toString();
-    console.log("quaryString..........", quaryString);
 
-
-    // আপনার getAllPrompts ফাংশনে কুয়েরি পাস করা হচ্ছে
+    // ডাটাবেজ থেকে ফিল্টার করা প্রম্পট নিয়ে আসা হচ্ছে
     const allPromptsData = await getAllPrompts(quaryString);
-    console.log("Filtered Server Prompts:", allPromptsData);
 
     return (
         <div className="w-full min-h-screen bg-[#030712] text-white py-12 px-6">
@@ -40,10 +35,11 @@ const AllPromptsPage = async ({ searchParams }) => {
                     </div>
                 </div>
 
-                {/* 🎯 ইন্টিগ্রেটেড ক্লায়েন্ট ফিল্টার কন্ট্রোলার বার */}
-                <PromptFilterBar />
+                {/* 🎯 ক্লায়েন্ট ফিল্টার বার-এ সরাসরি ফিল্টার অবজেক্ট প্রপ্স হিসেবে পাস করে দিন */}
+                {/* যাতে ফিল্টার বার বুঝতে পারে যে অলরেডি ইউআরএল-এ সার্চ বা কুয়েরি ডাটা আছে এবং সে যেন ওল্ড ডাটা রিমুভ না করে */}
+                <PromptFilterBar filters={filters} />
 
-                {/* Grid Layout Layout */}
+                {/* Grid Layout */}
                 {allPromptsData && allPromptsData.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {allPromptsData.map((prompt) => (
