@@ -1,65 +1,91 @@
-import { Bell, Envelope, Gear, House, Magnifier, Person } from "@gravity-ui/icons";
-import { LayoutDashboard, Bookmark, FileText, CreditCard, Users, Building2, Briefcase, Banknote, Settings } from "lucide-react";
-import { Button, Drawer } from "@heroui/react";
-import { PanelLeft } from "lucide-react";
-import Link from "next/link";
-import { getUser } from "@/lib/core/session";
+"use client";
 
-export async function DashboardSideBar() {
-    const user = await getUser();
-    console.log("dashboard user......", user);
+import { usePathname } from "next/navigation";
+import { Bell, Gear, House, Person } from "@gravity-ui/icons";
+import { LayoutDashboard, Bookmark, Users, Building2, Banknote, Settings, PanelLeft } from "lucide-react";
+import { Button, Drawer } from "@heroui/react";
+import Link from "next/link";
+import { useSession } from "@/lib/auth-client";
+import {
+    PlusCircle,
+    Terminal,
+    User,
+    MessageSquareQuote,
+    Sparkles,
+    CreditCard,
+    AlertTriangle,
+    BarChart3
+} from "lucide-react";
+
+export function DashboardSideBar() {
+    const pathname = usePathname();
+    const session = useSession();
+    const user = session?.data?.user;
+
+    console.log("dashboard user=+++++++++", user);
+
+
 
     const userNavLinks = [
         { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/user" },
-        { icon: House, label: "Add Prompt", link: "/dashboard/prompt/new" },
-        { icon: Bell, label: "My Prompts", link: "/dashboard/user/myprompt" },
+        { icon: PlusCircle, label: "Add Prompt", link: "/dashboard/prompt/new" }, // যোগ করার জন্য PlusCircle
+        { icon: Terminal, label: "My Prompts", link: "/dashboard/user/myprompt" }, // প্রম্পট টেমপ্লেটের জন্য Terminal
         { icon: Bookmark, label: "Saved Prompts", link: "/dashboard/user/savedprompt" },
-        { icon: Person, label: "Profile ", link: "/dashboard/user/profile" },
-        { icon: Gear, label: "My Reviews", link: "/dashboard/user/reviews" },
+        { icon: User, label: "Profile ", link: "/dashboard/user/profile" }, // প্রোফাইলের জন্য স্ট্যান্ডার্ড User
+        { icon: MessageSquareQuote, label: "My Reviews", link: "/dashboard/user/reviews" }, // রিভিউ/কমেন্টের জন্য MessageSquareQuote
     ];
 
     const creatorNavLinks = [
         { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/creator" },
-        { icon: House, label: "Add Prompt", link: "/dashboard/prompt/new" },
-        { icon: Bell, label: "My Prompts", link: "/dashboard/creator/myprompt" },
+        { icon: PlusCircle, label: "Add Prompt", link: "/dashboard/prompt/new" },
+        { icon: Terminal, label: "My Prompts", link: "/dashboard/creator/myprompt" },
+        { icon: User, label: "Profile ", link: "/dashboard/creator/profile" },
     ];
 
     const adminNavLinks = [
         { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/admin" },
         { icon: Users, label: "All Users", link: "/dashboard/admin/allusers" },
-        { icon: Building2, label: "All Prompts", link: "/dashboard/admin/allprompts" },
-        { icon: Banknote, label: "All Payments", link: "/dashboard/admin/all_payments" },
-        { icon: Banknote, label: "Reported Prompts", link: "/dashboard/admin/reported-prompts" },
-        { icon: Settings, label: "Analytics ", link: "/dashboard/admin/payments" },
+        { icon: Sparkles, label: "All Prompts", link: "/dashboard/admin/allprompts" }, // প্রম্পট ম্যানেজমেন্টের জন্য AI ভাইব দিতে Sparkles
+        { icon: CreditCard, label: "All Payments", link: "/dashboard/admin/all_payments" }, // পেমেন্টের জন্য CreditCard
+        { icon: AlertTriangle, label: "Reported Prompts", link: "/dashboard/admin/reported-prompts" }, // রিপোর্টের জন্য AlertTriangle
+        { icon: BarChart3, label: "Analytics ", link: "/dashboard/admin/payments" }, // অ্যানালিটিক্স বা ট্র্যাকিংয়ের জন্য BarChart3
+        { icon: User, label: "Profile ", link: "/dashboard/admin/profile" },
     ];
 
     const navLinksMaping = {
         user: userNavLinks,
         creator: creatorNavLinks,
         admin: adminNavLinks,
+    };
 
-    }
-    const navItems = navLinksMaping[user?.role || "user"];
+    const navItems = navLinksMaping[user?.role || "user"] || [];
 
     const navContent = (
         <nav className="flex flex-col gap-1">
-            {navItems.map((item) => (
-                <Link href={item.link}
-                    key={item.label}
-                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-300 transition-colors hover:bg-[#111827] hover:text-white"
-                >
-                    <item.icon className="size-5 text-gray-500" />
-                    {item.label}
-                </Link>
-            ))}
+            {navItems.map((item) => {
+                // কারেন্ট ইউআরএল পাথের সাথে লিঙ্ক মিলছে কিনা চেক করা হচ্ছে
+                const isActive = pathname === item.link;
+
+                return (
+                    <Link
+                        href={item.link}
+                        key={item.label}
+                        className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200 border border-transparent
+                            ${isActive
+                                ? "bg-[#111827] text-white border-[#1e293b]/40 font-medium"
+                                : "text-gray-300 hover:bg-[#111827] hover:text-white"
+                            }`}
+                    >
+                        <item.icon className={`size-5 transition-colors ${isActive ? "text-cyan-400" : "text-gray-500"}`} />
+                        {item.label}
+                    </Link>
+                );
+            })}
         </nav>
     );
 
     return (
         <div className="flex flex-col bg-[#030712] text-white">
-            {/* Top Navbar */}
-
-
             {/* Main Content Area */}
             <div className="flex flex-1 max-w-360 w-full mx-auto px-6 py-6 gap-6">
                 {/* Desktop Sidebar */}
@@ -67,12 +93,10 @@ export async function DashboardSideBar() {
                     {navContent}
                 </aside>
 
-                {/* Main Dashboard Panel */}
-
                 {/* Mobile Menu Trigger */}
                 <div className="sm:hidden mb-4">
                     <Drawer>
-                        <Button className="sm:hidden bg-none  text-gray-200" variant="secondary">
+                        <Button className="sm:hidden bg-none text-gray-200" variant="secondary">
                             <PanelLeft size={18} />
                         </Button>
                         <Drawer.Backdrop>
@@ -92,9 +116,7 @@ export async function DashboardSideBar() {
                 </div>
 
                 {/* Dashboard Content goes here */}
-
             </div>
         </div>
     );
 }
-

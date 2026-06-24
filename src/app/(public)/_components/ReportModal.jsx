@@ -37,6 +37,7 @@ export function ReportModal({ author, promptData }) {
                 userImail: author?.email, // আপনার দেওয়া স্পেলিং
                 userId: author?.id,
                 promptId: promptData?._id,
+                title: promptData?.title,
             };
 
             // আপনার ব্যাকএন্ড সার্ভার অ্যাকশন বা এপিআই কল

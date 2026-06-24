@@ -1,16 +1,16 @@
 import React from 'react';
-import { getUser } from '@/lib/core/session';
 import UserProfileCard from '../../_components/UserProfileCard';
+import { getUser } from '@/lib/core/session';
 
-const UserProfilePage = async () => {
+const AdminProfilePage = async () => {
     const user = await getUser()
-    console.log("profile user---", user);
+    console.log("profile user---",user);
 
     return (
         <div className='my-10 mr-10'>
-            <UserProfileCard user={user} />
+            <UserProfileCard user={user}/>
         </div>
     );
 };
 
-export default UserProfilePage;
+export default AdminProfilePage;

@@ -26,7 +26,7 @@ const MyPromptPage = async () => {
 
     return (
 
-        <div>
+        <div className='px-6 md:px-10 lg:px-30'>
             <MyPromptsTable
                 prompts={prompts}
                 noHandleDeletPrompt={handleDeletPrompt}

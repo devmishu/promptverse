@@ -1,13 +1,19 @@
 import { getAllSubscriptionsByAdmin } from '@/lib/api/subscription';
 import React from 'react';
+import AdminPaymentTable from '../_components/AdminPaymentTable';
 
 const AllPaymentsPage = async () => {
+    
     const allPayments = await getAllSubscriptionsByAdmin();
 
     console.log("allPayments...........", allPayments);
+
+
+    
     return (
         <div>
-            AllPaymentsPage
+            AllPaymentsPage :
+            <AdminPaymentTable payments={allPayments}/>
         </div>
     );
 };

@@ -27,7 +27,7 @@ export default function UserManagementTable({ users = [], onHandleChangeRole, on
                         <tr className="bg-[#030712]/80 border-b border-[#1e293b]/40">
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Profile Details</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Email Address</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Subscription</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Plan</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Role Level</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4">Registered Date</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 text-center">Actions</th>
@@ -63,7 +63,7 @@ export default function UserManagementTable({ users = [], onHandleChangeRole, on
                                         ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
                                         : "bg-amber-500/10 border-amber-500/30 text-amber-500"
                                         }`}>
-                                        {user.subscription}
+                                        {user.plan}
                                     </span>
                                 </td>
 
@@ -101,7 +101,7 @@ export default function UserManagementTable({ users = [], onHandleChangeRole, on
                                 <td className="py-4 px-4">
                                     <div className="flex items-center gap-1.5 text-gray-400 text-xs font-medium">
                                         <Calendar className="size-3.5 text-gray-500" />
-                                        {user.registeredDate}
+                                        {new Date(user.createdAt).toLocaleDateString()}
                                     </div>
                                 </td>
 

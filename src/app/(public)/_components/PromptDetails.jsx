@@ -172,6 +172,8 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                 userImail: author?.email, // আপনার দেওয়া স্পেলিং
                 userId: author?.id,
                 promptId: promptData._id,
+                title: promptData.title,
+                aiTool: promptData.aiTool,
                 rating,
                 reviewText,
             };
@@ -210,22 +212,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
         }
     };
 
-    const handlePayment = async () => {
 
-        const res = await fetch("/api/checkout_sessions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                currentPage: window.location.pathname,
-            }),
-        });
-
-        const data = await res.json();
-
-        window.location.href = data.url;
-    };
 
 
     return (

@@ -2,7 +2,7 @@
 
 import { useSession } from "@/lib/auth-client";
 import { Button, AlertDialog } from "@heroui/react";
-import { Edit3, Trash2, BarChart3, Terminal, Layers, Eye } from "lucide-react";
+import { Edit3, Trash2, BarChart3, Terminal, Layers, Eye, Copy } from "lucide-react";
 import Link from "next/link";
 
 export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPrompt, onViewAnalytics }) {
@@ -32,7 +32,8 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
     };
 
     return (
-        <div className="w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-4 sm:p-6 shadow-2xl relative overflow-hidden">
+        // এখানে max-w-full যুক্ত করা হয়েছে
+        <div className="my-10  w-full overflow-x-auto overflow-y-hidden block touch-pan-x [scrollbar-width:auto_!important] [&::-webkit-scrollbar]:block [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-cyan-500/30 [&::-webkit-scrollbar-thumb]:rounded-full">
 
             {/* Table Header */}
             <div className="flex items-center justify-between mb-6">
@@ -45,15 +46,15 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                 </div>
             </div>
 
-            {/* Clean Scrollable Wrapper */}
-            <div className="w-full overflow-x-auto touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            {/* স্ক্রলবার কন্টেইনারে কাস্টম হিডেন ক্লাস সরিয়ে স্ট্যান্ডার্ড touch-scroll লজিক দেওয়া হয়েছে */}
+            <div className="w-full overflow-x-auto overflow-y-hidden block touch-pan-x dynamic-scroll">
                 <table className="w-full min-w-[900px] border-collapse text-left table-auto">
                     <thead>
                         <tr className="bg-[#030712]/80 border-b border-[#1e293b]/40">
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Prompt Title</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">AI Engine</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">AI Tool</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Visibility</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Total Views</th>
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Total Copy</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Status</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 text-center whitespace-nowrap">Actions</th>
                         </tr>
@@ -71,7 +72,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                         </span>
                                         <span className="text-xs text-gray-500 mt-0.5 flex items-center gap-1 whitespace-nowrap">
                                             <Layers className="size-3 text-gray-600" />
-                                            Category: {prompt._id}
+                                            Category: {prompt.category}
                                         </span>
                                     </div>
                                 </td>
@@ -79,7 +80,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                 {/* Column 2: AI Engine */}
                                 <td className="py-4 px-4 whitespace-nowrap">
                                     <span className={`inline-flex items-center justify-center px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md border ${getEngineStyle(prompt.aiEngine)}`}>
-                                        {prompt.aiEngine}
+                                        {prompt.aiTool}
                                     </span>
                                 </td>
 
@@ -91,8 +92,9 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                 {/* Column 4: Total Views (Analytics Preview) */}
                                 <td className="py-4 px-4 whitespace-nowrap">
                                     <div className="flex items-center gap-1.5 text-gray-300 font-medium text-sm">
-                                        <Eye className="size-3.5 text-gray-500" />
-                                        {(prompt.views || 0).toLocaleString()}
+
+                                        <Copy className="size-3.5 text-gray-500" />
+                                        {(prompt.copyCount || 0).toLocaleString()}
                                     </div>
                                 </td>
 
@@ -137,7 +139,6 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                         <AlertDialog>
                                             {/* Delete Button */}
                                             <Button
-
                                                 isIconOnly
                                                 size="sm"
                                                 variant="light"
@@ -184,6 +185,6 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                 </table>
             </div>
 
-        </div >
+        </div>
     );
 }

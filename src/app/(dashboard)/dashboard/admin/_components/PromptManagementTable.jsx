@@ -1,13 +1,13 @@
 "use client";
 
-import { Avatar, Button } from "@heroui/react";
+import { AlertDialog, Avatar, Button } from "@heroui/react";
 import { Eye, CheckCircle2, XCircle, Trash2, Terminal, Layers } from "lucide-react";
 import Link from "next/link";
 
-export default function PromptManagementTable({ prompts = [], onApprove, onReject, onDelete, onView }) {
+export default function PromptManagementTable({ prompts = [], onApprove, onReject, onHandleDeletPrompt, onView }) {
 
 
-
+    console.log("admin all prompts..", prompts);
 
     const getEngineStyle = (engine) => {
         const eng = engine?.toUpperCase();
@@ -49,8 +49,8 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
                     <thead>
                         <tr className="bg-[#030712]/80 border-b border-[#1e293b]/40">
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Template Title</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Creator</th>
-                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">AI Engine</th>
+                            {/* <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Creator</th> */}
+                            <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap"> Ai Tool</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Visibility</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Featured</th>
                             <th className="text-gray-400 font-semibold text-xs uppercase py-4 px-4 whitespace-nowrap">Status</th>
@@ -76,17 +76,17 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
                                 </td>
 
                                 {/* Column 2: Creator Details */}
-                                <td className="py-4 px-4">
+                                {/* <td className="py-4 px-4">
                                     <div className="flex flex-col whitespace-nowrap">
                                         <span className="text-sm font-medium text-gray-300">{prompt.creatorName}</span>
                                         <span className="text-xs text-gray-500">{prompt.creatorEmail}</span>
                                     </div>
-                                </td>
+                                </td> */}
 
                                 {/* Column 3: AI Engine Badge */}
                                 <td className="py-4 px-4 whitespace-nowrap">
                                     <span className={`inline-flex items-center justify-center px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md border ${getEngineStyle(prompt.aiEngine)}`}>
-                                        {prompt.aiEngine}
+                                        {prompt.aiTool}
                                     </span>
                                 </td>
 
@@ -157,7 +157,7 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
                                         </Button>
 
                                         {/* Delete Button */}
-                                        <Button
+                                        {/* <Button
                                             isIconOnly
                                             size="sm"
                                             variant="light"
@@ -166,7 +166,47 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
                                             onClick={() => onDelete && onDelete(prompt.id)}
                                         >
                                             <Trash2 className="size-4" />
-                                        </Button>
+                                        </Button> */}
+
+                                        <AlertDialog>
+                                            {/* Delete Button */}
+                                            <Button
+                                                isIconOnly
+                                                size="sm"
+                                                variant="light"
+                                                className="text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
+                                                aria-label="Delete Prompt"
+                                            >
+                                                <Trash2 className="size-4" />
+                                            </Button>
+                                            <AlertDialog.Backdrop>
+                                                <AlertDialog.Container>
+                                                    <AlertDialog.Dialog className="sm:max-w-[400px]">
+                                                        <AlertDialog.CloseTrigger />
+                                                        <AlertDialog.Header>
+                                                            <AlertDialog.Icon status="danger" />
+                                                            <AlertDialog.Heading>Delete User permanently?</AlertDialog.Heading>
+                                                        </AlertDialog.Header>
+                                                        <AlertDialog.Body>
+                                                            <p>
+                                                                This will permanently delete <strong></strong> and all of its
+                                                                data. This action cannot be undone.
+                                                            </p>
+                                                        </AlertDialog.Body>
+                                                        <AlertDialog.Footer>
+                                                            <Button slot="close" variant="tertiary">
+                                                                Cancel
+                                                            </Button>
+                                                            <Button
+                                                                onClick={() => onHandleDeletPrompt(prompt._id)}
+                                                                slot="close" variant="danger">
+                                                                Delete Prompt
+                                                            </Button>
+                                                        </AlertDialog.Footer>
+                                                    </AlertDialog.Dialog>
+                                                </AlertDialog.Container>
+                                            </AlertDialog.Backdrop>
+                                        </AlertDialog>
                                     </div>
                                 </td>
 

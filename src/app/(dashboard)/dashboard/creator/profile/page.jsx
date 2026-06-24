@@ -2,7 +2,7 @@ import React from 'react';
 import { getUser } from '@/lib/core/session';
 import UserProfileCard from '../../_components/UserProfileCard';
 
-const UserProfilePage = async () => {
+const CreatorProfilePage = async () => {
     const user = await getUser()
     console.log("profile user---", user);
 
@@ -13,4 +13,4 @@ const UserProfilePage = async () => {
     );
 };
 
-export default UserProfilePage;
+export default CreatorProfilePage;
