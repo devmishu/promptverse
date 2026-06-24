@@ -4,7 +4,7 @@ import { Avatar, Card, CardHeader, CardFooter, Button, Chip } from "@heroui/reac
 import { Star, Eye, Layers, User } from "lucide-react";
 import Link from "next/link";
 
-export function PromptCard({ prompt, author, promptId }) {
+export function PromptCard({ prompt, author }) {
 
 
 
@@ -17,7 +17,7 @@ export function PromptCard({ prompt, author, promptId }) {
         copyCount,
         aiTool,
         description = "No description provided.",
-        rating = 0.0
+        averageRating
     } = prompt;
 
     const getEngineBadgeColor = (engine) => {
@@ -123,7 +123,7 @@ export function PromptCard({ prompt, author, promptId }) {
                             <div className="flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded-md">
                                 <Star size={11} className="fill-amber-400 text-amber-400" />
                                 <span className="text-[11px] font-bold text-amber-400">
-                                    {Number(rating).toFixed(1)}
+                                    {Number(averageRating).toFixed(1)}
                                 </span>
                             </div>
                         </div>
