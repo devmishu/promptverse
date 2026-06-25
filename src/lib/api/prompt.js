@@ -5,8 +5,8 @@ export const getPromptsByUser = async (userId) => {
     return protectedFetch(`/api/my/prompts?userId=${userId}`);
 }
 
-export const getAllPromptsByAdmin = async () => {
-    return protectedFetch(`/api/admin/prompts`);
+export const getAllPromptsByAdmin = async (quaryString) => {
+    return protectedFetch(`/api/admin/prompts?${quaryString}`);
 }
 
 export const getAllPrompts = async (quaryString) => {

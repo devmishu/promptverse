@@ -106,7 +106,7 @@ export function Navbar() {
                                 {/* ইউজারের ইমেজ */}
                                 <div className="relative size-9 rounded-xl overflow-hidden border border-[#30363d] bg-[#111827] flex-shrink-0">
                                     <img
-                                        src={user?.image || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80"}
+                                        src={user?.userImage || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80"}
                                         alt={user?.name || "User Avatar"}
                                         className="w-full h-full object-cover"
                                     />

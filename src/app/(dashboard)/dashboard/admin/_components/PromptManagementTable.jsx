@@ -60,7 +60,7 @@ export default function PromptManagementTable({ prompts = [], onApprove, onRejec
 
                     <tbody>
                         {prompts.map((prompt) => (
-                            <tr key={prompt.id} className="border-b border-[#1e293b]/20 hover:bg-[#111827]/30 transition-colors group">
+                            <tr key={prompt._id} className="border-b border-[#1e293b]/20 hover:bg-[#111827]/30 transition-colors group">
 
                                 {/* Column 1: Title & Category */}
                                 <td className="py-4 px-4">

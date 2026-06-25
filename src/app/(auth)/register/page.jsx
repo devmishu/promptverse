@@ -24,7 +24,7 @@ export default function SignUpPage() {
 
         const { name, email, userImage, password } = signupData
 
-        const plan = "user"
+        const plan = "free"
         const { data, error } = await authClient.signUp.email({
             name,
             email,

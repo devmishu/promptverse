@@ -3,12 +3,22 @@ import { getAllPromptsByAdmin } from '@/lib/api/prompt';
 import PromptManagementTable from '../_components/PromptManagementTable';
 import { deletePrompt } from '@/lib/actions/prompt';
 import { revalidatePath } from 'next/cache';
+import { PaginationWithSummary } from '@/components/shared/PaginationWithSummary';
 
 
-const AllPromptsPage = async () => {
+const AllPromptsPage = async ({searchParams}) => {
 
-    const allPrompts = await getAllPromptsByAdmin();
-    console.log("allPrompts............................", allPrompts);
+    const filters = await searchParams;
+
+    const quarySearch = new URLSearchParams(filters);
+    const quaryString = quarySearch.toString();
+
+    const prompts = await getAllPromptsByAdmin(quaryString);
+    const allPrompts = prompts.result;
+
+    console.log(prompts);
+
+    // console.log("allPrompts............................", allPrompts);
 
     const handleDeletPrompt = async (promptId) => {
         "use server"
@@ -19,11 +29,15 @@ const AllPromptsPage = async () => {
     }
 
     return (
-        <div>
+        <div className='space-y-5'>
+            {allPrompts.length}
             <PromptManagementTable
                 prompts={allPrompts}
                 onHandleDeletPrompt={handleDeletPrompt}
             />
+            <PaginationWithSummary promptsData={allPrompts}
+                total={prompts.total} />
+
         </div>
     );
 };
