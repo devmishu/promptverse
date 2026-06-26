@@ -150,15 +150,16 @@ export function ReportModal({ author, promptData }) {
                                                 </Select.Trigger>
                                                 <Select.Popover className="bg-[#090d16] border border-slate-900 rounded-xl shadow-2xl p-1">
                                                     <ListBox className="text-slate-300">
+                                                        <ListBox.Item id="inappropriate" textValue="Inappropriate Content" className="hover:bg-slate-900 p-2.5 rounded-lg text-sm cursor-pointer transition-colors">
+                                                            Inappropriate Content
+                                                        </ListBox.Item>
                                                         <ListBox.Item id="spam" textValue="Spam" className="hover:bg-slate-900 p-2.5 rounded-lg text-sm cursor-pointer transition-colors">
                                                             Spam / Misleading
                                                         </ListBox.Item>
                                                         <ListBox.Item id="copyright" textValue="Copyright Violation" className="hover:bg-slate-900 p-2.5 rounded-lg text-sm cursor-pointer transition-colors">
                                                             Copyright Violation
                                                         </ListBox.Item>
-                                                        <ListBox.Item id="others" textValue="Others" className="hover:bg-slate-900 p-2.5 rounded-lg text-sm cursor-pointer transition-colors">
-                                                            Others
-                                                        </ListBox.Item>
+
                                                     </ListBox>
                                                 </Select.Popover>
                                             </Select>
@@ -171,9 +172,9 @@ export function ReportModal({ author, promptData }) {
                                                 name="description"
                                                 aria-label="Report Details"
                                                 rows={4}
-                                                className="w-full"
+                                                
                                                 placeholder="Provide more details about the issue..."
-                                                classNames={{
+                                                className={{
                                                     inputWrapper: "bg-[#020617]/60 border border-slate-900 focus-within:border-slate-800 rounded-xl p-3.5 transition-all",
                                                     input: "text-sm text-slate-300 placeholder:text-slate-700 min-h-[100px]",
                                                 }}

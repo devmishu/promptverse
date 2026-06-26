@@ -30,6 +30,7 @@ const MyPromptPage = async () => {
             <MyPromptsTable
                 prompts={prompts}
                 noHandleDeletPrompt={handleDeletPrompt}
+               
             />
         </div>
     );

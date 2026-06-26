@@ -330,12 +330,12 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                     isIconOnly
                                     size="md"
                                     variant="light"
-                                    className={`rounded-xl transition-colors ${isBookmarked ? "text-purple-400" : "text-slate-400 hover:text-white"}`}
+                                    className={`rounded-xl transition-colors ${isBookmarked ? "text-purple-400" : "text-slate-400 hover:text-white bg-slate-800"}`}
                                 >
                                     <Bookmark size={16} className={isBookmarked ? "fill-purple-500" : ""} />
                                 </Button>
 
-                                {promptData?.locked ? <Button disabled={true} isIconOnly size="md" variant="light" className="text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all">
+                                {promptData?.locked ? <Button disabled={true} isIconOnly size="md" variant="light" className=" hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all bg-slate-800 text-slate-500 cursor-not-allowed opacity-60 pointer-events-none">
                                     <ShieldCheck size={18} />
                                 </Button> : <ReportModal promptData={promptData} author={author} />
 
@@ -378,8 +378,8 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                                 name="currentPage"
                                                 value={typeof window !== "undefined" ? window.location.pathname : ""}
                                             />
-                                            <button 
-                                                
+                                            <button
+
                                                 type="submit" role="link"
                                                 className="cursor-pointer group relative w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-semibold text-sm py-3 px-6 rounded-xl transition-all duration-300 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] shadow-[0_4px_20px_rgba(245,158,11,0.2)]"
                                             >
@@ -431,7 +431,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                     {/* রিভিউ এবং ফিডব্যাক সেকশন */}
                     <div className="mt-2">
                         <h3 className="text-xs sm:text-sm font-bold text-slate-400 tracking-wider uppercase mb-5 flex items-center gap-2.5">
-                            <MessageSquare size={16} /> Community Feedback ({promptData?.reviewCount || 0})
+                            <MessageSquare size={16} /> Community Feedback ({promptReviews.length})
                         </h3>
 
                         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">

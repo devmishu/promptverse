@@ -18,26 +18,42 @@ import {
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import { editPrompt } from "@/lib/actions/prompt";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 
-
-
-export default function EditPrompt({ submitBtn, promptId }) {
+export default function EditPrompt({ submitBtn, promptId, promptData }) {
+    const router = useRouter();
     const [isUploading, setIsUploading] = useState(false);
-    const [imageUrl, setImageUrl] = useState("");
+    const [imageUrl, setImageUrl] = useState(promptData?.thumbnail || "");
 
     const session = useSession();
-    const user = session?.data?.user
+    const user = session?.data?.user;
 
-    // Handle ImgBB Direct Upload with Robust Error Boundary
+    // 💡 Tags অ্যারে নাকি অন্য কিছু তা সেফলি হ্যান্ডেল করার জন্য এই ফাংশন
+    const renderTagsValue = () => {
+        if (!promptData?.tags) return "";
+        if (Array.isArray(promptData.tags)) {
+            return promptData.tags.join(", ");
+        }
+        // যদি কোনো কারণে অবজেক্ট বা অন্য কিছু আসে
+        if (typeof promptData.tags === "object") {
+            return Object.values(promptData.tags).join(", ");
+        }
+        return String(promptData.tags);
+    };
+
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // ImgBB API Key (আপনার API Key এখানে বসাবেন অথবা environment variable ব্যবহার করবেন)
-        const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
+        const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+        if (!allowedTypes.includes(file.type)) {
+            toast.error("Only PNG, JPG, and JPEG images are allowed!");
+            e.target.value = "";
+            return;
+        }
 
+        const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
         const formData = new FormData();
         formData.append("image", file);
 
@@ -66,7 +82,6 @@ export default function EditPrompt({ submitBtn, promptId }) {
         }
     };
 
-
     const handleEditPrompt = async (e) => {
         e.preventDefault();
 
@@ -77,27 +92,23 @@ export default function EditPrompt({ submitBtn, promptId }) {
 
         const formData = new FormData(e.target);
         const updatedData = Object.fromEntries(formData.entries());
-
+        updatedData.thumbnail = imageUrl;
 
         try {
             const data = await editPrompt(promptId, updatedData);
+            toast.success(data.message || "Prompt updated successfully!");
 
-            toast.success(data.message);
-
-            redirect(`/dashboard/${user?.role}/myprompt`);
+            if (user?.role) {
+                router.push(`/dashboard/${user?.role}/myprompt`);
+            }
         } catch (error) {
             console.error(error);
-
             toast.error(error?.response?.data?.message || error.message || "Update failed!");
         }
     };
 
-
-
     return (
         <div className="bg-[#030712] text-white min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-
-            {/* Background Ambient Cosmic Glow Layer */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
 
@@ -107,18 +118,17 @@ export default function EditPrompt({ submitBtn, promptId }) {
             >
                 <Fieldset>
                     <Fieldset.Legend className="text-xl md:text-2xl font-bold tracking-tight text-white select-none">
-                        Architect New Prompt
+                        Edit Prompt
                     </Fieldset.Legend>
                     <Description className="text-gray-400 text-xs mb-6 block">
                         Deploy highly optimized prompt parameters live into the global ecosystem grid.
                     </Description>
 
                     <FieldGroup className="flex flex-col gap-5">
-
-                        {/* Prompt Title Input */}
                         <TextField
                             isRequired
                             name="title"
+                            defaultValue={promptData?.title || ""}
                             validate={(value) => value.length < 5 ? "Title must be at least 5 characters" : null}
                         >
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">Prompt Title</Label>
@@ -129,10 +139,10 @@ export default function EditPrompt({ submitBtn, promptId }) {
                             <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                         </TextField>
 
-                        {/* Prompt Description Input */}
                         <TextField
                             isRequired
                             name="description"
+                            defaultValue={promptData?.description || ""}
                             validate={(value) => value.length < 15 ? "Description must be at least 15 characters" : null}
                         >
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">Prompt Description</Label>
@@ -143,10 +153,10 @@ export default function EditPrompt({ submitBtn, promptId }) {
                             <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                         </TextField>
 
-                        {/* Prompt Content Input */}
                         <TextField
                             isRequired
                             name="content"
+                            defaultValue={promptData?.content || ""}
                             validate={(value) => value.length < 20 ? "Prompt operational instructions are too short" : null}
                         >
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">Prompt Content</Label>
@@ -157,11 +167,8 @@ export default function EditPrompt({ submitBtn, promptId }) {
                             <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                         </TextField>
 
-                        {/* Two Column Grid layout for Selectors */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                            {/* Category Selection */}
-                            <TextField isRequired name="category">
+                            <TextField isRequired name="category" defaultValue={promptData?.category || ""}>
                                 <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">Category</Label>
                                 <Input
                                     placeholder="e.g. Web Development, Copywriting"
@@ -170,8 +177,7 @@ export default function EditPrompt({ submitBtn, promptId }) {
                                 <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                             </TextField>
 
-                            {/* AI Tool Selection */}
-                            <TextField isRequired name="aiTool">
+                            <TextField isRequired name="aiTool" defaultValue={promptData?.aiTool || ""}>
                                 <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">AI Tool</Label>
                                 <Input
                                     placeholder="e.g. ChatGPT, Midjourney, Claude"
@@ -179,11 +185,10 @@ export default function EditPrompt({ submitBtn, promptId }) {
                                 />
                                 <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                             </TextField>
-
                         </div>
 
-                        {/* Tags Config Matrix */}
-                        <TextField isRequired name="tags">
+                        {/* 💡 এখানে ফিক্সড মেথড ব্যবহার করা হয়েছে */}
+                        <TextField isRequired name="tags" defaultValue={renderTagsValue()}>
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">Tags (Comma Separated)</Label>
                             <Input
                                 placeholder="react, tailwind, nextjs, framework"
@@ -193,19 +198,18 @@ export default function EditPrompt({ submitBtn, promptId }) {
                             <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                         </TextField>
 
-                        {/* Image Upload Interface to ImgBB Matrix */}
                         <div className="flex flex-col gap-1.5">
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide">Thumbnail Image</Label>
                             <div className="relative w-full border border-[#1e293b]/80 bg-[#030712]/60 rounded-xl px-4 py-2.5 flex items-center justify-between gap-4">
                                 <input
                                     type="file"
-                                    accept="image/*"
+                                    accept="image/png, image/jpeg, image/jpg"
                                     onChange={handleImageUpload}
                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
                                     disabled={isUploading}
                                 />
                                 <span className="text-gray-400 text-sm truncate max-w-[70%]">
-                                    {imageUrl ? "Image Selected & Uploaded" : "Choose system thumbnail file..."}
+                                    {imageUrl ? "Image Ready" : "Choose system thumbnail file..."}
                                 </span>
                                 <Button
                                     size="sm"
@@ -214,15 +218,9 @@ export default function EditPrompt({ submitBtn, promptId }) {
                                     {isUploading ? "Uploading..." : "Browse"}
                                 </Button>
                             </div>
-                            {imageUrl && (
-                                <span className="text-[10px] text-cyan-400 font-medium truncate mt-1">
-                                    Target Link: {imageUrl}
-                                </span>
-                            )}
                         </div>
 
-                        {/* Difficulty Level Selection */}
-                        <RadioGroup defaultValue="beginner" name="difficulty" className="mt-1 flex flex-col gap-1.5">
+                        <RadioGroup defaultValue={promptData?.difficulty || "beginner"} name="difficulty" className="mt-1 flex flex-col gap-1.5">
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide">Difficulty Level</Label>
                             <div className="flex flex-wrap gap-6 items-center w-full mt-1">
                                 <Radio value="beginner" className="text-xs text-gray-300 font-medium">
@@ -246,14 +244,19 @@ export default function EditPrompt({ submitBtn, promptId }) {
                             </div>
                         </RadioGroup>
 
-                        {/* Visibility Mode Switch Option */}
-                        <RadioGroup defaultValue="public" name="visibility" className="mt-1 flex flex-col gap-1.5">
+                        <RadioGroup defaultValue={promptData?.visibility || "public"} name="visibility" className="mt-1 flex flex-col gap-1.5">
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide">Visibility Scope</Label>
                             <div className="flex gap-6 items-center w-full mt-1">
                                 <Radio value="public" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
                                         <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Public Marketplace</Label></Radio.Content>
+                                    </div>
+                                </Radio>
+                                <Radio value="premium" className="text-xs text-gray-300 font-medium">
+                                    <div className="flex flex-row items-center gap-2 cursor-pointer">
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
+                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Premium Scope</Label></Radio.Content>
                                     </div>
                                 </Radio>
                                 <Radio value="private" className="text-xs text-gray-300 font-medium">
@@ -264,11 +267,9 @@ export default function EditPrompt({ submitBtn, promptId }) {
                                 </Radio>
                             </div>
                         </RadioGroup>
-
                     </FieldGroup>
 
-                    {/* Core Controls Actions System */}
-                    <Fieldset.Actions className="flex items-center gap-4 mt-8 pt-4 border-t border-[#1e293b]/40">
+                    <Fieldset.Actions className="flex items-center gap-4 mt-8 pt-4 border-t border-t-[#1e293b]/40">
                         <Button
                             type="submit"
                             disabled={isUploading}

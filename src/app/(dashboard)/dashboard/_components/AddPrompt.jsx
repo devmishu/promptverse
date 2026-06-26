@@ -19,6 +19,7 @@ import {
 import toast from "react-hot-toast";
 import { useSession } from "@/lib/auth-client";
 import { createprompt } from "@/lib/actions/prompt";
+import { useRouter } from "next/navigation";
 
 
 
@@ -28,6 +29,8 @@ export default function AddPrompt({ submitBtn }) {
 
     const session = useSession();
     const user = session?.data?.user
+
+    const router = useRouter();
 
     // Handle ImgBB Direct Upload with Robust Error Boundary
     const handleImageUpload = async (e) => {
@@ -104,10 +107,12 @@ export default function AddPrompt({ submitBtn }) {
 
             console.log(data);
 
-            alert(`${data.message}`);
+            toast.success(`${data.message}`);
+            router.push(`/dashboard/${user?.role}/myprompt`);
 
         } catch (error) {
             console.error("create prompt failed:", error);
+            toast.error("create prompt failed:", error);
         }
     };
 

@@ -1,15 +1,16 @@
 import React, { use } from 'react';
 import EditPrompt from '../../../../_components/EditPrompt';
+import { getPromptById } from '@/lib/api/prompt';
 
-const EditPromptPage = ({ params }) => {
-    const { id } = use(params);
+const EditPromptPage = async ({ params }) => {
+    const { id } = await params;
     console.log("edit page id...", id);
-
-
+    const promptData = await getPromptById(id);
 
     return <EditPrompt
         submitBtn={"Update Prompt"}
         promptId={id}
+        promptData={promptData}
     />
 };
 

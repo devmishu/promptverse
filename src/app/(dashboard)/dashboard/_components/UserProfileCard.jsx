@@ -13,7 +13,7 @@ import {
     CreditCard
 } from "lucide-react";
 
-export default function UserProfileCard({ user = {} }) {
+export default function UserProfileCard({ user = {},myPrompts,title }) {
     // Props Destructuring
     const {
         name = "Anonymous User",
@@ -83,8 +83,8 @@ export default function UserProfileCard({ user = {} }) {
                         <FileCode2 className="size-5" />
                     </div>
                     <div>
-                        <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Prompts Published</p>
-                        <h4 className="text-2xl font-bold text-white mt-0.5">{promptsPublishedLength}</h4>
+                        <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">{title}</p>
+                        <h4 className="text-2xl font-bold text-white mt-0.5">{myPrompts}</h4>
                     </div>
                 </Card>
 

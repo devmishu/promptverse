@@ -4,12 +4,17 @@ import { getAllPrompts } from "@/lib/api/prompt";
 import { SlidersHorizontal } from "lucide-react";
 import PromptFilterBar from "../_components/PromptFilterBar";
 import { PaginationWithSummary } from "@/components/shared/PaginationWithSummary";
+import { getUser } from "@/lib/core/session";
 
 
 // Next.js সার্ভার কম্পোনেন্টে searchParams হ্যান্ডেল করার স্ট্যান্ডার্ড উপায়
 const AllPromptsPage = async ({ searchParams }) => {
     // searchParams প্রপ্স অবজেক্টটি সরাসরি রিসিভ করা হলো
     const filters = await searchParams;
+
+    const user = await getUser();
+
+
 
 
     // URLSearchParams-এ অবজেক্ট পাস করে কুয়েরি স্ট্রিং জেনারেট করা হচ্ছে
@@ -20,6 +25,7 @@ const AllPromptsPage = async ({ searchParams }) => {
     const promptsData = await getAllPrompts(quaryString);
     const allPromptsData = promptsData.result;
 
+    console.log("all prompt data....", allPromptsData);
 
     console.log(promptsData);
 
@@ -31,7 +37,7 @@ const AllPromptsPage = async ({ searchParams }) => {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#1e293b]/30 pb-6">
                     <div className="flex flex-col gap-2">
                         <h1 className="text-2xl md:text-3xl font-bold tracking-tight uppercase flex items-center gap-2.5">
-                            All Prompts 
+                            All Prompts
                         </h1>
                         <p className=" text-gray-500">
                             Explore our complete collection of high-quality, production-ready AI prompts.
@@ -49,7 +55,7 @@ const AllPromptsPage = async ({ searchParams }) => {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {allPromptsData.map((prompt) => (
-                                <PromptCard key={prompt._id} prompt={prompt} />
+                                <PromptCard key={prompt._id} prompt={prompt} author={user} />
                             ))}
 
                         </div>

@@ -18,12 +18,12 @@ export function DashboardSideBar() {
     console.log("dashboard user=+++++++++", user);
 
     const userNavLinks = [
-        { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/user" },
+        { icon: User, label: "My Profile ", link: "/dashboard/user/profile" },
         { icon: PlusCircle, label: "Add Prompt", link: "/dashboard/prompt/new" },
         { icon: Terminal, label: "My Prompts", link: "/dashboard/user/myprompt" },
         { icon: Bookmark, label: "Saved Prompts", link: "/dashboard/user/savedprompt" },
-        { icon: User, label: "Profile ", link: "/dashboard/user/profile" },
         { icon: MessageSquareQuote, label: "My Reviews", link: "/dashboard/user/reviews" },
+
     ];
 
     const creatorNavLinks = [

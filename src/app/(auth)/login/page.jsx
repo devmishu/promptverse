@@ -42,16 +42,20 @@ export default function SignInPage() {
     };
 
     return (
-        <div className="bg-[linear-gradient(to_bottom,#f8fafc,#f1f5f9)] dark:bg-[radial-gradient(120%_120%_at_50%_10%,#000000_40%,#1e1b4b_75%,#4c1d95_100%)] text-slate-900 dark:text-neutral-50 min-h-screen w-full transition-colors duration-500 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div className="bg-[#030712] text-white min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
 
-            {/* Centered Auth Card Overlay Container */}
-            <div className="w-full max-w-md bg-white dark:bg-neutral-900/80 border border-slate-200 dark:border-neutral-800/80 shadow-xl rounded-2xl p-6 sm:p-8 backdrop-blur-md transition-all">
+            {/* Decorative Cosmic Glowing Backdrops to match Register/Landing Page ambient vibe */}
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full pointer-events-none" />
+
+            {/* Premium Dynamic Auth Card container */}
+            <div className="w-full max-w-md bg-[#111827]/40 border border-[#1e293b]/60 shadow-2xl rounded-3xl p-6 sm:p-8 backdrop-blur-md z-10 transition-all">
 
                 {/* Brand/Header Logo Concept */}
                 <div className="flex flex-col items-center justify-center mb-6 text-center select-none">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 mb-3">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 mb-3">
                         <svg
-                            className="w-6 h-6 text-white"
+                            className="w-5 h-5 text-white"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -63,10 +67,10 @@ export default function SignInPage() {
                             <polyline points="8 6 2 12 8 18" />
                         </svg>
                     </div>
-                    <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-neutral-50">
+                    <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white">
                         Welcome back
                     </h1>
-                    <p className="text-slate-500 dark:text-neutral-400 text-sm mt-1">
+                    <p className="text-gray-400 text-xs mt-1">
                         Sign in to manage your projects and dashboard
                     </p>
                 </div>
@@ -75,9 +79,9 @@ export default function SignInPage() {
                 <button
                     type="button"
                     onClick={signIn}
-                    className="w-full flex items-center justify-center gap-2 border border-slate-300 dark:border-neutral-700 text-slate-700 dark:text-neutral-300 bg-transparent hover:bg-slate-50 dark:hover:bg-neutral-800/50 font-medium px-4 h-11 rounded-xl transition-all text-sm cursor-pointer mb-5 active:scale-[0.99]"
+                    className="w-full flex items-center justify-center gap-2 border border-[#1e293b]/80 text-gray-300 bg-[#111827]/30 hover:bg-[#111827]/80 font-semibold px-4 h-11 rounded-xl transition-all text-xs cursor-pointer mb-5 active:scale-[0.99]"
                 >
-                    <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24">
                         <path
                             fill="#EA4335"
                             d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582l3.51-3.51C17.642 1.07 14.96 0 12 0 7.354 0 3.307 2.655 1.252 6.533l4.014 3.232z"
@@ -100,11 +104,11 @@ export default function SignInPage() {
 
                 {/* Separator Divider Display */}
                 <div className="flex items-center my-4 select-none">
-                    <div className="flex-1 h-[1px] bg-slate-200 dark:bg-neutral-800/80" />
-                    <span className="text-xs text-slate-400 dark:text-neutral-500 uppercase px-3 tracking-wider">
+                    <div className="flex-1 h-[1px] bg-[#1e293b]/40" />
+                    <span className="text-[10px] text-gray-500 font-bold uppercase px-3 tracking-widest">
                         Or continue with
                     </span>
-                    <div className="flex-1 h-[1px] bg-slate-200 dark:bg-neutral-800/80" />
+                    <div className="flex-1 h-[1px] bg-[#1e293b]/40" />
                 </div>
 
                 {/* Core Entry Matrix */}
@@ -115,7 +119,6 @@ export default function SignInPage() {
                         isRequired
                         name="email"
                         type="email"
-
                         validate={(value) => {
                             if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
                                 return "Please enter a valid email address";
@@ -123,12 +126,12 @@ export default function SignInPage() {
                             return null;
                         }}
                     >
-                        <Label className="text-slate-700 dark:text-neutral-300 text-sm font-medium mb-1 inline-block">Email Address</Label>
+                        <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1 inline-block">Email Address</Label>
                         <Input
                             placeholder="john@example.com"
-                            className="bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-neutral-50 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200"
+                            className="bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
                         />
-                        <FieldError className="text-red-500 text-xs mt-1" />
+                        <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                     </TextField>
 
                     {/* Form Action: Absolute Cipher Configuration */}
@@ -136,26 +139,25 @@ export default function SignInPage() {
                         isRequired
                         name="password"
                         type="password"
-
                     >
                         <div className="flex justify-between items-center mb-1">
-                            <Label className="text-slate-700 dark:text-neutral-300 text-sm font-medium inline-block">Password</Label>
-                            <a href="#" className="text-xs text-indigo-500 dark:text-indigo-400 hover:underline">
+                            <Label className="text-gray-300 text-xs font-semibold tracking-wide inline-block">Password</Label>
+                            <a href="#" className="text-xs text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
                                 Forgot password?
                             </a>
                         </div>
                         <Input
                             placeholder="Enter your password"
-                            className="bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-neutral-50 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200"
+                            className="bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
                         />
-                        <FieldError className="text-red-500 text-xs mt-1" />
+                        <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                     </TextField>
 
                     {/* Execution Operations Matrix */}
-                    <div className="flex flex-col gap-3 mt-2">
+                    <div className="flex flex-col gap-3 mt-4">
                         <Button
                             type="submit"
-                            className="w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white font-semibold px-5 h-11 rounded-xl transition-all shadow-md shadow-indigo-500/10 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+                            className="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-semibold text-sm h-11 rounded-xl shadow-lg shadow-cyan-500/10 hover:opacity-95 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer transition-all"
                         >
                             <Check className="w-4 h-4" />
                             Sign In
@@ -163,8 +165,7 @@ export default function SignInPage() {
 
                         <Button
                             type="reset"
-                            variant="secondary"
-                            className="w-full border border-slate-300 dark:border-neutral-700 text-slate-700 dark:text-neutral-300 hover:bg-slate-50 dark:hover:bg-neutral-800 px-5 h-11 rounded-xl transition-all cursor-pointer bg-transparent"
+                            className="w-full border border-slate-800 bg-[#111827]/20 text-gray-400 hover:text-white hover:bg-slate-900 px-5 h-11 rounded-xl transition-all cursor-pointer text-xs font-medium"
                         >
                             Reset Form
                         </Button>
@@ -172,11 +173,11 @@ export default function SignInPage() {
                 </Form>
 
                 {/* Account Creation Redirection Link */}
-                <p className="text-center text-sm text-slate-600 dark:text-neutral-400 mt-6 select-none">
+                <p className="text-center text-xs text-gray-400 mt-6 select-none font-medium">
                     Don't have an account?{" "}
                     <Link
                         href={`/register`}
-                        className="text-indigo-500 dark:text-indigo-400 hover:text-indigo-400 font-semibold transition-colors decoration-2 hover:underline"
+                        className="text-cyan-400 hover:text-cyan-300 font-bold transition-colors hover:underline ml-0.5"
                     >
                         Sign Up
                     </Link>

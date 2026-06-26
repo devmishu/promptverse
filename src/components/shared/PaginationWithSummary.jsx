@@ -48,6 +48,8 @@ export function PaginationWithSummary({ promptsData, filters, total }) {
         return pages;
     };
 
+    console.log("pagination number ...", getPageNumbers());
+
 
     const startItem = (page - 1) * itemsPerPage + 1;
     const endItem = Math.min(page * itemsPerPage, totalItems);

@@ -7,7 +7,7 @@ import Link from "next/link";
 export function PromptCard({ prompt, author }) {
 
 
-
+console.log("card author............." , author);
     const {
         title,
         thumbnail: iconUrl,
@@ -109,7 +109,7 @@ export function PromptCard({ prompt, author }) {
                                 src={author?.avatarUrl}
                                 className="w-5 h-5 text-[9px] font-bold bg-purple-600 text-white border border-gray-800"
                             /> */}
-                            <User />
+                            <User size="15" className="border-2 rounded-full "/>
                             <span className="text-xs text-gray-400 font-medium tracking-tight">
                                 {author?.name || "Creator"}
                             </span>

@@ -1,16 +1,21 @@
 "use client";
 
-import { Button } from "@heroui/react";
-import { Calendar, Star, Eye, MessageSquareText } from "lucide-react";
+import { Button, Modal } from "@heroui/react";
+import { Calendar, Star, Eye, MessageSquareText, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 export default function UserReviewTable({ reviews = [] }) {
-    // প্রপস হিসেবে ডাটা না আসলে যেন ক্র্যাশ না করে, সেজন্য লোকাল ফেক ডাটা ব্যাকআপ
-    
+    // মডাল স্টেট ম্যানেজমেন্ট
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedReview, setSelectedReview] = useState(null);
 
+    const handleOpenModal = (review) => {
+        setSelectedReview(review);
+        setIsOpen(true);
+    };
 
     return (
-        // ১. কন্টেইনারে max-w-full এবং p-4 sm:p-6 করা হয়েছে যাতে মোবাইলে বর্ডার স্ক্রিনের বাইরে না চলে যায়
-        <div className="w-full max-w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-4 sm:p-6 shadow-2xl relative overflow-hidden ">
+        <div className="w-full max-w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-4 sm:p-6 shadow-2xl relative overflow-hidden">
 
             {/* Table Header */}
             <div className="flex items-center justify-between mb-6">
@@ -25,9 +30,8 @@ export default function UserReviewTable({ reviews = [] }) {
                 </div>
             </div>
 
-            {/* ২. কাস্টম স্ক্রলবার হাইড ক্লাসগুলো সরিয়ে স্ট্যান্ডার্ড touch-scroll এবং block লেআউট দেওয়া হয়েছে */}
+            {/* Table Container */}
             <div className="w-full overflow-x-auto overflow-y-hidden block touch-pan-x dynamic-scroll">
-                {/* ৩. table-auto দিয়ে কলামগুলোর উইডথ সুরক্ষিত করা হয়েছে */}
                 <table className="w-full min-w-[950px] border-collapse text-left table-auto">
                     <thead>
                         <tr className="bg-[#030712]/80 border-b border-[#1e293b]/40">
@@ -46,21 +50,18 @@ export default function UserReviewTable({ reviews = [] }) {
                                 key={review._id}
                                 className="border-b border-[#1e293b]/20 hover:bg-[#111827]/30 transition-colors group"
                             >
-                                {/* Column 1: Title */}
                                 <td className="py-4 px-4">
                                     <span className="font-semibold text-sm text-gray-200 tracking-wide line-clamp-1">
                                         {review?.title || "blank title"}
                                     </span>
                                 </td>
 
-                                {/* Column 2: AI Tool */}
                                 <td className="py-4 px-4">
                                     <span className="text-xs font-mono text-cyan-400 bg-cyan-500/5 px-2 py-1 rounded-md border border-cyan-500/10 whitespace-nowrap">
                                         {review.aiTool || "Ai tool"}
                                     </span>
                                 </td>
 
-                                {/* Column 3: Rating Stars */}
                                 <td className="py-4 px-4">
                                     <div className="flex items-center gap-0.5">
                                         {[...Array(5)].map((_, i) => (
@@ -75,10 +76,9 @@ export default function UserReviewTable({ reviews = [] }) {
                                     </div>
                                 </td>
 
-                                {/* Column 4: Comment (Safe Truncate Fix) */}
                                 <td className="py-4 px-4 max-w-[300px]">
                                     {review.reviewText ? (
-                                        <p className="text-sm text-gray-400 font-medium truncate" title={review.comment}>
+                                        <p className="text-sm text-gray-400 font-medium truncate" title={review.reviewText}>
                                             {review.reviewText}
                                         </p>
                                     ) : (
@@ -88,7 +88,6 @@ export default function UserReviewTable({ reviews = [] }) {
                                     )}
                                 </td>
 
-                                {/* Column 5: Submitted Date */}
                                 <td className="py-4 px-4">
                                     <div className="flex items-center gap-1.5 text-gray-400 text-xs font-medium whitespace-nowrap">
                                         <Calendar className="size-3.5 text-gray-500" />
@@ -96,25 +95,86 @@ export default function UserReviewTable({ reviews = [] }) {
                                     </div>
                                 </td>
 
-                                {/* Column 6: Action View Button */}
                                 <td className="py-4 px-4 text-center">
-                                    <Button
-                                        isIconOnly
-                                        size="sm"
-                                        variant="light"
-                                        className="text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-xl"
-                                        aria-label="View Detailed Review"
-                                        onClick={() => alert(`Review Details:\n\nTitle: ${review.title}\nComment: ${review.comment || "No comment yet"}`)}
-                                    >
-                                        <Eye className="size-4" />
-                                    </Button>
-                                </td>
+                                    {/* 🚀 HeroUI v3 সাব-কম্পোনেন্ট ভিত্তিক প্রিমিয়াম মডাল */}
+                                    <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+                                        <Button
+                                            isIconOnly
+                                            size="sm"
+                                            variant="light"
+                                            className="text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-xl"
+                                            aria-label="View Detailed Review"
+                                            onClick={() => handleOpenModal(review)}
+                                        >
+                                            <Eye className="size-4" />
+                                        </Button>
+                                        <Modal.Backdrop className="bg-[#030712]/60 backdrop-blur-sm">
+                                            <Modal.Container>
+                                                <Modal.Dialog className="sm:max-w-[480px] bg-[#0b1329] border border-[#1e293b] text-white rounded-2xl shadow-2xl p-6">
+                                                    <Modal.CloseTrigger className="text-gray-400 hover:text-white transition-colors" />
 
+                                                    <Modal.Header className="flex items-center gap-3 p-0 pb-4 border-b border-[#1e293b]/50">
+                                                        <Modal.Icon className="bg-cyan-500/10 text-cyan-400 p-2.5 rounded-xl border border-cyan-500/20">
+                                                            <Sparkles className="size-5" />
+                                                        </Modal.Icon>
+                                                        <div>
+                                                            <Modal.Heading className="text-base font-bold text-white tracking-tight">
+                                                                Review Insights
+                                                            </Modal.Heading>
+                                                            <p className="text-xs text-gray-400 font-mono mt-0.5">
+                                                                Target: {selectedReview?.aiTool || "N/A"}
+                                                            </p>
+                                                        </div>
+                                                    </Modal.Header>
+
+                                                    <Modal.Body className="p-0 py-5 flex flex-col gap-4">
+                                                        <div className="flex flex-col gap-1">
+                                                            <span className="text-xs text-cyan-400 font-bold uppercase tracking-wider">Title</span>
+                                                            <h4 className="text-base font-semibold text-gray-200">
+                                                                {selectedReview?.title || "No Title Provided"}
+                                                            </h4>
+                                                        </div>
+
+                                                        <div className="flex flex-col gap-1">
+                                                            <span className="text-xs text-cyan-400 font-bold uppercase tracking-wider">Rating</span>
+                                                            <div className="flex items-center gap-0.5 pt-0.5">
+                                                                {[...Array(5)].map((_, i) => (
+                                                                    <Star
+                                                                        key={i}
+                                                                        className={`size-4 ${i < (selectedReview?.rating || 0)
+                                                                            ? "fill-amber-400 text-amber-400"
+                                                                            : "text-gray-700"
+                                                                            }`}
+                                                                    />
+                                                                ))}
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="flex flex-col gap-1.5 bg-[#111827]/50 border border-[#1e293b]/40 rounded-xl p-4">
+                                                            <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">User Comment</span>
+                                                            <p className="text-sm text-gray-300 leading-relaxed">
+                                                                {selectedReview?.reviewText || "User left no explicit feedback text."}
+                                                            </p>
+                                                        </div>
+                                                    </Modal.Body>
+
+                                                    <Modal.Footer className="p-0 pt-2 flex items-center justify-between">
+                                                        <div className="flex items-center gap-1.5 text-gray-500 text-xs font-medium">
+                                                            <Calendar className="size-3.5" />
+                                                            <span>Logged: {selectedReview?.createdAt}</span>
+                                                        </div>
+                                                    </Modal.Footer>
+                                                </Modal.Dialog>
+                                            </Modal.Container>
+                                        </Modal.Backdrop>
+                                    </Modal>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+
 
         </div>
     );

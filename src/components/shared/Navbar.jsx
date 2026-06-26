@@ -16,7 +16,7 @@ export function Navbar() {
     const navLinks = [
         { label: "Home", path: "/" },
         { label: "All Prompts", path: "/allprompts" },
-        ...(user ? [{ label: "Dashboard", path: "/dashboard" }] : [])
+        ...(user ? [{ label: "Dashboard", path: `/dashboard/${user?.role}/profile` }] : [])
     ];
 
     // অ্যাক্টিভ ক্লাসের জন্য হেল্পার ফাংশন (ডেস্কটপ)
