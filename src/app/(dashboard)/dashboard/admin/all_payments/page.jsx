@@ -11,8 +11,8 @@ const AllPaymentsPage = async () => {
 
     
     return (
-        <div>
-            AllPaymentsPage :
+        <div className='p-4 sm:mt-5'>
+            
             <AdminPaymentTable payments={allPayments}/>
         </div>
     );

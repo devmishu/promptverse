@@ -1,11 +1,15 @@
 import React from 'react';
+import { getUser } from '@/lib/core/session';
+import { getAdminAnalytics, getAnalyticsById } from '@/lib/api/prompt';
+import AdminAnalyticsGrid from './_components/AdminAnalyticsGrid';
 
-const AdminPage = () => {
-    return (
-        <div>
-            Admin Page
-        </div>
-    );
+const AdminHomePage = async () => {
+    const analyticsData = await getAdminAnalytics();
+
+    console.log("admin analyticsData..", analyticsData);
+    return <AdminAnalyticsGrid
+        analyticsData={analyticsData}
+    />
 };
 
-export default AdminPage;
+export default AdminHomePage;

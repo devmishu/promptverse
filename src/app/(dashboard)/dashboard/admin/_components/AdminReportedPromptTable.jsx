@@ -4,9 +4,10 @@ import { Button } from "@heroui/react";
 import { AlertOctagon, Eye, CheckCircle, ShieldAlert, Trash2, Calendar, FileText, User } from "lucide-react";
 import Link from "next/link";
 
-export default function AdminReportedPromptTable({ reports = [], onInspect, onHandleDismiss, onWarn, onRemove }) {
+export default function AdminReportedPromptTable({ deletePrompt, reports = [], onHandleDismiss, onWarn, onHandleDeletePrompt }) {
 
     console.log("admin reported prompts..", reports);
+
 
     return (
         <div className="w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-4 sm:p-6 shadow-2xl relative overflow-hidden">
@@ -16,11 +17,9 @@ export default function AdminReportedPromptTable({ reports = [], onInspect, onHa
                 <div>
                     <h2 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
                         <AlertOctagon className="text-rose-500 size-4 sm:size-5 animate-pulse" />
-                        Reported Prompt Submissions
+                        Reported Prompt
                     </h2>
-                    <p className="text-[11px] sm:text-xs text-gray-400 mt-0.5">
-                        Review copyright claims, inappropriate content, and enforce platform guidelines.
-                    </p>
+
                 </div>
             </div>
 
@@ -103,7 +102,7 @@ export default function AdminReportedPromptTable({ reports = [], onInspect, onHa
                                                     size="sm"
                                                     variant="bordered"
                                                     className="text-xs text-gray-300 border-[#1e293b] hover:bg-gray-500/10 h-8 rounded-xl font-medium transition-colors"
-                                                    onClick={() => onInspect && onInspect(report.promptId)}
+
                                                 >
                                                     <Eye className="size-3.5 mr-1 text-gray-400" />
                                                     Inspect
@@ -138,10 +137,10 @@ export default function AdminReportedPromptTable({ reports = [], onInspect, onHa
                                             <Button
                                                 size="sm"
                                                 className="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 h-8 rounded-xl font-bold transition-colors"
-                                                onClick={() => onRemove && onRemove(report.promptId)}
+                                                onClick={() => onHandleDeletePrompt(report.promptId)}
                                             >
                                                 <Trash2 className="size-3.5 mr-1" />
-                                                Remove Prompt
+                                                Remove Prompt {report.promptId}
                                             </Button>
 
                                         </div>

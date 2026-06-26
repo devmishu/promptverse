@@ -1,9 +1,9 @@
 "use client";
 import { Eye, ShoppingBag, Wallet, ArrowLeft, BarChart3 } from "lucide-react";
 import { Button } from "@heroui/react";
-import { AnalyticsCard } from "../../_components/AnalyticsCard";
+import { AnalyticsCard } from "./AnalyticsCard";
 
-export default function AnalyticsPage() {
+export default function AnalyticsGrid() {
     const statsData = [
         {
             title: "Total Views",

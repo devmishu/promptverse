@@ -27,20 +27,20 @@ export function DashboardSideBar() {
     ];
 
     const creatorNavLinks = [
-        { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/creator" },
+        { icon: User, label: "My Profile ", link: "/dashboard/creator/profile" },
+        { icon: LayoutDashboard, label: "Creator Home", link: "/dashboard/creator" },
         { icon: PlusCircle, label: "Add Prompt", link: "/dashboard/prompt/new" },
         { icon: Terminal, label: "My Prompts", link: "/dashboard/creator/myprompt" },
-        { icon: User, label: "Profile ", link: "/dashboard/creator/profile" },
+
     ];
 
     const adminNavLinks = [
-        { icon: LayoutDashboard, label: "Dashboard", link: "/dashboard/admin" },
+        { icon: User, label: "Profile ", link: "/dashboard/admin/profile" },
+        { icon: BarChart3, label: "Admin Analytics", link: "/dashboard/admin" },
         { icon: Users, label: "All Users", link: "/dashboard/admin/allusers" },
         { icon: Sparkles, label: "All Prompts", link: "/dashboard/admin/allprompts" },
         { icon: CreditCard, label: "All Payments", link: "/dashboard/admin/all_payments" },
         { icon: AlertTriangle, label: "Reported Prompts", link: "/dashboard/admin/reported-prompts" },
-        { icon: BarChart3, label: "Analytics ", link: "/dashboard/admin/payments" },
-        { icon: User, label: "Profile ", link: "/dashboard/admin/profile" },
     ];
 
     const navLinksMaping = {

@@ -26,8 +26,8 @@ const AllUsersPage = async () => {
         console.log("new role.........", userId);
     };
     return (
-        <div>
-            <UserManagementTable
+        <div className='p-4 sm:mt-5'>
+            <UserManagementTable 
                 users={usersData}
                 onHandleChangeRole={handleChangeRole}
                 onHandleDeleteUser={handleDeleteUser}

@@ -14,6 +14,8 @@ import { createReview } from "@/lib/actions/review";
 import { ReportModal } from "./ReportModal";
 import { ReviewCard } from "@/components/cards/ReviewCard";
 
+const baseurl = process.env.NEXT_PUBLIC_BASE_URL
+
 export default function PromptDetails({ promptData: initialPromptData, promptId, author, promptReviews }) {
     const [promptData, setPromptData] = useState(initialPromptData);
     const [copied, setCopied] = useState(false);
@@ -50,14 +52,14 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
             try {
                 // ১. বুকমার্ক স্ট্যাটাস চেক
-                const bookmarkRes = await fetch(`http://localhost:5000/api/bookmarks/check?userId=${author.id}&promptId=${promptData._id}`);
+                const bookmarkRes = await fetch(`${baseurl}/api/bookmarks/check?userId=${author.id}&promptId=${promptData._id}`);
                 const bookmarkData = await bookmarkRes.json();
                 if (bookmarkData?.isBookmarked) {
                     setIsBookmarked(true);
                 }
 
                 // ২. রিভিউ স্ট্যাটাস চেক
-                const reviewRes = await fetch(`http://localhost:5000/api/reviews/check?userId=${author.id}&promptId=${promptData._id}`);
+                const reviewRes = await fetch(`${baseurl}/api/reviews/check?userId=${author.id}&promptId=${promptData._id}`);
                 const reviewData = await reviewRes.json();
                 if (reviewData?.hasReviewed) {
                     setHasReviewed(true); // এর ফলে রিফ্রেশ দিলেও "Already Reviewed" দেখাবে
@@ -91,7 +93,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
         // 🚀 ব্যাকএন্ড ডাটাবেজে কপি কাউন্ট ১ বাড়ানোর জন্য এপিআই কল
         try {
-            await fetch(`http://localhost:5000/api/prompts/${promptData._id}/copy`, {
+            await fetch(`${baseurl}/api/prompts/${promptData._id}/copy`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'

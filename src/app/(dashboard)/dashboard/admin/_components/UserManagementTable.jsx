@@ -7,16 +7,16 @@ export default function UserManagementTable({ users = [], onHandleChangeRole, on
 
 
     return (
-        <div className="w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-6 shadow-2xl relative overflow-hidden">
+        <div className=" w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-6 shadow-2xl relative overflow-hidden">
 
             {/* Table Header */}
             <div className="flex items-center justify-between mb-6">
                 <div>
                     <h2 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
                         <ShieldCheck className="text-cyan-400 size-5" />
-                        User Access Registry
+                        All Users
                     </h2>
-                    <p className="text-xs text-gray-400 mt-0.5">Manage global accounts permissions and active subscription ranks.</p>
+
                 </div>
             </div>
 
@@ -41,11 +41,12 @@ export default function UserManagementTable({ users = [], onHandleChangeRole, on
                                 {/* Column 1: Profile */}
                                 <td className="py-4 px-4">
                                     <div className="flex items-center gap-3">
-                                        <Avatar
-                                            src={user.image}
-                                            name={user.name ? user.name.charAt(0).toUpperCase() : "U"}
-                                            className="w-9 h-9 border border-cyan-500/20 text-cyan-400 font-bold bg-[#111827] text-xs"
-                                        />
+                                        <Avatar aria-label={`${user.name}'s profile picture`} className="w-10 h-10 border border-gray-800">
+                                            <Avatar.Image alt={user.name} src={user.userImage} />
+                                            <Avatar.Fallback className="text-sm bg-cyan-500 text-white font-bold">
+                                                {user.name.charAt(0)}
+                                            </Avatar.Fallback>
+                                        </Avatar>
                                         <span className="font-semibold text-sm text-gray-200 tracking-wide">
                                             {user.name}
                                         </span>

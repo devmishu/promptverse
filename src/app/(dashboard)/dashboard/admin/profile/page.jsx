@@ -7,7 +7,7 @@ const AdminProfilePage = async () => {
     console.log("profile user---",user);
 
     return (
-        <div className='my-10 mr-10'>
+        <div className='my-10 p-4 '>
             <UserProfileCard user={user}/>
         </div>
     );

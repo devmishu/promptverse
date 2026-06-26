@@ -91,17 +91,26 @@ export function HeroBanner() {
                             >
                                 Search
                             </Button>
-                            <Link href={'/allprompts'}>
-                                <Button
-                                    type="button"
 
-                                    className="h-9 rounded-full bg-transparent border border-slate-700 hover:border-cyan-500/50 hover:bg-slate-900 text-slate-300 hover:text-cyan-400 text-xs font-medium px-4 min-w-0 transition-all duration-200"
-                                >
-                                    Explore Prompts
-                                </Button>
-                            </Link>
                         </div>
+
                     </motion.form>
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.3}
+                        variants={fadeInUp}
+                    >
+                        <Link href={'/allprompts'} className="">
+                            <Button
+                                type="button"
+
+                                className=" h-9 rounded-full bg-transparent border border-slate-700 hover:border-cyan-500/50 hover:bg-slate-900 text-slate-300 hover:text-cyan-400 text-xs font-medium px-4 min-w-0 transition-all duration-200"
+                            >
+                                Explore Prompts
+                            </Button>
+                        </Link>
+                    </motion.div>
 
                     {/* Trending Tags Animation */}
                     <motion.div

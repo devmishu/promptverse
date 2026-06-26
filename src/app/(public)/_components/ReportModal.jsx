@@ -6,6 +6,8 @@ import { ShieldCheck, AlertTriangle } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { createReport } from "@/lib/actions/report";
 
+const baseurl = process.env.NEXT_PUBLIC_BASE_URL
+
 export function ReportModal({ author, promptData }) {
     const [hasReported, setHasReported] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,10 +21,10 @@ export function ReportModal({ author, promptData }) {
             }
 
             try {
-                const res = await fetch(`http://localhost:5000/api/reports/check?userId=${author.id}&promptId=${promptData._id}`);
+                const res = await fetch(`${baseurl}/api/reports/check?userId=${author.id}&promptId=${promptData._id}`);
                 const data = await res.json();
                 if (data?.hasReported) {
-                    setHasReported(true); // 🛠️ ফিক্স: স্টেট ভ্যারিয়েবলের সঠিক নাম (setHasReported) দেওয়া হয়েছে
+                    setHasReported(true); 
                 }
             } catch (error) {
                 console.error("Error checking report status:", error);
@@ -172,7 +174,7 @@ export function ReportModal({ author, promptData }) {
                                                 name="description"
                                                 aria-label="Report Details"
                                                 rows={4}
-                                                
+
                                                 placeholder="Provide more details about the issue..."
                                                 className={{
                                                     inputWrapper: "bg-[#020617]/60 border border-slate-900 focus-within:border-slate-800 rounded-xl p-3.5 transition-all",

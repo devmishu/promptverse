@@ -2,7 +2,7 @@
 
 import { getUserToken } from "./session";
 
-const baseurl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:5000'
+const baseurl = process.env.NEXT_PUBLIC_BASE_URL
 
 const authHeader = async () => {
     const token = await getUserToken();
@@ -66,13 +66,7 @@ export const serverMutation = async (path, apiData, method = "POST") => {
     return res.json();
 }
 
-// export const serverDelete = async (path, method = "DELETE") => {
-//     const res = await fetch(`${baseurl}${path}`, {
-//         method: method
-//     });
 
-//     return res.json();
-// }
 
 
 export const serverDelete = async (path) => {

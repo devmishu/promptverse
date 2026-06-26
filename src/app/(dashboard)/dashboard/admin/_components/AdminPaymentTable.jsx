@@ -39,9 +39,7 @@ export default function AdminPaymentTable({ payments = [], onView, onDelete }) {
                         <CreditCard className="text-cyan-400 size-4 sm:size-5" />
                         Transaction & Payment Records
                     </h2>
-                    <p className="text-[11px] sm:text-xs text-gray-400 mt-0.5">
-                        Monitor platform revenue, user subscriptions, and gateway transaction states.
-                    </p>
+                    
                 </div>
             </div>
 

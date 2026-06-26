@@ -131,7 +131,7 @@ export default function AddPrompt({ submitBtn }) {
             >
                 <Fieldset>
                     <Fieldset.Legend className="text-xl md:text-2xl font-bold tracking-tight text-white select-none">
-                        Architect New Prompt
+                        Add New Prompt
                     </Fieldset.Legend>
                     <Description className="text-gray-400 text-xs mb-6 block">
                         Deploy highly optimized prompt parameters live into the global ecosystem grid.
@@ -238,11 +238,7 @@ export default function AddPrompt({ submitBtn }) {
                                     {isUploading ? "Uploading..." : "Browse"}
                                 </Button>
                             </div>
-                            {imageUrl && (
-                                <span className="text-[10px] text-cyan-400 font-medium truncate mt-1">
-                                    Target Link: {imageUrl}
-                                </span>
-                            )}
+
                         </div>
 
                         {/* Difficulty Level Selection */}
@@ -251,19 +247,19 @@ export default function AddPrompt({ submitBtn }) {
                             <div className="flex flex-wrap gap-6 items-center w-full mt-1">
                                 <Radio value="beginner" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Beginner</Label></Radio.Content>
                                     </div>
                                 </Radio>
                                 <Radio value="intermediate" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Intermediate</Label></Radio.Content>
                                     </div>
                                 </Radio>
                                 <Radio value="pro" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Pro Tier</Label></Radio.Content>
                                     </div>
                                 </Radio>
@@ -272,17 +268,17 @@ export default function AddPrompt({ submitBtn }) {
 
                         {/* Visibility Mode Switch Option */}
                         <RadioGroup defaultValue="public" name="visibility" className="mt-1 flex flex-col gap-1.5">
-                            <Label className="text-gray-300 text-xs font-semibold tracking-wide">Visibility Scope</Label>
+                            <Label className="text-gray-300 text-xs font-semibold tracking-wide">Visibility </Label>
                             <div className="flex gap-6 items-center w-full mt-1">
                                 <Radio value="free" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Free</Label></Radio.Content>
                                     </div>
                                 </Radio>
                                 <Radio value="premium" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Premium</Label></Radio.Content>
                                     </div>
                                 </Radio>

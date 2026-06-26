@@ -99,10 +99,13 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                 </td>
 
                                 {/* Column 5: Status */}
-                                <td className="py-4 px-4 whitespace-nowrap">
+                                <td className="flex flex-col justify-center items-center py-4 px-4 whitespace-nowrap">
                                     <span className={`inline-flex items-center justify-center px-3 py-1 text-[10px] font-bold tracking-widest rounded-full border shadow-sm ${getStatusStyle(prompt.status)}`}>
                                         {prompt.status}
                                     </span>
+                                    {
+                                        prompt.rejectReason && <span className="text-gray-400">Reason: {prompt.rejectReason}</span>
+                                    }
                                 </td>
 
                                 {/* Column 6: Action Buttons Group */}
@@ -110,16 +113,18 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                     <div className="flex items-center justify-center gap-1.5">
 
                                         {/* View Analytics Button */}
-                                        <Button
-                                            isIconOnly
-                                            size="sm"
-                                            variant="light"
-                                            className="text-gray-500 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-xl transition-colors"
-                                            aria-label="View Analytics"
-                                            onClick={() => onViewAnalytics && onViewAnalytics(prompt.id)}
-                                        >
-                                            <BarChart3 className="size-4" />
-                                        </Button>
+                                        <Link href={`/dashboard/${user.role}`}>
+                                            <Button
+                                                isIconOnly
+                                                size="sm"
+                                                variant="light"
+                                                className="text-gray-500 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-xl transition-colors"
+                                                aria-label="View Analytics"
+
+                                            >
+                                                <BarChart3 className="size-4" />
+                                            </Button>
+                                        </Link>
 
                                         {/* Update / Edit Button */}
                                         <Link href={`/dashboard/${user?.role}/myprompt/edit/${prompt._id}`}>

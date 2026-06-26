@@ -225,19 +225,19 @@ export default function EditPrompt({ submitBtn, promptId, promptData }) {
                             <div className="flex flex-wrap gap-6 items-center w-full mt-1">
                                 <Radio value="beginner" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Beginner</Label></Radio.Content>
                                     </div>
                                 </Radio>
                                 <Radio value="intermediate" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Intermediate</Label></Radio.Content>
                                     </div>
                                 </Radio>
                                 <Radio value="pro" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Pro Tier</Label></Radio.Content>
                                     </div>
                                 </Radio>
@@ -245,26 +245,21 @@ export default function EditPrompt({ submitBtn, promptId, promptData }) {
                         </RadioGroup>
 
                         <RadioGroup defaultValue={promptData?.visibility || "public"} name="visibility" className="mt-1 flex flex-col gap-1.5">
-                            <Label className="text-gray-300 text-xs font-semibold tracking-wide">Visibility Scope</Label>
+                            <Label className="text-gray-300 text-xs font-semibold tracking-wide">Visibility</Label>
                             <div className="flex gap-6 items-center w-full mt-1">
-                                <Radio value="public" className="text-xs text-gray-300 font-medium">
+                                <Radio value="free" className="text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
-                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Public Marketplace</Label></Radio.Content>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
+                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Public </Label></Radio.Content>
                                     </div>
                                 </Radio>
-                                <Radio value="premium" className="text-xs text-gray-300 font-medium">
+                                <Radio value="premium" className=" text-xs text-gray-300 font-medium">
                                     <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
-                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Premium Scope</Label></Radio.Content>
+                                        <Radio.Control><Radio.Indicator className="bg-cyan-500 rounded-full" /></Radio.Control>
+                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Premium </Label></Radio.Content>
                                     </div>
                                 </Radio>
-                                <Radio value="private" className="text-xs text-gray-300 font-medium">
-                                    <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                        <Radio.Control><Radio.Indicator className="bg-cyan-500" /></Radio.Control>
-                                        <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Private Vault Lock</Label></Radio.Content>
-                                    </div>
-                                </Radio>
+                                
                             </div>
                         </RadioGroup>
                     </FieldGroup>
@@ -278,13 +273,7 @@ export default function EditPrompt({ submitBtn, promptId, promptData }) {
                             <FloppyDisk className="w-4 h-4" />
                             {isUploading ? "Uploading Metadata..." : `${submitBtn}`}
                         </Button>
-                        <Button
-                            type="reset"
-                            variant="secondary"
-                            className="bg-[#111827] hover:bg-[#1e293b] border border-[#1e293b] text-gray-400 font-semibold text-sm h-11 rounded-xl transition-all px-6 cursor-pointer"
-                        >
-                            Reset Matrix
-                        </Button>
+                        
                     </Fieldset.Actions>
                 </Fieldset>
             </Form>

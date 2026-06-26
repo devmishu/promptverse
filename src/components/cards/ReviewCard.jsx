@@ -3,7 +3,7 @@ import { Star } from "lucide-react";
 
 // 1. ReviewCard Component (Fixed Width for Horizontal Scrolling Alignment)
 export function ReviewCard({ review }) {
-    const { userName, role, reviewText, rating, userImage } = review;
+    const { userName, role, reviewText, rating, userImage,userImail } = review;
 
     return (
         <Card className=" shrink-0 bg-[#111827]/40 border border-[#1e293b]/50 p-6 rounded-2xl flex flex-col gap-4 backdrop-blur-sm select-none">
@@ -22,7 +22,7 @@ export function ReviewCard({ review }) {
                             {userName}
                         </Card.Title>
                         <Card.Description className="text-xs text-gray-500 font-medium">
-                            {role || "user"}
+                            {review?.userEmail || userImail}
                         </Card.Description>
                     </div>
                 </div>

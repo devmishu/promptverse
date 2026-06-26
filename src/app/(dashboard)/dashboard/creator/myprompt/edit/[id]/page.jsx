@@ -1,9 +1,12 @@
 import EditPrompt from '@/app/(dashboard)/dashboard/_components/EditPrompt';
+import { getPromptById } from '@/lib/api/prompt';
 import React, { use } from 'react';
 
-const CreatorEditPromptPage = ({ params }) => {
-    const { id } = use(params);
+const CreatorEditPromptPage = async ({ params }) => {
+    const { id } = await params;
     console.log("edit page id...", id);
+    const promptData = await getPromptById(id);
+
 
     const handleEditMPrompt = async (e) => {
         e.preventDefault();
@@ -29,6 +32,7 @@ const CreatorEditPromptPage = ({ params }) => {
     return <EditPrompt
         submitBtn={"Update Prompt"}
         promptId={id}
+        promptData={promptData}
     />
 };
 

@@ -20,4 +20,14 @@ export const getPromptById = async (id) => {
     return protectedFetch(`/api/prompts/${id}`);
 }
 
+export const getAnalyticsById = async (userId) => {
+    return protectedFetch(`/api/analytics/${userId}`);
+}
+
+export const getAdminAnalytics = async () => {
+    return protectedFetch(`/api/admin/analytics`);
+}
+
+
+
 
