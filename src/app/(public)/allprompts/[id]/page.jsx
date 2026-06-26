@@ -11,7 +11,7 @@ const PromptDetailsPage = async ({ params }) => {
     const promptData = await getPromptById(id);
     console.log("fakePromptData", promptData);
 
-    const promptReviews = await getPromptReviews(id)
+    const promptReviews = await getPromptReviews(id);
 
     console.log("prompt reviews-------------",promptReviews);
 
@@ -19,6 +19,7 @@ const PromptDetailsPage = async ({ params }) => {
         promptId={id}
         author={user}
         promptData={promptData}
+        promptReviews={promptReviews}
     />
 };
 

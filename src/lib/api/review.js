@@ -1,5 +1,9 @@
-import { protectedFetch } from "../core/server";
+import { protectedFetch, serverFetch } from "../core/server";
 
+
+export const getReviews = async () => {
+    return serverFetch(`/api/reviews`);
+}
 
 export const getReviewsByUser = async (userId) => {
     return protectedFetch(`/api/my/reviews?userId=${userId}`);

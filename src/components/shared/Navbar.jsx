@@ -23,8 +23,8 @@ export function Navbar() {
     const getLinkClass = (path) => {
         const isActive = pathname === path;
         return `pb-1 pt-[19px] border-b-2 font-medium text-[14px] transition-all duration-200 ${isActive
-                ? "text-cyan-400 border-cyan-500 font-semibold drop-shadow-[0_0_8px_rgba(34,211,238,0.2)]"
-                : "text-gray-400 border-transparent hover:text-white"
+            ? "text-cyan-400 border-cyan-500 font-semibold drop-shadow-[0_0_8px_rgba(34,211,238,0.2)]"
+            : "text-gray-400 border-transparent hover:text-white"
             }`;
     };
 
@@ -32,8 +32,8 @@ export function Navbar() {
     const getMobileLinkClass = (path) => {
         const isActive = pathname === path;
         return `w-full block py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 ${isActive
-                ? "bg-cyan-500/10 text-cyan-400 border-l-4 border-cyan-500 font-semibold"
-                : "text-gray-300 hover:bg-[#111827] hover:text-white"
+            ? "bg-cyan-500/10 text-cyan-400 border-l-4 border-cyan-500 font-semibold"
+            : "text-gray-300 hover:bg-[#111827] hover:text-white"
             }`;
     };
 
@@ -60,15 +60,17 @@ export function Navbar() {
                     </button>
 
                     <div className="flex items-center gap-2.5">
-                        <div className="relative w-7 h-7 flex items-center justify-center">
-                            <svg className="w-full h-full text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.467 5.99 5.99 0 0 0-1.925-3.546 5.974 5.974 0 0 0-2.133-1A3.75 3.75 0 0 0 2.25 6c0 1.53.918 2.843 2.23 3.407a5.98 5.98 0 0 0-.23 1.593c0 2.222 1.206 4.162 3 5.207M12 18a3.75 3.75 0 0 1-.495-7.467 5.99 5.99 0 0 1 1.925-3.546 5.974 5.974 0 0 1 2.133-1A3.75 3.75 0 0 1 21.75 6c0 1.53-.918 2.843-2.23 3.407a5.98 5.98 0 0 1 .23 1.593c0 2.222-1.206 4.162-3 5.207M12 18v3m0 0H9m3 0h3" />
+                        <Link href={'/'} className="flex items-center gap-2.5">
+                            <svg className="w-7 h-7 text-cyan-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" strokeDasharray="2 2" />
+                                <path d="M12 6a6 6 0 0 1 6 6c0 1.5-.5 3-1.5 4.5L12 21l-4.5-4.5C6.5 15 6 13.5 6 12a6 6 0 0 1 6-6z" />
+                                <circle cx="12" cy="11" r="2" fill="currentColor" />
                             </svg>
-                            <div className="absolute inset-0 bg-purple-500/30 blur-sm rounded-full -z-10" />
-                        </div>
-                        <span className="text-xl font-semibold tracking-tight text-white select-none">
-                            PromptVerse
-                        </span>
+                            <div className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent select-none">
+                                PromptVerse
+                            </div>
+                        </Link>
+
                     </div>
                 </div>
 

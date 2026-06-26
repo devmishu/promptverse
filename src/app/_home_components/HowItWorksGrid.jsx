@@ -1,4 +1,8 @@
+"use client"; // 🚀 Framer motion ব্যবহারের জন্য ফাইলটিকে client কম্পোনেন্ট করা হলো
+
+import SectionHeader from "@/components/shared/SectionHeader";
 import { Card } from "@heroui/react";
+import { motion } from "framer-motion";
 import { UserPlus, Copy, Rocket } from "lucide-react";
 
 export function HowItWorksGrid() {
@@ -26,56 +30,79 @@ export function HowItWorksGrid() {
         }
     ];
 
+    // 🎨 অন্যান্য সেকশনের অ্যানিমেশনের সাথে হুবহু ম্যাচিং ভ্যারিয়েন্টস
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15, // প্রতিটি স্টেপ কার্ডের মাঝের Delay টাইম
+            },
+        },
+    };
+
+    const cardVariants = {
+        hidden: { opacity: 0, y: 24 }, // শুরুতে কার্ড কিছুটা নিচে এবং হাইড থাকবে
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { type: "spring", stiffness: 90, damping: 14 } // স্মুথ স্প্রিং ইফেক্ট
+        },
+    };
+
     return (
         <section className="w-full bg-[#030712] text-white py-20 px-6 border-t border-[#1e293b]/30">
             <div className="max-w-[1440px] mx-auto flex flex-col gap-12">
 
                 {/* Section Heading */}
-                <div className="flex flex-col items-center text-center max-w-2xl mx-auto gap-2">
-                    <span className="text-xs font-bold text-purple-400 tracking-widest uppercase bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">
-                        Workflow Process
-                    </span>
-                    <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-white mt-1">
-                        How Synapse Works
-                    </h2>
-                    <p className="text-sm text-gray-500 font-medium">
-                        Get started in minutes whether you are looking to accelerate your workflow or monetize engineering structures.
-                    </p>
-                </div>
+                <SectionHeader
+                    badge="Workflow Process"
+                    title="How Prompy Verse Works"
+                    description="Get started in minutes whether you are looking to accelerate your workflow or monetize engineering structures."
+                />
 
-                {/* 3-Column Steps Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                {/* 🚀 মোশন কন্টেইনার: স্ক্রিনে আসলেই ৩টি স্টেপ একটার পর একটা স্মুথলি ভেসে উঠবে */}
+                <motion.div
+                    className="grid grid-cols-1 md:grid-cols-3 gap-8 relative"
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-80px" }} // স্ক্রোলে একবারই অ্যানিমেট হবে
+                >
                     {steps.map((step) => {
                         const Icon = step.icon;
                         return (
-                            <Card key={step.id} className="relative bg-[#111827]/40 border border-[#1e293b]/50 p-8 rounded-2xl flex flex-col gap-4 backdrop-blur-sm group hover:border-purple-500/30 transition-all duration-300">
-                                {/* Step Number Badge */}
-                                <span className={`absolute top-4 right-6 text-4xl font-extrabold font-mono bg-gradient-to-br ${step.color} bg-clip-text text-transparent opacity-20 group-hover:opacity-40 transition-opacity`}>
-                                    {step.id}
-                                </span>
+                            <motion.div key={step.id} variants={cardVariants} className="h-full">
+                                <Card className="relative h-full bg-[#111827]/40 border border-[#1e293b]/50 p-8 rounded-2xl flex flex-col gap-4 backdrop-blur-sm group hover:border-purple-500/30 transition-all duration-300">
 
-                                {/* Icon wrapper */}
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br ${step.color} p-0.5 shadow-lg`}>
-                                    <div className="w-full h-full bg-[#111827] rounded-[10px] flex items-center justify-center">
-                                        <Icon className="w-5 h-5 text-white" />
+                                    {/* Step Number Badge */}
+                                    <span className={`absolute top-4 right-6 text-4xl font-extrabold font-mono bg-gradient-to-br ${step.color} bg-clip-text text-transparent opacity-20 group-hover:opacity-40 transition-opacity`}>
+                                        {step.id}
+                                    </span>
+
+                                    {/* Icon wrapper */}
+                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br ${step.color} p-0.5 shadow-lg`}>
+                                        <div className="w-full h-full bg-[#111827] rounded-[10px] flex items-center justify-center">
+                                            <Icon className="w-5 h-5 text-white" />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <Card.Header className="p-0 mt-2">
-                                    <Card.Title className="text-lg font-semibold text-white tracking-tight">
-                                        {step.title}
-                                    </Card.Title>
-                                </Card.Header>
+                                    <Card.Header className="p-0 mt-2">
+                                        <Card.Title className="text-lg font-semibold text-white tracking-tight">
+                                            {step.title}
+                                        </Card.Title>
+                                    </Card.Header>
 
-                                <Card.Footer className="p-0">
-                                    <p className="text-sm text-gray-400 leading-relaxed text-left">
-                                        {step.description}
-                                    </p>
-                                </Card.Footer>
-                            </Card>
+                                    <Card.Footer className="p-0 mt-auto">
+                                        <p className="text-sm text-gray-400 leading-relaxed text-left">
+                                            {step.description}
+                                        </p>
+                                    </Card.Footer>
+                                </Card>
+                            </motion.div>
                         );
                     })}
-                </div>
+                </motion.div>
 
             </div>
         </section>

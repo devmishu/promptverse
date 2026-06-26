@@ -12,10 +12,9 @@ import { createBookmark } from "@/lib/actions/bookmark";
 import { toast, Toaster } from "react-hot-toast";
 import { createReview } from "@/lib/actions/review";
 import { ReportModal } from "./ReportModal";
+import { ReviewCard } from "@/components/cards/ReviewCard";
 
-export default function PromptDetails({ promptData: initialPromptData, promptId, author }) {
-
-
+export default function PromptDetails({ promptData: initialPromptData, promptId, author, promptReviews }) {
     const [promptData, setPromptData] = useState(initialPromptData);
     const [copied, setCopied] = useState(false);
     const [userRating, setUserRating] = useState(0);
@@ -27,6 +26,21 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
     const [hasReviewed, setHasReviewed] = useState(false);
     const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
+
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const handlePrev = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentIndex < promptReviews.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+        }
+    };
 
 
     // 🛠️ বুকমার্ক, রিভিউ এবং রিপোর্ট একসাথে চেক করার জন্য আপডেট করা ইফেক্ট
@@ -47,13 +61,6 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                 const reviewData = await reviewRes.json();
                 if (reviewData?.hasReviewed) {
                     setHasReviewed(true); // এর ফলে রিফ্রেশ দিলেও "Already Reviewed" দেখাবে
-                }
-
-                // ৩. রিপোর্ট স্ট্যাটাস চেক (যদি রিপোর্টেও স্টেট ধরে রাখতে চান)
-                const reportRes = await fetch(`http://localhost:5000/api/reports/check?userId=${author.id}&promptId=${promptData._id}`);
-                const reportData = await reportRes.json();
-                if (reportData?.hasReported) {
-                    setIsReported(true); // (আপনার কোডে রিপোর্ট স্টেট থাকলে এটা অন করতে পারেন)
                 }
 
             } catch (error) {
@@ -95,33 +102,6 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
         }
     };
 
-    // const handleBookmark = async () => {
-
-    //     if (isBookmarked) {
-    //         toast.error("Already bookmarked!");
-    //         return;
-    //     }
-
-    //     try {
-    //         setIsSubmitting(true);
-
-    //         const bookMarkData = {
-    //             userName: author?.name,
-    //             userImail: author?.id,
-    //             userId: author?.id,
-    //             ...promptData
-    //         };
-
-    //         await createBookmark(bookMarkData);
-
-
-    //         setIsBookmarked(true);
-    //         toast.success("Added to bookmarks!");
-
-    //     } catch (error) {
-    //         toast.error("Failed to bookmark. Try again!");
-    //     }
-    // };
 
     const handleBookmark = async () => {
         // ফ্রন্টেন্ডে প্রথম লেয়ারের ভ্যালিডেশন
@@ -217,7 +197,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
             const reviewData = {
                 userName: author?.name,
-                userImail: author?.email, // আপনার দেওয়া স্পেলিং
+                userEmail: author?.email,
                 userId: author?.id,
                 promptId: promptData._id,
                 title: promptData.title,
@@ -227,7 +207,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
             };
 
             // ব্যাকএন্ড সার্ভার অ্যাকশন বা এপিআই কল
-            const res = await createReview(reviewData);
+            const res = await createReview(promptId, reviewData);
 
             // যদি আপনার সার্ভার অ্যাকশন সরাসরি অবজেক্ট রিটার্ন করে (যেমন: { success: true })
             if (res?.success) {
@@ -333,23 +313,6 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                         </div>
                     </div>
 
-                    <div className="bg-[#0b0f19]/60 border border-slate-900/50 p-4 sm:p-5 rounded-2xl flex items-center justify-between shadow-xl mt-2">
-                        <div className="flex items-center gap-3.5 min-w-0">
-                            <Avatar
-                                name={promptData?.author?.name}
-                                src={promptData?.author?.avatarUrl}
-                                className="w-10 h-10 bg-gradient-to-tr from-purple-600 to-cyan-500 text-white font-bold text-sm flex-shrink-0"
-                            />
-                            <div className="flex flex-col min-w-0">
-                                <span className="text-sm font-bold text-slate-200 truncate">{promptData?.author?.name}</span>
-                                <span className="text-xs text-slate-500 truncate mt-0.5">{promptData?.author?.email}</span>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-1.5 bg-amber-500/10 px-3 py-1 rounded-xl border border-amber-500/20 text-amber-400 font-black text-xs flex-shrink-0">
-                            <Star size={12} className="fill-amber-400" />
-                            {promptData?.rating?.toFixed(1) || "0.0"}
-                        </div>
-                    </div>
                 </div>
 
                 {/* কলাম ২: প্রম্পট ওয়ার্কস্পেস */}
@@ -415,9 +378,10 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                                 name="currentPage"
                                                 value={typeof window !== "undefined" ? window.location.pathname : ""}
                                             />
-                                            <button
+                                            <button 
+                                                
                                                 type="submit" role="link"
-                                                className="group relative w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-semibold text-sm py-3 px-6 rounded-xl transition-all duration-300 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] shadow-[0_4px_20px_rgba(245,158,11,0.2)]"
+                                                className="cursor-pointer group relative w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-semibold text-sm py-3 px-6 rounded-xl transition-all duration-300 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] shadow-[0_4px_20px_rgba(245,158,11,0.2)]"
                                             >
                                                 <CreditCard size={16} className="transition-transform group-hover:scale-110" />
                                                 <span>Unlock Lifetime Access — $10</span>
@@ -458,10 +422,9 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
                         <div className="mt-6 pt-5 border-t border-slate-900/60 flex flex-wrap gap-x-6 gap-y-2 justify-between text-xs text-slate-500">
                             <div className="flex items-center gap-2">
-                                <Code size={15} className="text-slate-600" />
                                 <span>Status: <span className="text-emerald-500 font-semibold uppercase text-[11px]">{promptData?.status}</span></span>
                             </div>
-                            <span className="font-mono text-[11px] truncate max-w-full">ID: {promptData?._id}</span>
+
                         </div>
                     </div>
 
@@ -513,7 +476,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                                 placeholder="Share your thoughts..."
                                                 variant="flat"
                                                 rows={3}
-                                                classNames={{
+                                                className={{
                                                     inputWrapper: "bg-[#020617]/60 border border-slate-900 rounded-xl p-3.5",
                                                     input: "text-sm text-slate-300 placeholder:text-slate-700",
                                                 }}
@@ -532,11 +495,60 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                                 </div>
                             )}
 
-                            <div className="lg:col-span-3 bg-[#0b0f19]/40 border border-slate-900/60 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center">
-                                <p className="text-sm text-slate-500 max-w-[240px] leading-relaxed">
-                                    No community comments yet. Be the first to start the discussion!
-                                </p>
+                            <div className="lg:col-span-3 flex flex-col gap-4">
+                                {promptReviews && promptReviews.length > 0 ? (
+                                    <>
+                                        {/* Shudhu matro current index er review card-ti dekhabe */}
+                                        <ReviewCard
+                                            key={promptReviews[currentIndex]._id || currentIndex}
+                                            review={promptReviews[currentIndex]}
+                                        />
+
+                                        {/* 1 tar beshi review thaklei shudhu navigation arrow dekhabe */}
+                                        {promptReviews.length > 1 && (
+                                            <div className="flex items-center justify-end gap-3 mt-1">
+                                                {/* Prev Button */}
+                                                <button
+                                                    onClick={handlePrev}
+                                                    disabled={currentIndex === 0}
+                                                    className={`p-2 rounded-xl border border-slate-800 bg-[#0b0f19]/60 text-slate-400 transition-all duration-200
+                                ${currentIndex === 0
+                                                            ? 'opacity-40 cursor-not-allowed'
+                                                            : 'hover:bg-slate-900 hover:text-white'
+                                                        }`}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                                    </svg>
+                                                </button>
+
+                                                {/* Next Button */}
+                                                <button
+                                                    onClick={handleNext}
+                                                    disabled={currentIndex === promptReviews.length - 1}
+                                                    className={`p-2 rounded-xl border border-slate-800 bg-[#0b0f19]/60 text-slate-400 transition-all duration-200
+                                ${currentIndex === promptReviews.length - 1
+                                                            ? 'opacity-40 cursor-not-allowed'
+                                                            : 'hover:bg-slate-900 hover:text-white'
+                                                        }`}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        )}
+                                    </>
+                                ) : (
+                                    <div className="w-full h-full bg-[#0b0f19]/40 border border-slate-900/60 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center min-h-[220px]">
+                                        <p className="text-sm text-slate-500 max-w-[240px] leading-relaxed">
+                                            No community comments yet. Be the first to start the discussion!
+                                        </p>
+                                    </div>
+                                )}
                             </div>
+
+
                         </div>
                     </div>
 

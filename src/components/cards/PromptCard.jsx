@@ -130,7 +130,9 @@ export function PromptCard({ prompt, author }) {
                     </div>
 
                     {/* ৭. অ্যাকশন বাটন */}
-                    <Link href={`/allprompts/${prompt._id}`}>
+                    <Link 
+                    className="inline-block w-full"
+                    href={`/allprompts/${prompt._id}`}>
                         <Button
                             size="sm"
                             className="w-full h-9 rounded-xl bg-[#111827] hover:bg-[#1f2937] text-gray-300 font-semibold text-xs border border-gray-800 hover:border-cyan-500/30 transition-all flex items-center justify-center gap-2 mt-1"

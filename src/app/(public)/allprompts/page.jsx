@@ -5,6 +5,7 @@ import { SlidersHorizontal } from "lucide-react";
 import PromptFilterBar from "../_components/PromptFilterBar";
 import { PaginationWithSummary } from "@/components/shared/PaginationWithSummary";
 
+
 // Next.js সার্ভার কম্পোনেন্টে searchParams হ্যান্ডেল করার স্ট্যান্ডার্ড উপায়
 const AllPromptsPage = async ({ searchParams }) => {
     // searchParams প্রপ্স অবজেক্টটি সরাসরি রিসিভ করা হলো
@@ -19,6 +20,7 @@ const AllPromptsPage = async ({ searchParams }) => {
     const promptsData = await getAllPrompts(quaryString);
     const allPromptsData = promptsData.result;
 
+
     console.log(promptsData);
 
     return (
@@ -29,15 +31,11 @@ const AllPromptsPage = async ({ searchParams }) => {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#1e293b]/30 pb-6">
                     <div className="flex flex-col gap-2">
                         <h1 className="text-2xl md:text-3xl font-bold tracking-tight uppercase flex items-center gap-2.5">
-                            <SlidersHorizontal className="size-6 text-purple-500" />
-                            All Prompts Engine {promptsData?.total}
+                            All Prompts 
                         </h1>
-                        <p className="text-sm text-gray-500">
+                        <p className=" text-gray-500">
                             Explore our complete collection of high-quality, production-ready AI prompts.
                         </p>
-                    </div>
-                    <div className="text-xs font-mono bg-purple-500/10 border border-purple-500/20 text-purple-400 px-3 py-1.5 rounded-xl h-fit w-fit">
-                        Total System Assets: {allPromptsData?.length || 0}
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
-import DashboardHeader from "./_components/DashboardHearer";
-import DashboardHearer from "./_components/DashboardHearer";
+
+import DashboardHeader from "./_components/DashboardHeader";
 import { DashboardSideBar } from "./_components/DashboardSidebar";
 
 

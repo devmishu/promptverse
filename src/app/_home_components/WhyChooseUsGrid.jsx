@@ -1,4 +1,8 @@
-import { WhyChooseUsCard } from "@/components/cards/WhyChooseUsCard"; 
+"use client"; // 🚀 Framer motion ব্যবহারের জন্য ফাইলটিকে client কম্পোনেন্ট করা হলো
+
+import { WhyChooseUsCard } from "@/components/cards/WhyChooseUsCard";
+import SectionHeader from "@/components/shared/SectionHeader";
+import { motion } from "framer-motion";
 import { Zap, ShieldCheck, Sparkles, Coins, Users, Flame } from "lucide-react";
 
 // 2. Main Grid Component with Marketplace Platform Benefits
@@ -48,29 +52,50 @@ export function WhyChooseUsGrid() {
     }
   ];
 
+  // 🎨 অন্যান্য সেকশনের অ্যানিমেশনের সাথে হুবহু ম্যাচিং ভ্যারিয়েন্টস
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1, // কার্ডগুলোর মাঝের Delay টাইম (০.১ সেকেন্ড)
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 24 }, // শুরুতে কার্ড কিছুটা নিচে এবং হাইড থাকবে
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 90, damping: 14 } // স্মুথ স্প্রিং ইফেক্ট দিয়ে একবারই অ্যানিমেট হবে
+    },
+  };
+
   return (
     <section className="w-full bg-[#030712] text-white py-20 px-6 border-t border-[#1e293b]/30">
       <div className="max-w-[1440px] mx-auto flex flex-col gap-12">
-        
-        {/* Section Heading with Recruitment-Friendly Topography & Contrast */}
-        <div className="flex flex-col items-center text-center max-w-2xl mx-auto gap-3">
-          <span className="text-xs font-bold text-cyan-400 tracking-widest uppercase bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
-            Platform Security & Value
-          </span>
-          <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-white mt-1">
-            Why Choose Our Prompt Ecosystem
-          </h2>
-          <p className="text-sm md:text-base text-gray-500 font-medium leading-relaxed">
-            Discover how our secure architectural setup connects engineering experts, automated moderation pipelines, and AI developers in one streamlined marketplace.
-          </p>
-        </div>
 
-        {/* 3-Column Responsive Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <SectionHeader
+          badge="Platform Security & Value"
+          title="Why Choose Our Prompt Ecosystem"
+          description="Discover how our secure architectural setup connects engineering experts, automated moderation pipelines, and AI developers in one streamlined marketplace."
+        />
+
+        {/* 🚀 মোশন কন্টেইনার: স্ক্রিনে আসলেই কার্ডগুলো একটার পর একটা স্ট্যাগার ইফেক্টে অ্যানিমেট হবে */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }} // একবারই অ্যানিমেট হবে, বারবার স্ক্রোল করলেও রিপিট হবে না
+        >
           {platformBenefits.map((benefit) => (
-            <WhyChooseUsCard key={benefit.id} benefit={benefit} />
+            <motion.div key={benefit.id} variants={cardVariants}>
+              <WhyChooseUsCard benefit={benefit} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
     </section>
