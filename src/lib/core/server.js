@@ -34,18 +34,25 @@ export const serverFetch = async (path) => {
 export const protectedFetch = async (path) => {
     try {
         const res = await fetch(`${baseurl}${path}`, {
-            method: 'GET',
-            cache: 'no-store',
-            headers: await authHeader()
+            method: "GET",
+            cache: "no-store",
+            headers: await authHeader(),
         });
 
-        const data = await res.json();
+        if (res.status === 401) {
+            redirect("/unauthorized");
+        }
 
+        if (res.status === 403) {
+            redirect("/forbidden");
+        }
+
+        const data = await res.json();
 
         return data?.data;
     } catch (error) {
         console.error("Protected Fetch Error:", error.message);
-        throw new Error(error.message);
+        throw error;
     }
 };
 
@@ -58,12 +65,13 @@ export const serverMutation = async (path, apiData, method = "POST") => {
         method: method,
         headers: {
             'Content-Type': 'application/json',
+            ... await authHeader()
         },
         body: JSON.stringify(apiData)
     });
 
 
-    return res.json();
+    return handleStatusCode(res);
 }
 
 
@@ -72,10 +80,20 @@ export const serverMutation = async (path, apiData, method = "POST") => {
 export const serverDelete = async (path) => {
     const res = await fetch(`${baseurl}${path}`, {
         method: 'DELETE',
+        headers: await authHeader()
     });
-    const data = await res.json();
-    if (!res.ok) {
-        throw new Error(data.message || 'Something went wrong');
+
+    return handleStatusCode(res);
+}
+
+
+
+const handleStatusCode = (res) => {
+    if (res.status === 401) {
+        redirect('/unauthorized')
     }
-    return data;
+    if (res.status === 403) {
+        redirect('/forbidden')
+    }
+    return res.json();
 }

@@ -113,7 +113,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                     <div className="flex items-center justify-center gap-1.5">
 
                                         {/* View Analytics Button */}
-                                        <Link href={`/dashboard/${user.role}`}>
+                                        <Link href={`/dashboard/${user?.role}`}>
                                             <Button
                                                 isIconOnly
                                                 size="sm"
@@ -158,7 +158,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                                         <AlertDialog.CloseTrigger />
                                                         <AlertDialog.Header>
                                                             <AlertDialog.Icon status="danger" />
-                                                            <AlertDialog.Heading>Delete User permanently?</AlertDialog.Heading>
+                                                            <AlertDialog.Heading>Delete Prompt permanently?</AlertDialog.Heading>
                                                         </AlertDialog.Header>
                                                         <AlertDialog.Body>
                                                             <p>

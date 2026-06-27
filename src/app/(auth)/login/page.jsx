@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { revalidateAnyPath } from "@/lib/actions/revalidate";
 
 export default function SignInPage() {
 
@@ -21,13 +22,14 @@ export default function SignInPage() {
         const { data, error } = await authClient.signIn.email({
             email,
             password,
+            callbackURL: "/",
         });
 
         console.log("data:", { data, error });
 
         if (data) {
             toast.success('Login successfully');
-            redirect('/')
+            revalidateAnyPath('/')
         }
         if (error) {
             toast.error(error.message);

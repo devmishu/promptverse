@@ -1,0 +1,67 @@
+"use client";
+import React from "react";
+import { useRouter } from "next/navigation";
+import { MoveLeft, HelpCircle } from "lucide-react";
+import { Button } from "@heroui/react";
+
+export default function NotFound() {
+    const router = useRouter();
+
+    return (
+        <main className="min-h-screen w-full bg-[#030712] text-white flex flex-col items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8">
+
+            {/* ✨ ব্যাকগ্রাউন্ড প্রিমিয়াম গ্লো ইফেক্ট (মিনিমালিস্ট ওরিওন লাইট) */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-cyan-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] sm:w-[400px] h-[200px] sm:h-[400px] bg-indigo-500/[0.02] rounded-full blur-[100px] pointer-events-none" />
+
+            {/* 🧩 মেইন কনটেন্ট কন্টেইনার */}
+            <div className="max-w-md w-full text-center flex flex-col items-center gap-6 relative z-10">
+
+                {/* 🔮 প্রিমিয়াম আইকন গ্লো বক্স */}
+                <div className="p-4 bg-[#111827]/30 border border-[#1e293b]/50 backdrop-blur-md rounded-2xl shadow-xl mb-2 animate-bounce [animation-duration:3s]">
+                    <HelpCircle className="size-8 text-cyan-400" />
+                </div>
+
+                {/* 🔢 ৪MD টাইপোগ্রাফি (Awwwards-Style) */}
+                <div className="flex flex-col gap-1">
+                    <h1 className="text-7xl sm:text-8xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/20 select-none">
+                        404
+                    </h1>
+                    <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-gray-200">
+                        Page Not Found
+                    </h2>
+                </div>
+
+                {/* 📝 ডেসক্রিপশন টেক্সট */}
+                <p className="text-xs sm:text-sm text-gray-400 max-w-xs leading-relaxed">
+                    The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+                </p>
+
+                {/* 🔘 অ্যাকশন বাটন্স গ্রিড */}
+                <div className="flex flex-col sm:flex-row items-center gap-3 w-full mt-4">
+                    <Button
+                        onClick={() => router.back()}
+                        variant="bordered"
+                        className="w-full sm:w-1/2 border-[#1e293b] hover:border-gray-500 text-gray-300 hover:text-white bg-[#111827]/20 hover:bg-[#111827]/50 transition-all duration-300 font-medium text-xs sm:text-sm h-11 rounded-xl flex items-center justify-center gap-2"
+                    >
+                        <MoveLeft className="size-4" />
+                        Go Back
+                    </Button>
+
+                    <Button
+                        onClick={() => router.push("/")}
+                        className="w-full sm:w-1/2 bg-white hover:bg-gray-200 text-black font-semibold text-xs sm:text-sm h-11 rounded-xl shadow-lg shadow-white/[0.02] transition-all duration-300"
+                    >
+                        Back to Home
+                    </Button>
+                </div>
+
+            </div>
+
+            {/* 📐 বটম গাইডলাইন বা সুক্ষ গ্রিড বর্ডার (প্রিমিয়াম লুকের জন্য) */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] tracking-widest uppercase text-gray-600 select-none font-medium">
+                System Error // Code 0x404
+            </div>
+        </main>
+    );
+}
