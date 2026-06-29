@@ -1,36 +1,239 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 PromptVerse - AI Prompt Sharing & Marketplace Platform
 
-## Getting Started
+> A modern full-stack AI Prompt Sharing & Marketplace Platform where users can discover, share, bookmark, review, and monetize high-quality AI prompts for tools like ChatGPT, Gemini, Claude, Midjourney, and more.
 
-First, run the development server:
+![React](https://img.shields.io/badge/React-19-blue)
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![MongoDB](https://img.shields.io/badge/MongoDB-Green)
+![Stripe](https://img.shields.io/badge/Stripe-Payment-purple)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+# 🌐 Live Website
+
+### 🔗 Live Site
+
+https://promptverse-blue.vercel.app
+
+### 💻 Client Repository
+
+https://github.com/devmishu/promptverse
+
+### ⚙️ Server Repository
+
+https://github.com/devmishu/promptverse-server
+
+---
+
+# 📖 Project Overview
+
+PromptVerse is a community-driven AI Prompt Marketplace that enables users to create, discover, share, and manage prompts for popular AI platforms.
+
+Users can publish prompts, bookmark favorites, copy prompt content, review creators, purchase Premium access, and explore trending prompts. The platform also provides powerful dashboards for Users, Creators, and Admins with analytics, moderation tools, payment management, and role-based access control.
+
+---
+
+# ✨ Key Features
+
+## 🌍 Public Features
+
+- Modern SaaS Landing Page
+- Beautiful Hero Banner
+- Featured Prompts
+- Top Creators
+- Customer Reviews
+- Fully Responsive Design
+- Search Prompts
+- Filter Prompts
+- Sort Prompts
+- Pagination
+- Prompt Details Page
+
+---
+
+## 👤 Authentication
+
+- Email & Password Authentication
+- Google Login
+- JWT Authentication
+- Protected Routes
+- Persistent Login
+- Role-Based Authorization
+
+---
+
+## 📝 Prompt Management
+
+- Create Prompt
+- Update Prompt
+- Delete Prompt
+- Prompt Approval System
+- Featured Prompt System
+- Public & Premium Prompt Visibility
+- Image Upload
+- Prompt Analytics
+
+---
+
+## ❤️ User Interaction
+
+- Bookmark Prompt
+- Copy Prompt
+- Review & Rating
+- Report Prompt
+- Copy Counter
+- Bookmark Toggle
+
+---
+
+## 💎 Premium Membership
+
+- Stripe Payment Integration
+- One-Time Premium Purchase
+- Unlock Premium Prompts
+- Payment History
+- Transaction Storage
+
+---
+
+## 📊 Dashboard
+
+### User Dashboard
+
+- Add Prompt
+- My Prompts
+- Saved Prompts
+- My Reviews
+- Profile
+- Upgrade to Premium
+
+### Creator Dashboard
+
+- Prompt Analytics
+- Total Copies
+- Total Bookmarks
+- Growth Charts
+- Prompt Management
+
+### Admin Dashboard
+
+- User Management
+- Prompt Moderation
+- Payment Management
+- Report Management
+- Platform Analytics
+
+---
+
+# 📈 Analytics
+
+Implemented using Recharts.
+
+Includes
+
+- Prompt Growth
+- Copy Statistics
+- Bookmark Statistics
+- Dashboard Summary Cards
+
+---
+
+# 🔎 Search, Filter & Sort
+
+### Search
+
+- Prompt Title
+- Tags
+- AI Tool
+
+### Filter
+
+- Category
+- AI Tool
+- Difficulty Level
+
+### Sort
+
+- Most Popular
+- Most Copied
+- Latest
+
+> All search, filtering, and sorting are implemented on the backend.
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+- Next.js 15
+- React 19
+- JavaScript
+- Tailwind CSS
+- HeroUI
+- React Hook Form
+- Framer Motion
+- React Icons
+- React Hot Toast
+- Recharts
+- Stripe
+
+---
+
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- JWT
+
+---
+
+# 📦 NPM Packages
+
+### Client
+
+```
+next
+react
+tailwindcss
+@heroui/react
+framer-motion
+react-hook-form
+react-hot-toast
+react-icons
+recharts
+@stripe/react-stripe-js
+@stripe/stripe-js
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Server
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```
+express
+mongodb
+mongoose
+jsonwebtoken
+cors
+dotenv
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# 👨‍💻 Developed By
 
-To learn more about Next.js, take a look at the following resources:
+**Mishu Debnath**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+MERN-Stack Web Developer
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+LinkedIn: https://www.linkedin.com/in/mishudeb
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Portfolio: https://mishudebnath.vercel.app
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+# ⭐ Support
+
+If you like this project, don't forget to ⭐ the repository.
+
