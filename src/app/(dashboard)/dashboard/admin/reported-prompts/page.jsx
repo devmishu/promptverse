@@ -5,19 +5,19 @@ import { deleteReport } from '@/lib/actions/report';
 import { revalidatePath } from 'next/cache';
 import { deletePrompt } from '@/lib/actions/prompt';
 import toast from 'react-hot-toast';
+import EmptyStateCard from '@/components/cards/EmptyStateCard';
 
 const ReportedPromptsPage = async () => {
     const reports = await getAllReportsByAdmin();
-    console.log("reports....", reports);
+   
 
     const handleDismiss = async (reportId) => {
         "use server"
         await deleteReport(reportId)
         revalidatePath('dashboard/admin/reported-prompts')
-        console.log("reportId..", reportId);
+       
     }
 
-    // const deletePrompt = await deletePrompt(promptId);
 
     const handleDeletePrompt = async (promptId) => {
         "use server"
@@ -43,11 +43,16 @@ const ReportedPromptsPage = async () => {
 
     return (
         <div className='p-4 sm:mt-5'>
-            <AdminReportedPromptTable
-                reports={reports}
-                onHandleDismiss={handleDismiss}
-                onHandleDeletePrompt={handleDeletePrompt}
-            />
+
+            {
+                reports.length === 0 ? <EmptyStateCard className={`mt-50`}/> :
+                    <AdminReportedPromptTable
+                        reports={reports}
+                        onHandleDismiss={handleDismiss}
+                        onHandleDeletePrompt={handleDeletePrompt}
+                    />
+            }
+
         </div>
     );
 };

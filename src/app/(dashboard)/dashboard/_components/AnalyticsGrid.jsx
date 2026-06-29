@@ -75,7 +75,6 @@ export default function AnalyticsGrid() {
                             <BarChart3 className="size-4 text-cyan-400" />
                             Traffic Overview
                         </h2>
-                        <span className="text-xs text-cyan-400 font-medium">Last 30 Days</span>
                     </div>
 
                     {/* Chart Visualizer Canvas Container */}

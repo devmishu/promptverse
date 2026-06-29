@@ -3,20 +3,17 @@ import { AlertDialog, Button, Card, Chip } from "@heroui/react";
 import { Zap, ShieldCheck, Sparkles, Coins, Users, Flame, Icon, Eye, Delete, Trash, Trash2 } from "lucide-react";
 import Link from "next/link";
 
-// 1. WhyChooseUsCard Component (Using HeroUI v3.0.1 Object Layout Syntax)
+
 export default function BookmarkCard({ bookmarkId, promptId, aiTool, category, title, description, onHhandleDeleteBookmark }) {
 
 
     return (
         <Card className="w-full bg-[#111827]/40 border border-[#1e293b]/50 p-6 rounded-2xl flex flex-col gap-3 backdrop-blur-sm hover:border-cyan-500/30 hover:bg-[#111827]/60 transition-all duration-300 group">
-            {/* Icon Wrapper with Dynamic Highlight */}
-            {/* <div className={`w-12 h-12 rounded-xl flex items-center justify-center border border-[#1e293b] bg-[#1f2937]/50 group-hover:scale-110 transition-transform duration-300`}>
-                <Icon className={`w-6 h-6 ${highlightColor}`} />
-            </div> */}
+
 
             {/* Header Section */}
             <Card.Header className="p-0 flex flex-col items-start gap-1 mt-2">
-                {/* ২. ব্যাজ রো (Badges Row) */}
+
                 <div className="flex flex-wrap gap-1.5 items-center">
 
                     <Chip
@@ -45,9 +42,9 @@ export default function BookmarkCard({ bookmarkId, promptId, aiTool, category, t
                 <p className="text-sm text-gray-400 leading-relaxed font-normal tracking-tight text-left">
                     {description}
                 </p>
-                {/* ৭. অ্যাকশন বাটন */}
+
                 <div className="flex items-center gap-2 w-full mt-2">
-                    {/* View Details Button (৩ ভাগ জায়গা নেবে) */}
+
                     <Link href={`/allprompts/${promptId}`} className="flex-[3] w-full">
                         <Button
                             size="sm"
@@ -58,7 +55,7 @@ export default function BookmarkCard({ bookmarkId, promptId, aiTool, category, t
                         </Button>
                     </Link>
 
-                    {/* Delete Button (১ ভাগ জায়গা নেবে এবং আইকন মাঝখানে থাকবে) */}
+
 
 
                     <AlertDialog>
@@ -74,7 +71,7 @@ export default function BookmarkCard({ bookmarkId, promptId, aiTool, category, t
                                     <AlertDialog.CloseTrigger />
                                     <AlertDialog.Header>
                                         <AlertDialog.Icon status="danger" />
-                                        <AlertDialog.Heading>Delete User permanently?</AlertDialog.Heading>
+                                        <AlertDialog.Heading>Delete Bookmark permanently?</AlertDialog.Heading>
                                     </AlertDialog.Header>
                                     <AlertDialog.Body>
                                         <p>
@@ -89,7 +86,7 @@ export default function BookmarkCard({ bookmarkId, promptId, aiTool, category, t
                                         <Button
                                             onClick={() => onHhandleDeleteBookmark(bookmarkId)}
                                             slot="close" variant="danger">
-                                            Delete User
+                                            Delete Bookmark
                                         </Button>
                                     </AlertDialog.Footer>
                                 </AlertDialog.Dialog>

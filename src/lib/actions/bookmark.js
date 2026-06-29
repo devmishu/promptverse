@@ -1,3 +1,4 @@
+
 import { serverDelete, serverMutation } from "../core/server";
 
 export const createBookmark = async (newPrompt) => {

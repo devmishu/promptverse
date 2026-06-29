@@ -1,19 +1,25 @@
 import { getAllSubscriptionsByAdmin } from '@/lib/api/subscription';
 import React from 'react';
 import AdminPaymentTable from '../_components/AdminPaymentTable';
+import EmptyStateCard from '@/components/cards/EmptyStateCard';
 
 const AllPaymentsPage = async () => {
-    
+
     const allPayments = await getAllSubscriptionsByAdmin();
 
-    console.log("allPayments...........", allPayments);
-
-
     
+
+
+
     return (
         <div className='p-4 sm:mt-5'>
-            
-            <AdminPaymentTable payments={allPayments}/>
+
+            {
+                allPayments.length === 0 ? <EmptyStateCard className={`mt-50`}/> :
+                    <AdminPaymentTable payments={allPayments} />
+            }
+
+
         </div>
     );
 };

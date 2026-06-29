@@ -7,9 +7,9 @@ import { PaginationWithSummary } from "@/components/shared/PaginationWithSummary
 import { getUser } from "@/lib/core/session";
 
 
-// Next.js সার্ভার কম্পোনেন্টে searchParams হ্যান্ডেল করার স্ট্যান্ডার্ড উপায়
+
 const AllPromptsPage = async ({ searchParams }) => {
-    // searchParams প্রপ্স অবজেক্টটি সরাসরি রিসিভ করা হলো
+
     const filters = await searchParams;
 
     const user = await getUser();
@@ -17,17 +17,16 @@ const AllPromptsPage = async ({ searchParams }) => {
 
 
 
-    // URLSearchParams-এ অবজেক্ট পাস করে কুয়েরি স্ট্রিং জেনারেট করা হচ্ছে
+
     const quarySearch = new URLSearchParams(filters);
     const quaryString = quarySearch.toString();
 
-    // ডাটাবেজ থেকে ফিল্টার করা প্রম্পট নিয়ে আসা হচ্ছে
+
     const promptsData = await getAllPrompts(quaryString);
     const allPromptsData = promptsData.result;
 
-    console.log("all prompt data....", allPromptsData);
+    console.log("all prompts..",allPromptsData);
 
-    console.log(promptsData);
 
     return (
         <div className="w-full min-h-screen bg-[#030712] text-white py-12 px-6">
@@ -45,8 +44,7 @@ const AllPromptsPage = async ({ searchParams }) => {
                     </div>
                 </div>
 
-                {/* 🎯 ক্লায়েন্ট ফিল্টার বার-এ সরাসরি ফিল্টার অবজেক্ট প্রপ্স হিসেবে পাস করে দিন */}
-                {/* যাতে ফিল্টার বার বুঝতে পারে যে অলরেডি ইউআরএল-এ সার্চ বা কুয়েরি ডাটা আছে এবং সে যেন ওল্ড ডাটা রিমুভ না করে */}
+
                 <PromptFilterBar filters={filters} />
 
                 {/* Grid Layout */}
@@ -63,7 +61,7 @@ const AllPromptsPage = async ({ searchParams }) => {
                             total={promptsData?.total} />
                     </>
                 ) : (
-                    /* নো ডাটা ফাউন্ড স্টেট */
+
                     <div className="w-full border border-dashed border-[#1e293b] rounded-3xl p-16 text-center flex flex-col items-center justify-center gap-2">
                         <p className="text-base text-gray-400 font-medium">No system prompts match your selected filters.</p>
                         <p className="text-xs text-gray-600">Try clearing your text input or resetting the model configurations.</p>

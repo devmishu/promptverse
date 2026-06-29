@@ -13,7 +13,6 @@ export async function proxy(request) {
     });
 
     const user = session?.user;
-    console.log("add car user:", user);
 
     if (!user) {
         return NextResponse.redirect(new URL('/login', request.url))
@@ -27,3 +26,4 @@ export async function proxy(request) {
 export const config = {
     matcher: ['/allprompts/:path',],
 }
+

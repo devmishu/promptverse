@@ -5,7 +5,7 @@ import { Card, Button, Avatar, Chip } from "@heroui/react";
 import { Layers, Copy, Award, ArrowUpRight } from "lucide-react";
 
 export function CreatorCard({ creator, rank }) {
-    // ডাটা ডেস্ট্রাকচারিং এবং সেফ ফলব্যাক ভ্যালু সেট করা
+  
     const {
         userName,
         userImage,
@@ -13,7 +13,7 @@ export function CreatorCard({ creator, rank }) {
         totalCopies,
     } = creator || {};
 
-    // র‍্যাংক অনুযায়ী মুকুট বা মেডেল কালার কনফিগারেশন
+    
     const getRankColor = (rank) => {
         if (rank === 1) return "from-amber-400 to-yellow-500 text-black";
         if (rank === 2) return "from-slate-300 to-slate-400 text-black";
@@ -27,7 +27,7 @@ export function CreatorCard({ creator, rank }) {
 
 
 
-            {/* 👤 প্রোফাইল পার্ট */}
+           
             <Card.Header className="flex flex-col items-center pt-8 pb-4 px-5">
                 <Avatar aria-label={`${userName}'s profile picture `} className="w-20 h-20 border border-gray-800 rounded-full">
                     <Avatar.Image  alt={userName} src={userImage} />
@@ -38,13 +38,10 @@ export function CreatorCard({ creator, rank }) {
                 <Card.Title className="text-base font-semibold text-gray-100 group-hover:text-purple-400 transition-colors line-clamp-1">
                     {creator.userName}
                 </Card.Title>
-                {/* <Card.Description className="text-xs text-gray-500 flex items-center gap-1 mt-1 font-medium capitalize">
-                    <Layers className="size-3.5 text-indigo-400" />
-                    {mainCategory} Specialist
-                </Card.Description> */}
+               
             </Card.Header>
 
-            {/* 📈 স্ট্যাটস গ্রিড (Prompts & Copies) */}
+           
             <Card.Content className="px-5 py-3 border-t border-b border-[#30363d]/40 bg-[#161b22]/30 grid grid-cols-2 text-center gap-2">
                 <div className="flex flex-col gap-0.5 border-r border-[#30363d]/40">
                     <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">Prompts</span>

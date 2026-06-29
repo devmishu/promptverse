@@ -14,7 +14,7 @@ export default function PromptFilterBar({ filters }) {
     const [selectedCategory, setSelectedCategory] = useState(filters?.category || "all");
     const [selectedDifficulty, setSelectedDifficulty] = useState(filters?.difficulty || "all");
 
-    // 🔄 URLSearchParams এবং useEffect লজিক 
+   
     useEffect(() => {
         const sp = new URLSearchParams();
 
@@ -39,17 +39,17 @@ export default function PromptFilterBar({ filters }) {
         router.push(path, { scroll: false });
     }, [searchQuery, selectedSort, selectedAiTool, selectedCategory, selectedDifficulty, router]);
 
-    // 🛠️ রিইউজেবল সিএসএস ক্লাস ভেরিয়েবল (কোড ক্লিন রাখার জন্য)
+   
     const selectClass = "w-full pl-10 pr-4 bg-[#0d1117] border border-[#30363d] hover:border-purple-500/50 text-sm text-gray-200 rounded-xl outline-none transition-all appearance-none cursor-pointer focus:border-purple-500 focus:ring-1 focus:ring-purple-500/30";
     const optionClass = "bg-[#0d1117] text-gray-200 my-1 py-2 rounded-xl checked:bg-purple-600 checked:text-white";
 
     return (
         <div className="w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-4 sm:p-5 shadow-xl flex flex-col gap-4 relative z-30">
 
-            {/* সার্চ এবং সর্ট বার */}
+           
             <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
 
-                {/* 🔍 সার্চ ইনপুট */}
+               
                 <div className="md:col-span-3 relative flex items-center w-full">
                     <Search className="absolute left-3 size-4 text-gray-400 pointer-events-none" />
                     <input
@@ -61,7 +61,7 @@ export default function PromptFilterBar({ filters }) {
                     />
                 </div>
 
-                {/* 🔢 সর্ট সিলেক্ট */}
+               
                 <div className="relative flex items-center w-full">
                     <ArrowUpDown className="absolute left-3 size-4 text-purple-400 pointer-events-none" />
                     <select
@@ -77,10 +77,10 @@ export default function PromptFilterBar({ filters }) {
                 </div>
             </div>
 
-            {/* ফিল্টারিং অপশনস রো */}
+           
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-[#1e293b]/30 pt-4">
 
-                {/* AI Tools Filter */}
+                
                 <div className="relative flex items-center w-full">
                     <Cpu className="absolute left-3 size-4 text-cyan-400 pointer-events-none" />
                     <select
@@ -96,7 +96,7 @@ export default function PromptFilterBar({ filters }) {
                     </select>
                 </div>
 
-                {/* Category Filter */}
+               
                 <div className="relative flex items-center w-full">
                     <Layers className="absolute left-3 size-4 text-indigo-400 pointer-events-none" />
                     <select
@@ -112,7 +112,7 @@ export default function PromptFilterBar({ filters }) {
                     </select>
                 </div> 
 
-                {/* Difficulty Filter */}
+                
                 <div className="relative flex items-center w-full">
                     <Gauge className="absolute left-3 size-4 text-rose-400 pointer-events-none" />
                     <select

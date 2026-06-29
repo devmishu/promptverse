@@ -8,10 +8,10 @@ import { revalidatePath } from 'next/cache';
 
 const SavedPromptsPage = async () => {
     const user = await getUser();
-    // ইউজারের আইডি দিয়ে বুকমার্ক ডাটা আনা হচ্ছে
+   
     const bookmarks = await getBookmarksByUser(user?.id) || [];
 
-    console.log("bookmarks..", bookmarks);
+   
 
 
 
@@ -19,13 +19,13 @@ const SavedPromptsPage = async () => {
         "use server"
         await deleteBookmark(bookmarkId);
         revalidatePath('/dashboard/user/savedprompt')
-        console.log("bookmarkId..", bookmarkId);
+      
     }
 
     return (
+        
         <div className="p-6 max-w-7xl mx-auto">
 
-            {/* হেডিং সেকশন */}
             {
                 bookmarks.length !== 0 && <div className="mb-6">
                     <h1 className="text-xl font-bold text-slate-200 tracking-tight">Saved Prompts</h1>
@@ -36,14 +36,14 @@ const SavedPromptsPage = async () => {
             }
 
 
-            {/* যদি কোনো বুকমার্ক না থাকে */}
+            
             {bookmarks.length === 0 ? (
                 <div className="mt-50 py-20 flex flex-col items-center justify-center text-center border border-dashed border-slate-900 rounded-2xl bg-[#0f172a]/10">
                     <p className="text-sm font-medium text-slate-400">No bookmarks found</p>
                     <p className="text-xs text-slate-600 mt-1">Prompts you bookmark will appear here.</p>
                 </div>
             ) : (
-                /* বুকমার্ক গ্রিড লেআউট */
+               
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {bookmarks.map((bookmark) => (
                         <BookmarkCard

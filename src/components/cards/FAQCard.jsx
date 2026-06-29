@@ -3,7 +3,7 @@ import { Accordion } from "@heroui/react";
 import { ChevronDown, ShoppingBag, UserPlus, Wallet, ShieldCheck, HelpCircle } from "lucide-react";
 
 export function FAQCard({ faqs }) {
-    // প্রতিটি প্রশ্নের জন্য একটি করে মানানসই Lucide Icon ম্যাপিং
+  
     const icons = [
         <ShoppingBag key="0" className="size-4" />,
         <UserPlus key="1" className="size-4" />,

@@ -6,7 +6,7 @@ import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, BarChart, 
 
 export default function AdminAnalyticsGrid({ analyticsData }) {
 
-    // সরাসরি রুট লেভেলের ডেটা রিড করা হচ্ছে
+   
     const statsData = [
         {
             id: "stat-users",

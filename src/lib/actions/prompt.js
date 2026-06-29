@@ -6,8 +6,13 @@ export const createprompt = async (newPrompt) => {
     return serverMutation('/api/prompts', newPrompt);
 }
 
+
+
+
 export const deletePrompt = async (promptId) => {
+    revalidatePath('/dashboard/admin/allprompts')
     return serverDelete(`/api/prompt/${promptId}`);
+
 }
 
 export const editPrompt = async (promptId, updatedData) => {

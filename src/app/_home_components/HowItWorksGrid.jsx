@@ -1,4 +1,4 @@
-"use client"; // 🚀 Framer motion ব্যবহারের জন্য ফাইলটিকে client কম্পোনেন্ট করা হলো
+"use client";
 
 import SectionHeader from "@/components/shared/SectionHeader";
 import { Card } from "@heroui/react";
@@ -30,44 +30,44 @@ export function HowItWorksGrid() {
         }
     ];
 
-    // 🎨 অন্যান্য সেকশনের অ্যানিমেশনের সাথে হুবহু ম্যাচিং ভ্যারিয়েন্টস
+   
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.15, // প্রতিটি স্টেপ কার্ডের মাঝের Delay টাইম
+                staggerChildren: 0.15, 
             },
         },
     };
 
     const cardVariants = {
-        hidden: { opacity: 0, y: 24 }, // শুরুতে কার্ড কিছুটা নিচে এবং হাইড থাকবে
+        hidden: { opacity: 0, y: 24 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { type: "spring", stiffness: 90, damping: 14 } // স্মুথ স্প্রিং ইফেক্ট
+            transition: { type: "spring", stiffness: 90, damping: 14 } 
         },
     };
 
     return (
         <section className="w-full bg-[#030712] text-white py-20 px-6 border-t border-[#1e293b]/30">
-            <div className="max-w-[1440px] mx-auto flex flex-col gap-12">
+            <div className="max-w-360 mx-auto flex flex-col gap-12">
 
                 {/* Section Heading */}
                 <SectionHeader
                     badge="Workflow Process"
-                    title="How Prompy Verse Works"
+                    title="How Prompt Verse Works"
                     description="Get started in minutes whether you are looking to accelerate your workflow or monetize engineering structures."
                 />
 
-                {/* 🚀 মোশন কন্টেইনার: স্ক্রিনে আসলেই ৩টি স্টেপ একটার পর একটা স্মুথলি ভেসে উঠবে */}
+                
                 <motion.div
                     className="grid grid-cols-1 md:grid-cols-3 gap-8 relative"
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true, margin: "-80px" }} // স্ক্রোলে একবারই অ্যানিমেট হবে
+                    viewport={{ once: true, margin: "-80px" }} 
                 >
                     {steps.map((step) => {
                         const Icon = step.icon;

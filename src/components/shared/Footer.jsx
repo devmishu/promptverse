@@ -33,7 +33,7 @@ export function Footer() {
                             <Link href="/" className="hover:text-cyan-400 transition-colors">Home</Link>
                         </li>
                         <li>
-                            <Link href="/prompts" className="hover:text-cyan-400 transition-colors">All Prompts</Link>
+                            <Link href="/allprompts" className="hover:text-cyan-400 transition-colors">All Prompts</Link>
                         </li>
                     </ul>
                 </div>

@@ -10,10 +10,12 @@ import {
     Sparkles,
     UserCheck,
     AlertCircle,
-    CreditCard
+    CreditCard,
+    ShieldAlert,
+    Calendar
 } from "lucide-react";
 
-export default function UserProfileCard({ user = {},myPrompts,title }) {
+export default function UserProfileCard({ user = {}, myPrompts, title, warnings }) {
     // Props Destructuring
     const {
         name = "Anonymous User",
@@ -22,13 +24,13 @@ export default function UserProfileCard({ user = {},myPrompts,title }) {
         role = "user",
         plan = "free",
         promptsPublishedLength = 0,
-        emailVerified 
+        emailVerified
     } = user;
 
     const isPremium = plan?.toLowerCase() === "premium";
 
     return (
-        // 📱 w-full দিয়ে ফুল উইডথ করা হয়েছে এবং বড় স্ক্রিনের জন্য কন্টেন্ট গ্যাপ অ্যাডজাস্ট করা হয়েছে
+       
         <div className="  w-full bg-[#111827]/20 border border-[#1e293b]/50 rounded-3xl backdrop-blur-md p-5 sm:p-8 shadow-2xl relative overflow-hidden flex flex-col gap-6 sm:gap-8">
 
             {/* ─── TOP SECTION: PROFILE INFO & BADGES ─── */}
@@ -69,7 +71,7 @@ export default function UserProfileCard({ user = {},myPrompts,title }) {
                         </>
                     ) : (
                         <span className="inline-flex items-center gap-1 px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-md border bg-amber-500/10 border-amber-500/20 text-amber-500">
-                            Free 
+                            Free
                         </span>
                     )}
                 </div>
@@ -104,6 +106,40 @@ export default function UserProfileCard({ user = {},myPrompts,title }) {
                     </div>
                 </Card>
             </div>
+
+
+          
+            {role !== "admin" && warnings.length > 0 && (
+                <div className="w-full border-t border-[#1e293b]/30 pt-4 space-y-3 relative z-10">
+                    <h3 className="text-xs sm:text-sm font-bold tracking-wider text-rose-500 uppercase flex items-center gap-2">
+                        <ShieldAlert className="size-4 animate-pulse" />
+                        Account Compliance Notices ({warnings.length})
+                    </h3>
+                    <div className="space-y-2.5">
+                        {warnings.map((warn) => {
+                            const formattedDate = new Date(warn.date || new Date()).toLocaleDateString('en-US', {
+                                month: 'short', day: 'numeric', year: 'numeric'
+                            });
+                            return (
+                                <div key={warn._id} className="bg-rose-500/5 border border-rose-500/10 rounded-2xl p-4 transition-all hover:border-rose-500/20">
+                                    <div className="flex items-start gap-3">
+                                        <div className="p-1.5 bg-rose-500/10 rounded-lg text-rose-400 mt-0.5">
+                                            <ShieldAlert className="size-3.5" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">{warn.message}</p>
+                                            <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 font-medium mt-2">
+                                                <Calendar className="size-3" />
+                                                Issued on {formattedDate}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
 
             {/* ─── LAST SECTION: PLAN UPGRADE OR PREMIUM SUCCESS CARD ─── */}
             <div className="relative z-10 w-full">

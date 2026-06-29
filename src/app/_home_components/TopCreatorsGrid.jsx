@@ -1,30 +1,29 @@
-"use client"; // 🚀 Framer motion ব্যবহারের জন্য ফাইলটিকে client কম্পোনেন্ট করা হলো
+"use client";
 
 import { CreatorCard } from "@/components/cards/CreatorCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { motion } from "framer-motion";
 
-// ডাটা সরাসরি এখানে সার্ভার সাইডে ফেচ না করে প্যারেন্ট (Server Component/Page) থেকে 
-// props হিসেবে 'creatorsData' পাস করা সবচেয়ে বেস্ট প্র্যাকটিস।
+
 export function TopCreatorsGrid({ creatorsData = [] }) {
 
-    // 🎨 অন্যান্য সেকশনের সাথে ম্যাচিং অ্যানিমেশন ভ্যারিয়েন্টস
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.12, // প্রতিটি ক্রিয়েটর কার্ডের মাঝের Delay টাইম
+                staggerChildren: 0.12,
             },
         },
     };
 
     const cardVariants = {
-        hidden: { opacity: 0, y: 24 }, // শুরুতে কার্ড কিছুটা নিচে এবং হাইড থাকবে
-        visible: { 
-            opacity: 1, 
-            y: 0, 
-            transition: { type: "spring", stiffness: 90, damping: 14 } // স্মুথ স্প্রিং ইফেক্ট দিয়ে অ্যানিমেশনটি থেমে যাবে
+        hidden: { opacity: 0, y: 24 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { type: "spring", stiffness: 90, damping: 14 }
         },
     };
 
@@ -35,13 +34,13 @@ export function TopCreatorsGrid({ creatorsData = [] }) {
                 {/* Section Heading */}
                 <SectionHeader title="Top Prompts Creators" />
 
-                {/* 🚀 মোশন কন্টেইনার: স্ক্রিনে আসলেই একবার অ্যানিমেশন ট্রিগার হবে */}
-                <motion.div 
+
+                <motion.div
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true, margin: "-80px" }} // একবারই অ্যানিমেট হবে, বারবার স্ক্রোল করলেও রিপিট হবে না
+                    viewport={{ once: true, margin: "-80px" }}
                 >
                     {creatorsData.map((creator, index) => (
                         <motion.div key={creator.userId || index} variants={cardVariants}>

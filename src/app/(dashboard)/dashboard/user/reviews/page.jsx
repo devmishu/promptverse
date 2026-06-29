@@ -8,7 +8,7 @@ const ReviewsPage = async () => {
     const user = await getUser()
     const reviews = await getReviewsByUser(user?.id)
 
-    console.log("reviews data....", reviews);
+   
     return (
 
         <div className='px-5 md:pr-10 md:my-10'>

@@ -1,12 +1,55 @@
 "use client";
 
-import { Button } from "@heroui/react";
+import { warnCreator } from "@/lib/actions/report";
+import { deletePromptAndReports } from "@/lib/api/report";
+import { AlertDialog, Button } from "@heroui/react";
 import { AlertOctagon, Eye, CheckCircle, ShieldAlert, Trash2, Calendar, FileText, User } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
-export default function AdminReportedPromptTable({ deletePrompt, reports = [], onHandleDismiss, onWarn, onHandleDeletePrompt }) {
+export default function AdminReportedPromptTable({ reports = [], onHandleDismiss, onWarn, onHandleDeletePrompt }) {
+    const [reportList, setReportList] = useState(reports);
 
-    console.log("admin reported prompts..", reports);
+   
+
+    const handleWarn = async (reportId, creatorId, promptTitle) => {
+        try {
+
+            const response = await warnCreator({ reportId, creatorId, promptTitle });
+
+            if (response.success) {
+                toast.success("Creator warned and report removed successfully!");
+
+                // UI থেকে ওই রিপোর্টের রো/কার্ডটি ইনস্ট্যান্ট সরিয়ে ফেলার জন্য স্টেট ফিল্টার
+                setReportList((prevReports) => prevReports.filter((item) => item._id !== reportId));
+            } else {
+                toast.error(response.message || "Something went wrong");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to execute admin action.");
+        }
+    };
+
+    const handleDeletePromptAndReport = async (reportId, promptId) => {
+        try {
+           
+            const response = await deletePromptAndReports({ reportId, promptId });
+
+            if (response.success) {
+                toast.success("Prompt and report deleted successfully!");
+
+               
+                setReportList((prevReports) => prevReports.filter((item) => item._id !== reportId));
+            } else {
+                toast.error(response.message || "Failed to delete prompt.");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("An error occurred while deleting the prompt.");
+        }
+    };
 
 
     return (
@@ -23,7 +66,7 @@ export default function AdminReportedPromptTable({ deletePrompt, reports = [], o
                 </div>
             </div>
 
-            {/* 📱 স্মুথ মোবাইল স্ক্রল র‍্যাপার (Custom Hidden Scrollbar) */}
+           
             <div className="w-full overflow-x-auto touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pb-2">
                 <table className="w-full min-w-[1100px] border-collapse text-left table-auto">
                     <thead>
@@ -39,7 +82,7 @@ export default function AdminReportedPromptTable({ deletePrompt, reports = [], o
 
                     <tbody>
                         {reports.map((report) => {
-                            // যদি ডেট ফিল্ড থাকে তবে ফরম্যাট করবে, না থাকলে কারেন্ট ডেট দেখাবে ব্যাকআপ হিসেবে
+                            
                             const rawDate = report?.createdAt?.$date || report?.createdAt || new Date();
                             const formattedDate = new Date(rawDate).toLocaleDateString('en-US', {
                                 month: 'short',
@@ -124,24 +167,57 @@ export default function AdminReportedPromptTable({ deletePrompt, reports = [], o
 
                                             {/* Warn Creator Button */}
                                             <Button
+                                                onClick={() => handleWarn(report._id, report.userId, report.title)}
                                                 size="sm"
                                                 variant="bordered"
                                                 className="text-xs text-amber-400 border-[#1e293b] hover:bg-amber-500/10 h-8 rounded-xl font-medium transition-colors"
-                                                onClick={() => onWarn && onWarn(report.userId)}
                                             >
                                                 <ShieldAlert className="size-3.5 mr-1 text-amber-500" />
                                                 Warn Creator
                                             </Button>
 
                                             {/* Remove Prompt Button */}
-                                            <Button
-                                                size="sm"
-                                                className="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 h-8 rounded-xl font-bold transition-colors"
-                                                onClick={() => onHandleDeletePrompt(report.promptId)}
-                                            >
-                                                <Trash2 className="size-3.5 mr-1" />
-                                                Remove Prompt {report.promptId}
-                                            </Button>
+
+
+
+                                            <AlertDialog>
+                                                {/* Delete Button */}
+                                                <Button
+
+                                                    size="sm"
+                                                    className="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 h-8 rounded-xl font-bold transition-colors"
+                                                >
+                                                    <Trash2 className="size-3.5 mr-1" />
+                                                    Remove Prompt 
+                                                </Button>
+                                                <AlertDialog.Backdrop>
+                                                    <AlertDialog.Container>
+                                                        <AlertDialog.Dialog className="sm:max-w-[400px]">
+                                                            <AlertDialog.CloseTrigger />
+                                                            <AlertDialog.Header>
+                                                                <AlertDialog.Icon status="danger" />
+                                                                <AlertDialog.Heading>Delete Prompt permanently?</AlertDialog.Heading>
+                                                            </AlertDialog.Header>
+                                                            <AlertDialog.Body>
+                                                                <p>
+                                                                    This will permanently delete <strong></strong> and all of its
+                                                                    data. This action cannot be undone.
+                                                                </p>
+                                                            </AlertDialog.Body>
+                                                            <AlertDialog.Footer>
+                                                                <Button slot="close" variant="tertiary">
+                                                                    Cancel
+                                                                </Button>
+                                                                <Button
+                                                                    onClick={() => handleDeletePromptAndReport(report._id, report.promptId)}
+                                                                    slot="close" variant="danger">
+                                                                    Delete Prompt
+                                                                </Button>
+                                                            </AlertDialog.Footer>
+                                                        </AlertDialog.Dialog>
+                                                    </AlertDialog.Container>
+                                                </AlertDialog.Backdrop>
+                                            </AlertDialog>
 
                                         </div>
                                     </td>

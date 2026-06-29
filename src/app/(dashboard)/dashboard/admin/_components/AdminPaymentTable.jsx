@@ -6,9 +6,8 @@ import Link from "next/link";
 
 export default function AdminPaymentTable({ payments = [], onView, onDelete }) {
 
-    console.log("admin all payments..", payments);
+  
 
-    // পেমেন্ট স্ট্যাটাসের ডাইনামিক স্টাইল
     const getStatusStyle = (status) => {
         switch (status?.toUpperCase()) {
             case "PAID":
@@ -21,7 +20,7 @@ export default function AdminPaymentTable({ payments = [], onView, onDelete }) {
         }
     };
 
-    // প্ল্যান অনুযায়ী ডাইনামিক ব্যাজ স্টাইল
+  
     const getPlanStyle = (plan) => {
         const p = plan?.toUpperCase();
         if (p === "PREMIUM") return "bg-purple-500/10 border-purple-500/20 text-purple-400";
@@ -39,7 +38,7 @@ export default function AdminPaymentTable({ payments = [], onView, onDelete }) {
                         <CreditCard className="text-cyan-400 size-4 sm:size-5" />
                         Transaction & Payment Records
                     </h2>
-                    
+
                 </div>
             </div>
 
@@ -60,7 +59,7 @@ export default function AdminPaymentTable({ payments = [], onView, onDelete }) {
 
                     <tbody>
                         {payments.map((payment) => {
-                            // MongoDB `$date` বা ডিরেক্ট ISO স্ট্রিং উভয় ফরম্যাট সেফলি হ্যান্ডেল করার লজিক
+                            
                             const rawDate = payment?.createdAt?.$date || payment?.createdAt;
                             const formattedDate = rawDate
                                 ? new Date(rawDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })

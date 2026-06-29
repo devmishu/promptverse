@@ -10,7 +10,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
     const session = useSession();
     const user = session?.data?.user
 
-    // AI Engine গুলোর জন্য ডাইনামিক কালার ম্যাপিং
+
     const getEngineStyle = (engine) => {
         const eng = engine?.toUpperCase();
         if (eng?.includes("CHATGPT") || eng?.includes("GPT")) return "bg-emerald-500/10 border-emerald-500/20 text-emerald-400";
@@ -19,7 +19,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
         return "bg-cyan-500/10 border-cyan-500/20 text-cyan-400";
     };
 
-    // Status গুলোর জন্য ডাইনামিক কালার ম্যাপিং
+
     const getStatusStyle = (status) => {
         switch (status?.toUpperCase()) {
             case "APPROVED":
@@ -32,7 +32,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
     };
 
     return (
-        // এখানে max-w-full যুক্ত করা হয়েছে
+
         <div className="my-10  w-full overflow-x-auto overflow-y-hidden block touch-pan-x [scrollbar-width:auto_!important] [&::-webkit-scrollbar]:block [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-cyan-500/30 [&::-webkit-scrollbar-thumb]:rounded-full">
 
             {/* Table Header */}
@@ -46,7 +46,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                 </div>
             </div>
 
-            {/* স্ক্রলবার কন্টেইনারে কাস্টম হিডেন ক্লাস সরিয়ে স্ট্যান্ডার্ড touch-scroll লজিক দেওয়া হয়েছে */}
+
             <div className="w-full overflow-x-auto overflow-y-hidden block touch-pan-x dynamic-scroll">
                 <table className="w-full min-w-[900px] border-collapse text-left table-auto">
                     <thead>
@@ -77,9 +77,9 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                     </div>
                                 </td>
 
-                                {/* Column 2: AI Engine */}
+                                {/* Column 2: AI Tool */}
                                 <td className="py-4 px-4 whitespace-nowrap">
-                                    <span className={`inline-flex items-center justify-center px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md border ${getEngineStyle(prompt.aiEngine)}`}>
+                                    <span className={`inline-flex items-center justify-center px-2.5 py-1 text-[10px] font-bold tracking-wider rounded-md border bg-purple-500/10 text-purple-500 `}>
                                         {prompt.aiTool}
                                     </span>
                                 </td>
@@ -104,7 +104,7 @@ export default function MyPromptsTable({ prompts = [], onUpdate, noHandleDeletPr
                                         {prompt.status}
                                     </span>
                                     {
-                                        prompt.rejectReason && <span className="text-gray-400">Reason: {prompt.rejectReason}</span>
+                                        prompt.rejectReason && <span className="text-[12px] mt-1 text-gray-400">Reason: {prompt.rejectReason}</span>
                                     }
                                 </td>
 

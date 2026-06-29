@@ -45,24 +45,23 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
     };
 
 
-    // 🛠️ বুকমার্ক, রিভিউ এবং রিপোর্ট একসাথে চেক করার জন্য আপডেট করা ইফেক্ট
+
     useEffect(() => {
         const checkUserStatus = async () => {
             if (!author?.id || !promptData?._id) return;
 
             try {
-                // ১. বুকমার্ক স্ট্যাটাস চেক
                 const bookmarkRes = await fetch(`${baseurl}/api/bookmarks/check?userId=${author.id}&promptId=${promptData._id}`);
                 const bookmarkData = await bookmarkRes.json();
                 if (bookmarkData?.isBookmarked) {
                     setIsBookmarked(true);
                 }
 
-                // ২. রিভিউ স্ট্যাটাস চেক
+
                 const reviewRes = await fetch(`${baseurl}/api/reviews/check?userId=${author.id}&promptId=${promptData._id}`);
                 const reviewData = await reviewRes.json();
                 if (reviewData?.hasReviewed) {
-                    setHasReviewed(true); // এর ফলে রিফ্রেশ দিলেও "Already Reviewed" দেখাবে
+                    setHasReviewed(true);
                 }
 
             } catch (error) {
@@ -82,7 +81,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
             return;
         }
 
-        // ইনস্ট্যান্ট ইউজার এক্সপেরিয়েন্সের জন্য ফ্রন্টএন্ডে আগে ১ বাড়িয়ে নিচ্ছি
+
         setPromptData(prevData => ({
             ...prevData,
             copyCount: (prevData.copyCount || 0) + 1
@@ -91,7 +90,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
         toast.success("Prompt copied to clipboard!");
         setTimeout(() => setCopied(false), 2000);
 
-        // 🚀 ব্যাকএন্ড ডাটাবেজে কপি কাউন্ট ১ বাড়ানোর জন্য এপিআই কল
+
         try {
             await fetch(`${baseurl}/api/prompts/${promptData._id}/copy`, {
                 method: 'PATCH',
@@ -106,7 +105,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
 
     const handleBookmark = async () => {
-        // ফ্রন্টেন্ডে প্রথম লেয়ারের ভ্যালিডেশন
+
         if (isBookmarked) {
             toast.error("Already bookmarked!");
             return;
@@ -119,9 +118,9 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                 userName: author?.name,
                 userImail: author?.id,
                 userId: author?.id,
-                promptId: promptData._id, // প্রম্পট আইডি এখানে আলাদা থাকবে
+                promptId: promptData._id,
 
-                // প্রম্পটের বাকি ডাটাগুলো আলাদা ফিল্ডে পাঠানো হলো
+
                 title: promptData.title,
                 description: promptData.description,
                 content: promptData.content,
@@ -135,15 +134,15 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                 tags: promptData.tags || []
             };
 
-            // ব্যাকএন্ডে ডাটা পাঠানো হচ্ছে
+
             const res = await createBookmark(bookMarkData);
 
-            // সার্ভার অ্যাকশনের রেসপন্স চেক করা হচ্ছে
+
             if (res?.success) {
                 setIsBookmarked(true);
                 toast.success("Added to bookmarks!");
             } else {
-                // যদি ব্যাকএন্ড অলরেডি বুকমার্কড পায়
+
                 if (res?.alreadyBookmarked) {
                     setIsBookmarked(true);
                 }
@@ -153,7 +152,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
         } catch (error) {
             console.error("Bookmark error:", error);
 
-            // ব্যাকএন্ডের ৪০০ বা ৪_ ডুপ্লিকেট এরর মেসেজ ক্যাচ করার জন্য
+
             const errorMessage = error?.response?.data?.message || error?.message || "";
 
             if (errorMessage.includes("already bookmarked") || error?.response?.data?.alreadyBookmarked) {
@@ -174,21 +173,17 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
 
     const handleUserReview = async (rating, reviewText) => {
-        // রেটিং ভ্যালিডেশন
+
         if (rating === 0) {
             toast.error("Please select a rating star!");
             return;
         }
 
-
-
-        // টেক্সট ভ্যালিডেশন
         if (!reviewText.trim()) {
             toast.error("Please write some thoughts before publishing!");
             return;
         }
 
-        // ইউজার একবার রিভিউ দিয়ে দিলে ২য় বার আটকে দিবে
         if (hasReviewed) {
             toast.error("You have already reviewed this prompt!");
             return;
@@ -201,6 +196,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                 userName: author?.name,
                 userEmail: author?.email,
                 userId: author?.id,
+                userImage: author?.userImage,
                 promptId: promptData._id,
                 title: promptData.title,
                 aiTool: promptData.aiTool,
@@ -208,17 +204,17 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                 reviewText,
             };
 
-            // ব্যাকএন্ড সার্ভার অ্যাকশন বা এপিআই কল
+
             const res = await createReview(promptId, reviewData);
 
-            // যদি আপনার সার্ভার অ্যাকশন সরাসরি অবজেক্ট রিটার্ন করে (যেমন: { success: true })
+
             if (res?.success) {
                 setHasReviewed(true);
                 toast.success("Review published successfully!");
                 setUserReview("");
                 setUserRating(0);
             } else {
-                // যদি ব্যাকএন্ড থেকে সাকসেস না আসে
+
                 if (res?.alreadyReviewed) {
                     setHasReviewed(true);
                 }
@@ -228,7 +224,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
         } catch (error) {
             console.error("Review submit error:", error);
 
-            // 💡 ব্যাকএন্ডের ৪০০ এরর বা ডুপ্লিকেট চেকের মেসেজ এখানে হ্যান্ডেল করা হচ্ছে
+
             const errorMessage = error?.response?.data?.message || error?.message || "";
 
             if (errorMessage.includes("already reviewed") || error?.response?.data?.alreadyReviewed) {
@@ -270,10 +266,10 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                 </div>
             </div>
 
-            {/* মেইন গ্রিড স্ট্রাকচার ফিক্স */}
+
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
 
-                {/* কলাম ১: মেটাডাটা ও থাম্বনেইল */}
+
                 <div className="flex flex-col gap-6 lg:col-span-1">
                     {promptData?.thumbnail && (
                         <div className="w-full aspect-[1.8/1] rounded-2xl overflow-hidden border border-slate-800/80 bg-slate-950 shadow-xl group">
@@ -317,7 +313,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
 
                 </div>
 
-                {/* কলাম ২: প্রম্পট ওয়ার্কস্পেস */}
+
                 <div className="lg:col-span-2 flex flex-col gap-6 md:gap-8">
                     <div className="w-full bg-[#0f172a]/30 border border-slate-800/60 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl relative">
                         <div className="flex items-center justify-between gap-4 mb-5">
@@ -430,7 +426,7 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                         </div>
                     </div>
 
-                    {/* রিভিউ এবং ফিডব্যাক সেকশন */}
+
                     <div className="mt-2">
                         <h3 className="text-xs sm:text-sm font-bold text-slate-400 tracking-wider uppercase mb-5 flex items-center gap-2.5">
                             <MessageSquare size={16} /> Community Feedback ({promptReviews.length})
@@ -500,13 +496,13 @@ export default function PromptDetails({ promptData: initialPromptData, promptId,
                             <div className="lg:col-span-3 flex flex-col gap-4">
                                 {promptReviews && promptReviews.length > 0 ? (
                                     <>
-                                        {/* Shudhu matro current index er review card-ti dekhabe */}
+
                                         <ReviewCard
                                             key={promptReviews[currentIndex]._id || currentIndex}
                                             review={promptReviews[currentIndex]}
                                         />
 
-                                        {/* 1 tar beshi review thaklei shudhu navigation arrow dekhabe */}
+
                                         {promptReviews.length > 1 && (
                                             <div className="flex items-center justify-end gap-3 mt-1">
                                                 {/* Prev Button */}

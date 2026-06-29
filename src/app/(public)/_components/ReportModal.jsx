@@ -48,7 +48,7 @@ export function ReportModal({ author, promptData }) {
         const formData = new FormData(e.target);
         const reportData = Object.fromEntries(formData.entries());
 
-        // সিলেক্ট ফিল্ডের ভ্যালু ভ্যালিডেশন
+       
         if (!reportData.reason) {
             toast.error("Please select a reason for reporting!");
             return;
@@ -61,13 +61,13 @@ export function ReportModal({ author, promptData }) {
                 reason: reportData.reason,
                 description: reportData.description || "",
                 userName: author?.name,
-                userImail: author?.email, // আপনার দেওয়া স্পেলিং
+                userImail: author?.email,
                 userId: author?.id,
                 promptId: promptData?._id,
                 title: promptData?.title,
             };
 
-            // আপনার ব্যাকএন্ড সার্ভার অ্যাকশন বা এপিআই কল
+          
             const res = await createReport(finalReportData);
 
             if (res?.success) {
@@ -95,7 +95,7 @@ export function ReportModal({ author, promptData }) {
         }
     };
 
-    // এপিআই চেকিং চলাকালীন বাটনটি লোডিং মোডে থাকবে যেন ইউজার ইনস্ট্যান্ট ফ্লিকার না দেখে
+    
     if (isChecking) {
         return (
             <Button isIconOnly size="md" variant="light" className="text-slate-600 rounded-xl" isLoading />
@@ -104,7 +104,7 @@ export function ReportModal({ author, promptData }) {
 
     return (
         <Modal>
-            {/* মোডাল ওপেন বাটন - অলরেডি রিপোর্টেড হলে ইন্ডিকেটর হিসেবে কালার চেইঞ্জ হবে */}
+            
             <Button
                 isIconOnly
                 size="md"
@@ -142,7 +142,7 @@ export function ReportModal({ author, promptData }) {
                                 <Surface variant="default" className="bg-transparent shadow-none border-none p-0">
                                     <form onSubmit={handleUserReport} className="flex flex-col gap-5">
 
-                                        {/* সিলেক্ট রিজন */}
+                                       
                                         <div className="flex flex-col gap-1.5">
                                             <Label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Reason for Report</Label>
                                             <Select placeholder="Select a reason" name="reason" className="w-full">
@@ -167,7 +167,7 @@ export function ReportModal({ author, promptData }) {
                                             </Select>
                                         </div>
 
-                                        {/* ডেসক্রিপশন */}
+                                      
                                         <div className="flex flex-col gap-1.5">
                                             <Label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Additional Description (Optional)</Label>
                                             <TextArea
@@ -183,7 +183,7 @@ export function ReportModal({ author, promptData }) {
                                             />
                                         </div>
 
-                                        {/* ফুটার বাটনস */}
+                                       
                                         <Modal.Footer className="p-0 mt-2 flex gap-3 border-none bg-transparent">
                                             <Button
                                                 slot="close"

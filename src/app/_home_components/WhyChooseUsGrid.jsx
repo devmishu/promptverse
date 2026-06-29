@@ -1,11 +1,11 @@
-"use client"; // 🚀 Framer motion ব্যবহারের জন্য ফাইলটিকে client কম্পোনেন্ট করা হলো
+"use client"; 
 
 import { WhyChooseUsCard } from "@/components/cards/WhyChooseUsCard";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { motion } from "framer-motion";
 import { Zap, ShieldCheck, Sparkles, Coins, Users, Flame } from "lucide-react";
 
-// 2. Main Grid Component with Marketplace Platform Benefits
+
 export function WhyChooseUsGrid() {
   const platformBenefits = [
     {
@@ -52,23 +52,23 @@ export function WhyChooseUsGrid() {
     }
   ];
 
-  // 🎨 অন্যান্য সেকশনের অ্যানিমেশনের সাথে হুবহু ম্যাচিং ভ্যারিয়েন্টস
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1, // কার্ডগুলোর মাঝের Delay টাইম (০.১ সেকেন্ড)
+        staggerChildren: 0.1, 
       },
     },
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 24 }, // শুরুতে কার্ড কিছুটা নিচে এবং হাইড থাকবে
+    hidden: { opacity: 0, y: 24 }, 
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", stiffness: 90, damping: 14 } // স্মুথ স্প্রিং ইফেক্ট দিয়ে একবারই অ্যানিমেট হবে
+      transition: { type: "spring", stiffness: 90, damping: 14 } 
     },
   };
 
@@ -82,13 +82,13 @@ export function WhyChooseUsGrid() {
           description="Discover how our secure architectural setup connects engineering experts, automated moderation pipelines, and AI developers in one streamlined marketplace."
         />
 
-        {/* 🚀 মোশন কন্টেইনার: স্ক্রিনে আসলেই কার্ডগুলো একটার পর একটা স্ট্যাগার ইফেক্টে অ্যানিমেট হবে */}
+        
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }} // একবারই অ্যানিমেট হবে, বারবার স্ক্রোল করলেও রিপিট হবে না
+          viewport={{ once: true, margin: "-80px" }} 
         >
           {platformBenefits.map((benefit) => (
             <motion.div key={benefit.id} variants={cardVariants}>

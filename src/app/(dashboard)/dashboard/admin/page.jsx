@@ -6,7 +6,7 @@ import AdminAnalyticsGrid from './_components/AdminAnalyticsGrid';
 const AdminHomePage = async () => {
     const analyticsData = await getAdminAnalytics();
 
-    console.log("admin analyticsData..", analyticsData);
+    
     return <AdminAnalyticsGrid
         analyticsData={analyticsData}
     />

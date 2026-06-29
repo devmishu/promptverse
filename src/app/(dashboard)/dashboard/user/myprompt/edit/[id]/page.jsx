@@ -4,7 +4,7 @@ import { getPromptById } from '@/lib/api/prompt';
 
 const EditPromptPage = async ({ params }) => {
     const { id } = await params;
-    console.log("edit page id...", id);
+    
     const promptData = await getPromptById(id);
 
     return <EditPrompt

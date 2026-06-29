@@ -1,7 +1,7 @@
 import { Card } from "@heroui/react";
 import { Zap, ShieldCheck, Sparkles, Coins, Users, Flame } from "lucide-react";
 
-// 1. WhyChooseUsCard Component (Using HeroUI v3.0.1 Object Layout Syntax)
+
 export function WhyChooseUsCard({ benefit }) {
     const { title, description, icon: Icon, highlightColor } = benefit;
 

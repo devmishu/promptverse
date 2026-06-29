@@ -10,7 +10,7 @@ const AddPromptPage = () => {
     const session = useSession();
     const user = session?.data?.user;
 
-    // 💡 BetterAuth-এর নিজস্ব লোডিং স্টেট ট্র্যাকিং (যদি থাকে)
+   
     const isAuthLoading = session?.isPending;
 
     const [myPromptsCount, setMyPromptsCount] = useState(0);
@@ -19,10 +19,10 @@ const AddPromptPage = () => {
 
     useEffect(() => {
         async function fetchUserPrompts() {
-            // যদি অথেনটিকেশন প্রসেস এখনও চলতে থাকে, তবে অপেক্ষা করবে
+           
             if (isAuthLoading) return;
 
-            // যদি অথেনটিকেশন শেষ কিন্তু কোনো ইউজার না পাওয়া যায়
+           
             if (!user?.id) {
                 setLoading(false);
                 return;
@@ -40,15 +40,15 @@ const AddPromptPage = () => {
             } catch (error) {
                 console.error("Error fetching user prompts:", error);
             } finally {
-                // ✅ ডাটা আসুক বা এরর হোক—লোডিং স্ক্রিন বন্ধ হবে
+               
                 setLoading(false);
             }
         }
 
         fetchUserPrompts();
-    }, [user?.id, isAuthLoading]); // 🔄 সেশন লোড বা ইউজার আইডি পরিবর্তনের সাথে রি-রান হবে
+    }, [user?.id, isAuthLoading]); 
 
-    // ১. প্রথমবার সেশন ডিটেক্ট হওয়া এবং ডেটা ফেচিং শেষ হওয়া পর্যন্ত লোডার দেখাবে
+ 
     if (isAuthLoading || loading) {
         return (
             <div className="w-full h-[60vh] flex flex-col items-center justify-center gap-2 text-gray-400">
@@ -58,7 +58,7 @@ const AddPromptPage = () => {
         );
     }
 
-    // ২. সেশন লোড শেষ কিন্তু লগইন করা কোনো ইউজার পাওয়া যায়নি
+
     if (!user) {
         return (
             <div className="w-full h-[50vh] flex flex-col items-center justify-center gap-2 text-gray-400">
@@ -73,7 +73,7 @@ const AddPromptPage = () => {
     return (
         <div className="w-full max-w-3xl mx-auto py-12 px-4">
 
-            {/* ফ্রি প্ল্যান ও লিমিট বাকি থাকলে প্রগ্রেস বার */}
+      
             {user?.plan === "free" && !isLimitReached && (
                 <div className="mb-8 p-5 bg-[#111827]/40 border border-[#1e293b]/60 rounded-2xl backdrop-blur-md">
                     <div className="flex justify-between items-center mb-2">
@@ -93,7 +93,7 @@ const AddPromptPage = () => {
                 </div>
             )}
 
-            {/* লিমিট ফুল হয়ে গেলে পেমেন্ট বাটন */}
+         
             {isLimitReached ? (
                 <div className="w-full bg-[#111827]/30 border-2 border-amber-500/20 rounded-3xl p-8 backdrop-blur-md shadow-2xl text-center flex flex-col items-center gap-6 relative overflow-hidden">
                     <div className="absolute -top-24 w-72 h-72 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -133,7 +133,7 @@ const AddPromptPage = () => {
                     </form>
                 </div>
             ) : (
-                /* প্রিমিয়াম অথবা লিমিট ফাকা থাকলে প্রম্পট ফর্ম */
+                
                 <div className="relative">
                     {user?.plan === "premium" && (
                         <div className="mb-4 inline-flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-xs font-semibold">

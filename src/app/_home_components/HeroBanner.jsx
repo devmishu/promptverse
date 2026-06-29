@@ -26,7 +26,6 @@ export function HeroBanner() {
 
         const cleanQuery = activeQuery.replace("#", "").trim();
 
-        // Next.js রাউটার পুশ
         router.push(`/allprompts?search=${encodeURIComponent(cleanQuery)}`);
     };
 
@@ -39,7 +38,7 @@ export function HeroBanner() {
             transition: {
                 duration: 0.8,
                 delay: customDelay,
-                ease: [0.16, 1, 0.3, 1], // Custom premium cubic-bezier
+                ease: [0.16, 1, 0.3, 1], 
             }
         })
     };

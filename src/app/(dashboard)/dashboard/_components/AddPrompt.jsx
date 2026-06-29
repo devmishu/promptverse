@@ -15,6 +15,9 @@ import {
     TextField,
     Radio,
     RadioGroup,
+    SelectItem,
+    Select,
+    ListBox
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import { useSession } from "@/lib/auth-client";
@@ -32,12 +35,12 @@ export default function AddPrompt({ submitBtn }) {
 
     const router = useRouter();
 
-    // Handle ImgBB Direct Upload with Robust Error Boundary
+    
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // ImgBB API Key (আপনার API Key এখানে বসাবেন অথবা environment variable ব্যবহার করবেন)
+        
         const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
 
         const formData = new FormData();
@@ -97,15 +100,13 @@ export default function AddPrompt({ submitBtn }) {
             status: "pending",
         };
 
-        console.log("Final Prompt Payload Architecture:", promptPayload);
+      
 
         try {
 
 
             const data = await createprompt(promptPayload);
 
-
-            console.log(data);
 
             toast.success(`${data.message}`);
             router.push(`/dashboard/${user?.role}/myprompt`);
@@ -121,7 +122,7 @@ export default function AddPrompt({ submitBtn }) {
     return (
         <div className="bg-[#030712] text-white min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
 
-            {/* Background Ambient Cosmic Glow Layer */}
+            
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
 
@@ -185,28 +186,58 @@ export default function AddPrompt({ submitBtn }) {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                             {/* Category Selection */}
-                            <TextField isRequired name="category">
-                                <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">Category</Label>
-                                <Input
-                                    placeholder="e.g. Web Development, Copywriting"
-                                    className="bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
-                                />
-                                <FieldError className="text-red-400 text-xs mt-1 font-medium" />
-                            </TextField>
+                            <Select name="category" className="w-full" placeholder="Select a category">
+                                <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1 block">Category</Label>
+                                <Select.Trigger className="w-full flex items-center justify-between bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 transition-all duration-200 min-h-[42px] h-[42px]">
+                                    <Select.Value className="text-white text-sm capitalize" />
+                                    <Select.Indicator className="text-gray-400" />
+                                </Select.Trigger>
+                                <Select.Popover className="bg-[#111827] border border-[#1e293b]/80 text-white rounded-xl overflow-hidden shadow-xl">
+                                    <ListBox className="p-1 flex flex-col gap-0.5">
+                                        <ListBox.Item id="development" textValue="Development" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            development
+                                        </ListBox.Item>
+                                        <ListBox.Item id="marketing" textValue="Marketing" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            marketing
+                                        </ListBox.Item>
+                                        <ListBox.Item id="writing" textValue="Writing" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            writing
+                                        </ListBox.Item>
+                                        <ListBox.Item id="design" textValue="Design" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            design
+                                        </ListBox.Item>
+                                    </ListBox>
+                                </Select.Popover>
+                            </Select>
 
                             {/* AI Tool Selection */}
-                            <TextField isRequired name="aiTool">
-                                <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">AI Tool</Label>
-                                <Input
-                                    placeholder="e.g. ChatGPT, Midjourney, Claude"
-                                    className="bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
-                                />
-                                <FieldError className="text-red-400 text-xs mt-1 font-medium" />
-                            </TextField>
+                            <Select name="aiTool" className="w-full" placeholder="Select an AI Tool">
+                                <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1 block">AI Tool</Label>
+                                <Select.Trigger className="w-full flex items-center justify-between bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 transition-all duration-200 min-h-[42px] h-[42px]">
+                                    <Select.Value className="text-white text-sm capitalize" />
+                                    <Select.Indicator className="text-gray-400" />
+                                </Select.Trigger>
+                                <Select.Popover className="bg-[#111827] border border-[#1e293b]/80 text-white rounded-xl overflow-hidden shadow-xl">
+                                    <ListBox className="p-1 flex flex-col gap-0.5">
+                                        <ListBox.Item id="chatgpt" textValue="ChatGPT" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            chatgpt
+                                        </ListBox.Item>
+                                        <ListBox.Item id="gemini" textValue="Gemini" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            gemini
+                                        </ListBox.Item>
+                                        <ListBox.Item id="midjourney" textValue="Midjourney" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            midjourney
+                                        </ListBox.Item>
+                                        <ListBox.Item id="claude" textValue="Claude" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            claude
+                                        </ListBox.Item>
+                                    </ListBox>
+                                </Select.Popover>
+                            </Select>
 
                         </div>
 
-                        {/* Tags Config Matrix */}
+                        
                         <TextField isRequired name="tags">
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">Tags (Comma Separated)</Label>
                             <Input
@@ -267,7 +298,7 @@ export default function AddPrompt({ submitBtn }) {
                         </RadioGroup>
 
                         {/* Visibility Mode Switch Option */}
-                        <RadioGroup defaultValue="public" name="visibility" className="mt-1 flex flex-col gap-1.5">
+                        <RadioGroup defaultValue="free" name="visibility" className="mt-1 flex flex-col gap-1.5">
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide">Visibility </Label>
                             <div className="flex gap-6 items-center w-full mt-1">
                                 <Radio value="free" className="text-xs text-gray-300 font-medium">
@@ -302,7 +333,7 @@ export default function AddPrompt({ submitBtn }) {
                             variant="secondary"
                             className="bg-[#111827] hover:bg-[#1e293b] border border-[#1e293b] text-gray-400 font-semibold text-sm h-11 rounded-xl transition-all px-6 cursor-pointer"
                         >
-                            Reset Matrix
+                            Reset
                         </Button>
                     </Fieldset.Actions>
                 </Fieldset>

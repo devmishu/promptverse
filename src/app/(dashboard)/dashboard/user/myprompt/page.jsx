@@ -13,14 +13,12 @@ const MyPromptPage = async () => {
     const user = await getUser();
     const prompts = await getPromptsByUser(user?.id);
 
-    console.log("myprompts..........", prompts, user);
+  
 
     const handleDeletPrompt = async (promptId) => {
         "use server"
         await deletePrompt(promptId);
         revalidatePath('/dashboard/user/myprompt')
-
-        console.log(promptId);
     }
 
 

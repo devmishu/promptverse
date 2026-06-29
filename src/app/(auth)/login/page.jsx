@@ -5,8 +5,7 @@ import { Button, FieldError, Form, Input, Label, TextField } from "@heroui/react
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { revalidateAnyPath } from "@/lib/actions/revalidate";
+
 
 export default function SignInPage() {
 
@@ -15,7 +14,7 @@ export default function SignInPage() {
         const formData = new FormData(e.currentTarget);
         const signinData = Object.fromEntries(formData.entries());
 
-        console.log(signinData);
+        
 
         const { email, password } = signinData;
 
@@ -25,11 +24,10 @@ export default function SignInPage() {
             callbackURL: "/",
         });
 
-        console.log("data:", { data, error });
+       
 
         if (data) {
             toast.success('Login successfully');
-            revalidateAnyPath('/')
         }
         if (error) {
             toast.error(error.message);
@@ -142,12 +140,7 @@ export default function SignInPage() {
                         name="password"
                         type="password"
                     >
-                        <div className="flex justify-between items-center mb-1">
-                            <Label className="text-gray-300 text-xs font-semibold tracking-wide inline-block">Password</Label>
-                            <a href="#" className="text-xs text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
-                                Forgot password?
-                            </a>
-                        </div>
+
                         <Input
                             placeholder="Enter your password"
                             className="bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
@@ -176,7 +169,7 @@ export default function SignInPage() {
 
                 {/* Account Creation Redirection Link */}
                 <p className="text-center text-xs text-gray-400 mt-6 select-none font-medium">
-                    Don't have an account?{" "}
+                    Donot have an account?{" "}
                     <Link
                         href={`/register`}
                         className="text-cyan-400 hover:text-cyan-300 font-bold transition-colors hover:underline ml-0.5"

@@ -7,7 +7,7 @@ import Link from "next/link";
 export function PromptCard({ prompt, author }) {
 
 
-console.log("card author............." , author);
+
     const {
         title,
         thumbnail: iconUrl,
@@ -31,7 +31,7 @@ console.log("card author............." , author);
     return (
         <Card className="w-full bg-[#111827]/40 border border-[#1e293b]/40 hover:border-cyan-500/30 transition-all rounded-2xl flex flex-col backdrop-blur-sm group cursor-pointer shadow-xl overflow-hidden">
 
-            {/* ১. থাম্বনেইল ইমেজ - একদম ইমেজের মতো বর্ডার ঘেঁষে বড় করে দেখানো হয়েছে */}
+           
             <div className="relative w-full aspect-[1.8/1] bg-[#1f2937] border-b border-gray-800 flex items-center justify-center overflow-hidden">
                 {iconUrl ? (
                     <img
@@ -47,10 +47,10 @@ console.log("card author............." , author);
                 )}
             </div>
 
-            {/* কার্ডের ভেতরের বাকি কন্টেন্টগুলোর প্যাডিং এখানে হ্যান্ডেল করা হয়েছে */}
+        
             <div className="p-5 flex flex-col gap-3 flex-1">
 
-                {/* ২. ব্যাজ রো (Badges Row) */}
+             
                 <div className="flex flex-wrap gap-1.5 items-center">
                     {aiTool && (
                         <Chip
@@ -79,19 +79,19 @@ console.log("card author............." , author);
                     </Chip>
                 </div>
 
-                {/* ৩. টাইটেল সেকশন */}
+            
                 <CardHeader className="p-0 flex flex-col items-start">
                     <h3 className="text-[16px] font-bold text-white tracking-tight line-clamp-1 leading-snug group-hover:text-cyan-400 transition-colors">
                         {title}
                     </h3>
                 </CardHeader>
 
-                {/* ৪. ডেসক্রিপশন সেকশন (সরাসরি div দিয়ে হ্যান্ডেল করা হয়েছে) */}
+             
                 <div className="text-xs text-gray-400 font-normal line-clamp-2 leading-relaxed minimal-description">
                     {description}
                 </div>
 
-                {/* ৫. ক্যাটাগরি ব্যাজ */}
+               
                 {category && (
                     <div className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider text-gray-500 uppercase mt-1">
                         <Layers className="size-3 text-cyan-500/70" />
@@ -99,21 +99,11 @@ console.log("card author............." , author);
                     </div>
                 )}
 
-                {/* ৬. ফুটার সেকশন: অথর এবং স্ট্যাটস */}
+               
                 <CardFooter className="p-0 flex flex-col gap-3 mt-auto pt-3 border-t border-gray-800/40">
                     <div className="flex items-center justify-between w-full">
-                        {/* Left: Author */}
-                        <div className="flex items-center gap-2">
-                            {/* <Avatar
-                                name={author?.name}
-                                src={author?.avatarUrl}
-                                className="w-5 h-5 text-[9px] font-bold bg-purple-600 text-white border border-gray-800"
-                            /> */}
-                            <User size="15" className="border-2 rounded-full "/>
-                            <span className="text-xs text-gray-400 font-medium tracking-tight">
-                                {author?.name || "Creator"}
-                            </span>
-                        </div>
+                        
+                        
 
                         {/* Right: Copies & Ratings */}
                         <div className="flex items-center gap-2.5">
@@ -129,7 +119,7 @@ console.log("card author............." , author);
                         </div>
                     </div>
 
-                    {/* ৭. অ্যাকশন বাটন */}
+                    
                     <Link 
                     className="inline-block w-full"
                     href={`/allprompts/${prompt._id}`}>

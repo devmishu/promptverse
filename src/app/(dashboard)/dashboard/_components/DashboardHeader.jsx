@@ -4,11 +4,11 @@ import { getUser } from '@/lib/core/session';
 const DashboardHeader = async () => {
     const user = await getUser();
 
-    console.log("dashboard user header......", user);
+    
 
     return (
         <header className="w-full border-b border-[#1e293b]/40 bg-[#030712]/60 backdrop-blur-md sticky top-0 z-50">
-            <div className="flex h-16 items-center justify-between px-4 sm:px-6 max-w-[1440px] mx-auto">
+            <div className="flex h-16 items-center justify-between px-4 sm:px-6  mx-auto">
 
                 {/* Left: Logo & Brand */}
                 <Link href={'/'} className="flex items-center gap-2.5">
@@ -25,8 +25,6 @@ const DashboardHeader = async () => {
                 {/* Right: Navigation Links & Profile Frame */}
                 <div className="flex items-center gap-4 sm:gap-6">
                 
-
-                    {/* User Profile Area (ইউজার লগইন থাকলে ইমেজ, নাম ও কন্ডিশনাল ব্যাজ শো করবে) */}
                     {user && (
                         <div className="flex items-center gap-2.5 pl-4 md:border-l border-[#1e293b]/60">
 
@@ -62,8 +60,7 @@ const DashboardHeader = async () => {
 
                         </div>
                     )}
-
-                    {/* ইউজার যদি লগইন না থাকে (Guest / Fallback অবস্থা) */}
+                    
                     {!user && (
                         <div className="text-sm font-medium text-gray-400 select-none">
                             Guest Space

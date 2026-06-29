@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { stripe } from '../../../lib/stripe'
 import { CheckCircle2, Mail, ArrowRight, Sparkles } from 'lucide-react'
 import { createSubscription } from '@/lib/actions/subscription'
+import Link from 'next/link'
 
 export default async function Success({ searchParams }) {
     const { session_id } = await searchParams
@@ -10,7 +11,7 @@ export default async function Success({ searchParams }) {
         throw new Error('Please provide a valid session_id (`cs_test_...`)')
 
     const session = await stripe.checkout.sessions.retrieve(session_id, {
-        expand: ['line_items', 'payment_intent.payment_method'] // ⚡ payment_method expand করা হয়েছে কার্ড ডিটেইলস পাওয়ার জন্য
+        expand: ['line_items', 'payment_intent.payment_method']
     })
 
     const {
@@ -24,7 +25,7 @@ export default async function Success({ searchParams }) {
     }
 
     if (status === 'complete') {
-        // ⚡ স্ট্রাইপ সেশন থেকে প্রয়োজনীয় সব পেমেন্ট ইনফরমেশন সংগ্রহ
+
         const paymentIntent = session.payment_intent;
         const paymentMethod = paymentIntent?.payment_method;
 
@@ -33,12 +34,12 @@ export default async function Success({ searchParams }) {
         const subsInfo = {
             email: customerEmail,
             planId: metadata.planId,
-            transactionId: paymentIntent?.id || session.id, // ট্রানজেকশন আইডি (Payment Intent ID)
-            amount: session.amount_total ? session.amount_total / 100 : 0, // সেন্ট থেকে মেইন কারেন্সিতে রূপান্তর (যেমন: USD)
-            currency: session.currency?.toUpperCase(), // কারেন্সি (USD, BDT ইত্যাদি)
-            paymentStatus: session.payment_status, // paid, unpaid ইত্যাদি
-            cardBrand: paymentMethod?.card?.brand || 'N/A', // কার্ডের ব্র্যান্ড (Visa, Mastercard ইত্যাদি)
-            cardLast4: paymentMethod?.card?.last4 || 'N/A', // কার্ডের শেষ ৪ ডিজিট
+            transactionId: paymentIntent?.id || session.id,
+            amount: session.amount_total ? session.amount_total / 100 : 0,
+            currency: session.currency?.toUpperCase(),
+            paymentStatus: session.payment_status,
+            cardBrand: paymentMethod?.card?.brand || 'N/A',
+            cardLast4: paymentMethod?.card?.last4 || 'N/A',
         }
 
         const result = await createSubscription(subsInfo)
@@ -89,7 +90,7 @@ export default async function Success({ searchParams }) {
                         </div>
                     </div>
 
-                    {/* মেইন মেসেজ ও সাপোর্ট */}
+
                     <div className="space-y-6">
                         <p className="text-xs sm:text-sm text-slate-400 font-normal leading-relaxed">
                             We appreciate your business! Your account has been upgraded instantly. If you have any questions or encounter any issues, please reach out to our team at{' '}
@@ -101,14 +102,14 @@ export default async function Success({ searchParams }) {
                             </a>.
                         </p>
 
-                        {/* কল টু অ্যাকশন বাটন */}
-                        <a
-                            href="/"
+
+                        <Link
+                            href={'/'}
                             className="w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-200 text-black font-bold text-xs sm:text-sm py-3 px-6 rounded-xl transition-all duration-300 active:scale-[0.98] shadow-lg group"
                         >
                             <span>Go to Workspace</span>
                             <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-                        </a>
+                        </Link>
                     </div>
                 </section>
             </main>

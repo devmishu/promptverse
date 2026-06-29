@@ -1,16 +1,75 @@
 "use client";
 
 import { useState } from "react";
-import { Avatar, Button, Modal } from "@heroui/react"; // 👈 HeroUI Modal ইমপোর্ট করা হয়েছে
+import { AlertDialog, Avatar, Button, Modal } from "@heroui/react"; // 👈 HeroUI Modal ইমপোর্ট করা হয়েছে
 import { Eye, CheckCircle2, XCircle, Trash2, Terminal, Layers, AlertTriangle, X } from "lucide-react";
 import Link from "next/link";
+import { approvedPrompt, deletePrompt, featurePrompt, rejectPrompt } from "@/lib/actions/prompt";
+import toast from "react-hot-toast";
 
-export default function PromptManagementTable({ prompts = [], onHandleReject, onHandleDeletPrompt, onHandleApprove, onHandleFeatured }) {
+export default function PromptManagementTable({ prompts = [] }) {
 
-    // মোডাল এবং ডেটা ম্যানেজ করার স্টেট
+   
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPromptId, setSelectedPromptId] = useState(null);
     const [rejectReason, setRejectReason] = useState("");
+
+
+
+    const handleDeletPrompt = async (promptId) => {
+
+        const response = await deletePrompt(promptId);
+        if (response.success) {
+            toast.success("Delete Prompt successfully!");
+        } else {
+            toast.error(response.error);
+        }
+
+    
+    }
+
+    const handleApprove = async (promptId) => {
+
+        const response = await approvedPrompt(promptId);
+        if (response.success) {
+            toast.success("Approved successfully!");
+        } else {
+            toast.error(response.error);
+        }
+      
+    };
+
+    const handleReject = async (promptId, reasonText) => {
+        try {
+
+            const response = await rejectPrompt(promptId, reasonText);
+            if (response) {
+                toast.success("Prompt rejected successfully!");
+            }
+            else {
+                toast.error(response.error);
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
+    const handleFeatured = async (promptId, reasonText) => {
+
+        try {
+
+            const response = await featurePrompt(promptId);
+
+            if (response.success) {
+                toast.success("featured successfully!");
+            } else {
+                toast.error(response.error);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     const getEngineStyle = (engine) => {
         const eng = engine?.toUpperCase();
@@ -31,20 +90,20 @@ export default function PromptManagementTable({ prompts = [], onHandleReject, on
         }
     };
 
-    // রিজেক্ট বাটনে ক্লিক করলে আইডি সেভ হবে ও মোডাল ওপেন হবে
+   
     const openRejectModal = (id) => {
         setSelectedPromptId(id);
         setIsModalOpen(true);
     };
 
-    // ফর্ম সাবমিট হ্যান্ডলার
+    
     const handleRejectSubmit = async (e) => {
         e.preventDefault();
         if (!rejectReason.trim()) return;
 
-        await onHandleReject(selectedPromptId, rejectReason);
+        await handleReject(selectedPromptId, rejectReason);
 
-        // স্টেট ক্লিয়ার ও মোডাল ক্লোজ
+       
         setIsModalOpen(false);
         setSelectedPromptId(null);
         setRejectReason("");
@@ -110,7 +169,7 @@ export default function PromptManagementTable({ prompts = [], onHandleReject, on
                                         </span>
                                     ) : (
                                         <button
-                                            onClick={() => onHandleFeatured(prompt._id)}
+                                            onClick={() => handleFeatured(prompt._id)}
                                             className="cursor-pointer inline-flex items-center gap-1 px-2.5 py-0.5 text-[10px] font-medium uppercase rounded bg-gray-500/5 border border-gray-500/10 text-gray-500">
                                             ☆ Feature
                                         </button>
@@ -131,7 +190,7 @@ export default function PromptManagementTable({ prompts = [], onHandleReject, on
                                             </Button>
                                         </Link>
 
-                                        <Button isIconOnly size="sm" variant="light" className="text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-xl" onClick={() => onHandleApprove(prompt._id)}>
+                                        <Button isIconOnly size="sm" variant="light" className="text-gray-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-xl" onClick={() => handleApprove(prompt._id)}>
                                             <CheckCircle2 className="size-4" />
                                         </Button>
 
@@ -140,9 +199,42 @@ export default function PromptManagementTable({ prompts = [], onHandleReject, on
                                             <XCircle className="size-4" />
                                         </Button>
 
-                                        <Button isIconOnly size="sm" variant="light" className="text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl" onClick={() => onHandleDeletPrompt(prompt._id)}>
-                                            <Trash2 className="size-4" />
-                                        </Button>
+
+
+
+                                        <AlertDialog>
+                                            {/* Delete Button */}
+                                            <Button isIconOnly size="sm" variant="light" className="text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl" >
+                                                <Trash2 className="size-4" />
+                                            </Button>
+                                            <AlertDialog.Backdrop>
+                                                <AlertDialog.Container>
+                                                    <AlertDialog.Dialog className="sm:max-w-[400px]">
+                                                        <AlertDialog.CloseTrigger />
+                                                        <AlertDialog.Header>
+                                                            <AlertDialog.Icon status="danger" />
+                                                            <AlertDialog.Heading>Delete Prompt permanently?</AlertDialog.Heading>
+                                                        </AlertDialog.Header>
+                                                        <AlertDialog.Body>
+                                                            <p>
+                                                                This will permanently delete <strong></strong> and all of its
+                                                                data. This action cannot be undone.
+                                                            </p>
+                                                        </AlertDialog.Body>
+                                                        <AlertDialog.Footer>
+                                                            <Button slot="close" variant="tertiary">
+                                                                Cancel
+                                                            </Button>
+                                                            <Button
+                                                                onClick={() => handleDeletPrompt(prompt._id)}
+                                                                slot="close" variant="danger">
+                                                                Delete Prompt
+                                                            </Button>
+                                                        </AlertDialog.Footer>
+                                                    </AlertDialog.Dialog>
+                                                </AlertDialog.Container>
+                                            </AlertDialog.Backdrop>
+                                        </AlertDialog>
                                     </div>
                                 </td>
                             </tr>
@@ -151,11 +243,11 @@ export default function PromptManagementTable({ prompts = [], onHandleReject, on
                 </table>
             </div>
 
-            {/* 📑 একমাত্র মোডাল যা টেবিল লুপের বাইরে রাখা হয়েছে (Focus ও Dismiss সমস্যা সমাধানের জন্য) */}
+          
             <Modal
                 isOpen={isModalOpen}
                 onOpenChange={setIsModalOpen}
-                isDismissable={false} // বাইরে ক্লিক করলে ক্লোজ হবে না
+                isDismissable={false} 
                 isKeyboardDismissDisabled={true}
             >
                 <Modal.Backdrop>

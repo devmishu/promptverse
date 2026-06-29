@@ -15,6 +15,8 @@ import {
     TextField,
     Radio,
     RadioGroup,
+    Select,
+    ListBox,
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import { editPrompt } from "@/lib/actions/prompt";
@@ -29,13 +31,13 @@ export default function EditPrompt({ submitBtn, promptId, promptData }) {
     const session = useSession();
     const user = session?.data?.user;
 
-    // 💡 Tags অ্যারে নাকি অন্য কিছু তা সেফলি হ্যান্ডেল করার জন্য এই ফাংশন
+    
     const renderTagsValue = () => {
         if (!promptData?.tags) return "";
         if (Array.isArray(promptData.tags)) {
             return promptData.tags.join(", ");
         }
-        // যদি কোনো কারণে অবজেক্ট বা অন্য কিছু আসে
+        
         if (typeof promptData.tags === "object") {
             return Object.values(promptData.tags).join(", ");
         }
@@ -167,27 +169,64 @@ export default function EditPrompt({ submitBtn, promptId, promptData }) {
                             <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                         </TextField>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <TextField isRequired name="category" defaultValue={promptData?.category || ""}>
-                                <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">Category</Label>
-                                <Input
-                                    placeholder="e.g. Web Development, Copywriting"
-                                    className="bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
-                                />
-                                <FieldError className="text-red-400 text-xs mt-1 font-medium" />
-                            </TextField>
+                        
 
-                            <TextField isRequired name="aiTool" defaultValue={promptData?.aiTool || ""}>
-                                <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">AI Tool</Label>
-                                <Input
-                                    placeholder="e.g. ChatGPT, Midjourney, Claude"
-                                    className="bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-200"
-                                />
-                                <FieldError className="text-red-400 text-xs mt-1 font-medium" />
-                            </TextField>
+                        {/* Two Column Grid layout for Selectors */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                            {/* Category Selection */}
+                            <Select defaultValue={promptData?.category || ""} name="category" className="w-full" placeholder="Select a category">
+                                <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1 block">Category</Label>
+                                <Select.Trigger className="w-full flex items-center justify-between bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 transition-all duration-200 min-h-[42px] h-[42px]">
+                                    <Select.Value className="text-white text-sm capitalize" />
+                                    <Select.Indicator className="text-gray-400" />
+                                </Select.Trigger>
+                                <Select.Popover className="bg-[#111827] border border-[#1e293b]/80 text-white rounded-xl overflow-hidden shadow-xl">
+                                    <ListBox className="p-1 flex flex-col gap-0.5">
+                                        <ListBox.Item id="development" textValue="Development" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            development
+                                        </ListBox.Item>
+                                        <ListBox.Item id="marketing" textValue="Marketing" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            marketing
+                                        </ListBox.Item>
+                                        <ListBox.Item id="writing" textValue="Writing" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            writing
+                                        </ListBox.Item>
+                                        <ListBox.Item id="design" textValue="Design" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            design
+                                        </ListBox.Item>
+                                    </ListBox>
+                                </Select.Popover>
+                            </Select>
+
+                            {/* AI Tool Selection */}
+                            <Select name="aiTool" className="w-full" placeholder="Select an AI Tool">
+                                <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1 block">AI Tool</Label>
+                                <Select.Trigger className="w-full flex items-center justify-between bg-[#030712]/60 border border-[#1e293b]/80 text-white rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500 transition-all duration-200 min-h-[42px] h-[42px]">
+                                    <Select.Value className="text-white text-sm capitalize" />
+                                    <Select.Indicator className="text-gray-400" />
+                                </Select.Trigger>
+                                <Select.Popover className="bg-[#111827] border border-[#1e293b]/80 text-white rounded-xl overflow-hidden shadow-xl">
+                                    <ListBox className="p-1 flex flex-col gap-0.5">
+                                        <ListBox.Item id="chatgpt" textValue="ChatGPT" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            chatgpt
+                                        </ListBox.Item>
+                                        <ListBox.Item id="gemini" textValue="Gemini" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            gemini
+                                        </ListBox.Item>
+                                        <ListBox.Item id="midjourney" textValue="Midjourney" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            midjourney
+                                        </ListBox.Item>
+                                        <ListBox.Item id="claude" textValue="Claude" className="text-white text-sm px-3 py-2 rounded-lg cursor-pointer capitalize data-[hover=true]:bg-cyan-500/20 data-[selected=true]:bg-gradient-to-r data-[selected=true]:from-cyan-500 data-[selected=true]:to-purple-600 outline-none">
+                                            claude
+                                        </ListBox.Item>
+                                    </ListBox>
+                                </Select.Popover>
+                            </Select>
+
                         </div>
 
-                        {/* 💡 এখানে ফিক্সড মেথড ব্যবহার করা হয়েছে */}
+                       
                         <TextField isRequired name="tags" defaultValue={renderTagsValue()}>
                             <Label className="text-gray-300 text-xs font-semibold tracking-wide mb-1">Tags (Comma Separated)</Label>
                             <Input
@@ -259,7 +298,7 @@ export default function EditPrompt({ submitBtn, promptId, promptData }) {
                                         <Radio.Content><Label className="text-gray-300 text-xs font-medium cursor-pointer">Premium </Label></Radio.Content>
                                     </div>
                                 </Radio>
-                                
+
                             </div>
                         </RadioGroup>
                     </FieldGroup>
@@ -273,7 +312,7 @@ export default function EditPrompt({ submitBtn, promptId, promptData }) {
                             <FloppyDisk className="w-4 h-4" />
                             {isUploading ? "Uploading Metadata..." : `${submitBtn}`}
                         </Button>
-                        
+
                     </Fieldset.Actions>
                 </Fieldset>
             </Form>

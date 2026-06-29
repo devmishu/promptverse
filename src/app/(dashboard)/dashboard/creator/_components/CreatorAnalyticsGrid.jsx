@@ -6,10 +6,11 @@ import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     AreaChart, Area
 } from 'recharts';
+import EmptyStateCard from "@/components/cards/EmptyStateCard";
 
 export default function CreatorAnalyticsGrid({ analyticsData }) {
 
-    // ইউনিক ID ও পারফেক্ট আইকনসহ স্ট্যাটাস ডাটা 
+   
     const statsData = [
         {
             id: "stat-prompts",
@@ -31,7 +32,7 @@ export default function CreatorAnalyticsGrid({ analyticsData }) {
         }
     ];
 
-    // ব্যাকএন্ড থেকে চার্টের ডাটা না আসলে দেখানোর জন্য ডামি ডাটা (সেফটি ফলব্যাক)
+   
     const fallbackCopiesData = [
         { name: 'Dolore error nisi at', copies: 421 },
         { name: 'Eiusmod tempor', copies: 385 },
@@ -48,11 +49,12 @@ export default function CreatorAnalyticsGrid({ analyticsData }) {
         { month: 'Jun', prompts: 70 },
     ];
 
-    const finalCopiesData = analyticsData?.copiesChartData ;
-    const finalGrowthData = analyticsData?.growthChartData ;
+    const finalCopiesData = analyticsData?.copiesChartData;
+    const finalGrowthData = analyticsData?.growthChartData;
 
     return (
         <main className="min-h-screen w-full bg-[#030712] text-white py-12 px-4 sm:px-6 lg:px-8">
+
             <div className="max-w-[1280px] mx-auto flex flex-col gap-8">
 
                 {/* Dashboard Top Header Navigation */}
@@ -170,6 +172,8 @@ export default function CreatorAnalyticsGrid({ analyticsData }) {
                 </div>
 
             </div>
+
+
         </main>
     );
 }

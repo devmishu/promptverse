@@ -10,20 +10,20 @@ export default function ForbiddenPage() {
     return (
         <main className="min-h-screen w-full bg-[#030712] text-white flex flex-col items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8">
 
-            {/* ✨ ব্যাকগ্রাউন্ড প্রিমিয়াম গ্লো ইফেক্ট (ফরবিডেন থিম অনুযায়ী ডার্ক রেড/রোজ ওরিওন লাইট) */}
+          
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-rose-600/[0.03] rounded-full blur-[140px] pointer-events-none" />
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] sm:w-[400px] h-[200px] sm:h-[400px] bg-zinc-800/[0.05] rounded-full blur-[100px] pointer-events-none" />
 
-            {/* 🧩 মেইন কনটেন্ট কন্টেইনার */}
+       
             <div className="max-w-md w-full text-center flex flex-col items-center gap-6 relative z-10">
 
-                {/* 🔮 প্রিমিয়াম ফরবিডেন আইকন গ্লো বক্স */}
+             
                 <div className="relative p-4 bg-[#111827]/30 border border-rose-500/10 backdrop-blur-md rounded-2xl shadow-2xl mb-2 group">
                     <Ban className="size-8 text-rose-500/90 group-hover:rotate-45 transition-transform duration-500" />
                     <div className="absolute -inset-0.5 bg-rose-500/10 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300 pointer-events-none" />
                 </div>
 
-                {/* 🔢 টাইপোগ্রাফি (Awwwards-Style) */}
+              
                 <div className="flex flex-col gap-1">
                     <h1 className="text-6xl sm:text-7xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/20 select-none">
                         403
@@ -34,12 +34,12 @@ export default function ForbiddenPage() {
                     </h2>
                 </div>
 
-                {/* 📝 ডেসক্রিপশন টেক্সট */}
+              
                 <p className="text-xs sm:text-sm text-gray-400 max-w-xs leading-relaxed">
                     Access to this resource is strictly restricted. Server understood the request, but refuses to authorize it.
                 </p>
 
-                {/* 🔘 অ্যাকশন বাটন্স */}
+               
                 <div className="flex flex-col sm:flex-row items-center gap-3 w-full mt-4">
                     <Button
                         onClick={() => router.back()}
@@ -60,7 +60,7 @@ export default function ForbiddenPage() {
 
             </div>
 
-            {/* 📐 বটম সিকিউরিটি ওয়াটারমার্ক */}
+          
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] tracking-widest uppercase text-gray-600 select-none font-medium">
                 Firewall Shield // Access Restricted
             </div>

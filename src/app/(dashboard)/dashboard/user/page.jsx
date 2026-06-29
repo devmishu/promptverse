@@ -8,7 +8,7 @@ const AdminHomePage = async () => {
     const user = await getUser();
     const analyticsData = await getAnalyticsById(user?.id);
 
-    console.log("admin analyticsData..", analyticsData);
+  
     return <UserAnalyticsGrid
         analyticsData={analyticsData}
     />

@@ -18,12 +18,12 @@ export default async function Home() {
   const reviewsData = await getReviews();
   const creatorsData = await getTopCreators();
 
-  console.log("home user check-----", user);
+
   return (
     <div className=" flex flex-col  items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <HeroBanner />
-      <TopCreatorsGrid creatorsData={creatorsData} />
       <FeaturedPromptsGrid featuredPrompts={featuredPrompts} />
+      <TopCreatorsGrid creatorsData={creatorsData} />
       <WhyChooseUsGrid />
       <HowItWorksGrid />
       <UserReviewsGrid reviewsData={reviewsData} />

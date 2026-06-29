@@ -5,7 +5,7 @@ import { Calendar, Star, Eye, MessageSquareText, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 export default function UserReviewTable({ reviews = [] }) {
-    // মডাল স্টেট ম্যানেজমেন্ট
+    
     const [isOpen, setIsOpen] = useState(false);
     const [selectedReview, setSelectedReview] = useState(null);
 
@@ -96,7 +96,7 @@ export default function UserReviewTable({ reviews = [] }) {
                                 </td>
 
                                 <td className="py-4 px-4 text-center">
-                                    {/* 🚀 HeroUI v3 সাব-কম্পোনেন্ট ভিত্তিক প্রিমিয়াম মডাল */}
+                                    
                                     <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                                         <Button
                                             isIconOnly

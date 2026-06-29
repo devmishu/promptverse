@@ -20,7 +20,7 @@ export default function SignUpPage() {
 
         const signupData = Object.fromEntries(formData.entries());
 
-        console.log("role.......", signupData);
+        
 
         const { name, email, userImage, password } = signupData
 
@@ -33,11 +33,10 @@ export default function SignUpPage() {
             plan,
         });
 
-        console.log({ data, error });
+        
 
         if (data) {
             toast.success('Account created successfully');
-            // router.push('/login');
             redirect('/login')
 
         }
@@ -57,14 +56,14 @@ export default function SignUpPage() {
     return (
         <div className="bg-[#030712] text-white min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
 
-            {/* Decorative Cosmic Glowing Backdrops to match Landing Page ambient vibe */}
+            
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full pointer-events-none" />
 
-            {/* Premium Dynamic Auth Card container */}
+           
             <div className="w-full max-w-md bg-[#111827]/40 border border-[#1e293b]/60 shadow-2xl rounded-3xl p-6 sm:p-8 backdrop-blur-md z-10 transition-all">
 
-                {/* Synapse Brand Identity / Header Logo Section */}
+                
                 <div className="flex flex-col items-center justify-center mb-6 text-center select-none">
                     <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 mb-3">
                         <svg
@@ -88,7 +87,7 @@ export default function SignUpPage() {
                     </p>
                 </div>
 
-                {/* Synapse Theme Aligned Google Authentication Trigger */}
+                
                 <button
                     onClick={signIn}
                     type="button"
@@ -115,7 +114,7 @@ export default function SignUpPage() {
                     Sign up with Google
                 </button>
 
-                {/* Architectural Custom Separator Line */}
+                
                 <div className="flex items-center my-4 select-none">
                     <div className="flex-1 h-[1px] bg-[#1e293b]/40" />
                     <span className="text-[10px] text-gray-500 font-bold uppercase px-3 tracking-widest">
@@ -124,10 +123,10 @@ export default function SignUpPage() {
                     <div className="flex-1 h-[1px] bg-[#1e293b]/40" />
                 </div>
 
-                {/* Form Elements Grid Layer */}
+                
                 <Form className="flex w-full flex-col gap-4" onSubmit={handleRegister}>
 
-                    {/* Input Field: Full Name */}
+                    
                     <TextField
                         isRequired
                         name="name"
@@ -207,37 +206,7 @@ export default function SignUpPage() {
                         <FieldError className="text-red-400 text-xs mt-1 font-medium" />
                     </TextField>
 
-                    {/* Custom Synapse Radio Selection Layer */}
-                    {/* <RadioGroup defaultValue="user" name="role" className="mt-1 flex flex-col gap-1.5">
-                        <Label className="text-gray-300 text-xs font-semibold tracking-wide">Select Profile Framework</Label>
-                        <div className="flex gap-6 items-center w-full mt-1">
-
-                            
-                            <Radio value="user" className="text-xs text-gray-300 font-medium">
-                                <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                    <Radio.Control>
-                                        <Radio.Indicator className="border border-blue-800 rounded-full" />
-                                    </Radio.Control>
-                                    <Radio.Content>
-                                        <Label className="text-gray-300 text-xs font-medium cursor-pointer">Standard User</Label>
-                                    </Radio.Content>
-                                </div>
-                            </Radio>
-
-                            
-                            <Radio value="creator" className="text-xs text-gray-300 font-medium">
-                                <div className="flex flex-row items-center gap-2 cursor-pointer">
-                                    <Radio.Control>
-                                        <Radio.Indicator className="border border-blue-800 rounded-full" />
-                                    </Radio.Control>
-                                    <Radio.Content>
-                                        <Label className="text-gray-300 text-xs font-medium cursor-pointer">Platform Creator</Label>
-                                    </Radio.Content>
-                                </div>
-                            </Radio>
-
-                        </div>
-                    </RadioGroup> */}
+                    
 
                     {/* Action Dynamic Control: Sign Up Activation Button */}
                     <div className="flex flex-col gap-3 mt-4">

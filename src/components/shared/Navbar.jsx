@@ -9,17 +9,17 @@ export function Navbar() {
     const user = session?.data?.user;
     const pathname = usePathname();
 
-    // মোবাইল মেনু ওপেন/ক্লোজ স্টেট
+    
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // ডেস্কটপ ও মোবাইলের জন্য কমন লিংক ডাটা
+   
     const navLinks = [
         { label: "Home", path: "/" },
         { label: "All Prompts", path: "/allprompts" },
         ...(user ? [{ label: "Dashboard", path: `/dashboard/${user?.role}/profile` }] : [])
     ];
 
-    // অ্যাক্টিভ ক্লাসের জন্য হেল্পার ফাংশন (ডেস্কটপ)
+    
     const getLinkClass = (path) => {
         const isActive = pathname === path;
         return `pb-1 pt-[19px] border-b-2 font-medium text-[14px] transition-all duration-200 ${isActive
@@ -28,7 +28,7 @@ export function Navbar() {
             }`;
     };
 
-    // অ্যাক্টিভ ক্লাসের জন্য হেল্পার ফাংশন (মোবাইল মেনু)
+    
     const getMobileLinkClass = (path) => {
         const isActive = pathname === path;
         return `w-full block py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 ${isActive
@@ -105,7 +105,7 @@ export function Navbar() {
                         <div className="flex items-center gap-3 sm:gap-4 md:pl-3 md:border-l border-[#1e293b]/60">
 
                             <div className="flex items-center gap-2.5">
-                                {/* ইউজারের ইমেজ */}
+                               
                                 <div className="relative size-9 rounded-xl overflow-hidden border border-[#30363d] bg-[#111827] flex-shrink-0">
                                     <img
                                         src={user?.userImage || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80"}
@@ -114,7 +114,7 @@ export function Navbar() {
                                     />
                                 </div>
 
-                                {/* ইউজার নেম ও প্রো ব্যাজ কন্টেইনার */}
+                               
                                 <div className="hidden sm:flex flex-col justify-center">
                                     <span className="text-sm font-medium text-gray-200 line-clamp-1 max-w-[100px]">
                                         {user?.name?.split(" ")[0] || "User"}
@@ -127,7 +127,7 @@ export function Navbar() {
                                 </div>
                             </div>
 
-                            {/* লগআউট বাটন */}
+                           
                             <button
                                 onClick={() => signOut()}
                                 className="hover:cursor-pointer bg-gradient-to-r from-red-500/10 to-pink-600/10 hover:from-red-500 hover:to-pink-600 border border-red-500/20 hover:border-transparent text-red-400 hover:text-white font-medium px-3 h-8 rounded-lg text-xs transition-all duration-200"
@@ -156,7 +156,7 @@ export function Navbar() {
                             </Link>
                         ))}
 
-                        {/* মোবাইলের জন্য এক্সট্রা Register বাটন যদি লগআউট থাকে */}
+                        
                         {!user && (
                             <Link
                                 href={'/register'}

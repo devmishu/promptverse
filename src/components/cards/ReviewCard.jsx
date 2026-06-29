@@ -1,10 +1,10 @@
 import { Avatar, Card } from "@heroui/react";
 import { Star } from "lucide-react";
 
-// 1. ReviewCard Component (Fixed Width for Horizontal Scrolling Alignment)
+
 export function ReviewCard({ review }) {
     const { userName, role, reviewText, rating, userImage,userImail } = review;
-
+    console.log("Review", review);
     return (
         <Card className=" shrink-0 bg-[#111827]/40 border border-[#1e293b]/50 p-6 rounded-2xl flex flex-col gap-4 backdrop-blur-sm select-none">
             {/* Header Section: User Profile & Rating Stars */}

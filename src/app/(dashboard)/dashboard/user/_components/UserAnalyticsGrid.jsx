@@ -9,7 +9,7 @@ import {
 
 export default function UserAnalyticsGrid({ analyticsData }) {
 
-    // ইউনিক ID ও পারফেক্ট আইকনসহ স্ট্যাটাস ডাটা 
+   
     const statsData = [
         {
             id: "stat-prompts",
@@ -31,7 +31,7 @@ export default function UserAnalyticsGrid({ analyticsData }) {
         }
     ];
 
-    // ব্যাকএন্ড থেকে চার্টের ডাটা না আসলে দেখানোর জন্য ডামি ডাটা (সেফটি ফলব্যাক)
+   
     const fallbackCopiesData = [
         { name: 'Dolore error nisi at', copies: 421 },
         { name: 'Eiusmod tempor', copies: 385 },

@@ -22,7 +22,7 @@ export function PaginationWithSummary({ promptsData, filters, total }) {
             sp.set('itemsPerPage', itemsPerPage)
         }
 
-        // নতুন সার্চ প্যারামস দিয়ে পাথ তৈরি করা হচ্ছে
+       
         const searchString = sp.toString();
         const path = searchString ? `?${searchString}` : window.location.pathname;
 
@@ -48,7 +48,6 @@ export function PaginationWithSummary({ promptsData, filters, total }) {
         return pages;
     };
 
-    console.log("pagination number ...", getPageNumbers());
 
 
     const startItem = (page - 1) * itemsPerPage + 1;
