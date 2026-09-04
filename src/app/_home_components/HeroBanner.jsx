@@ -38,17 +38,17 @@ export function HeroBanner() {
             transition: {
                 duration: 0.8,
                 delay: customDelay,
-                ease: [0.16, 1, 0.3, 1], 
+                ease: [0.16, 1, 0.3, 1],
             }
         })
     };
 
     return (
-        <section className="w-full bg-[#030712] text-white py-20 px-6 overflow-hidden">
-            <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12 relative">
+        <section className="w-full min-h-screen bg-[#030712] text-white flex items-center py-20 px-6 overflow-hidden">
+            <div className="w-full max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12 relative">
 
-                {/* Left Column Content */}
-                <div className="flex flex-col gap-6 z-10">
+                {/* Left Column Content (50% Width equivalent in grid) */}
+                <div className="flex flex-col gap-6 z-10 w-full">
 
                     {/* Header Text Animation */}
                     <motion.h1
@@ -56,11 +56,11 @@ export function HeroBanner() {
                         animate="visible"
                         custom={0}
                         variants={fadeInUp}
-                        className="text-4xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-[1.15] text-white max-w-xl uppercase"
+                        className="text-3xl sm:text-4xl md:text-5xl  font-bold tracking-tight leading-[1.15] text-white capitalize max-w-[550px] break-words"
                     >
-                        Unlock the power of AI: <br />
+                        The Marketplace for {" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-                            Discover & trade top prompts
+                        High-Performance AI Prompt
                         </span>
                     </motion.h1>
 
@@ -90,10 +90,9 @@ export function HeroBanner() {
                             >
                                 Search
                             </Button>
-
                         </div>
-
                     </motion.form>
+
                     <motion.div
                         initial="hidden"
                         animate="visible"
@@ -103,8 +102,7 @@ export function HeroBanner() {
                         <Link href={'/allprompts'} className="">
                             <Button
                                 type="button"
-
-                                className=" h-9 rounded-full bg-transparent border border-slate-700 hover:border-cyan-500/50 hover:bg-slate-900 text-slate-300 hover:text-cyan-400 text-xs font-medium px-4 min-w-0 transition-all duration-200"
+                                className="h-9 rounded-full bg-transparent border border-slate-700 hover:border-cyan-500/50 hover:bg-slate-900 text-slate-300 hover:text-cyan-400 text-xs font-medium px-4 min-w-0 transition-all duration-200"
                             >
                                 Explore Prompts
                             </Button>
@@ -136,21 +134,21 @@ export function HeroBanner() {
                     </motion.div>
                 </div>
 
-                {/* Right Column Image & Glow Illustration Animation */}
+                {/* Right Column Image & Glow Illustration Animation (50% Width equivalent) */}
                 <motion.div
                     initial="hidden"
                     animate="visible"
                     custom={0.45}
                     variants={fadeInUp}
-                    className="relative flex items-center justify-center md:justify-end min-h-[300px]"
+                    className="relative flex items-center justify-center md:justify-end w-full min-h-[350px]"
                 >
-                    <div className="relative w-[320px] h-[300px] flex items-center justify-center">
+                    <div className="relative w-full max-w-[500px] h-[400px] flex items-center justify-center">
                         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-cyan-500/10 blur-[50px] rounded-full" />
                         <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-purple-500/10 blur-[50px] rounded-full" />
                         <img
-                            src="/assets/network-illustration.png"
-                            alt="Abstract Network Graphic"
-                            className="w-full h-full object-contain pointer-events-none select-none drop-shadow-2xl"
+                            src="/assets/hero-image.png"
+                            alt="AI Prompt Concept Graphic"
+                            className="w-full h-full object-cover rounded-2xl pointer-events-none select-none drop-shadow-2xl border border-[#1e293b]/40"
                             loading="lazy"
                         />
                     </div>
